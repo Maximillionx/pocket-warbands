@@ -686,6 +686,171 @@ h1,h2,h3{letter-spacing:.02em;}
 .ophero{display:flex;gap:14px;align-items:center;text-align:left;padding:12px;border-radius:12px;background:var(--panel);border:1px solid rgba(255,162,76,.35);color:var(--ink);}
 .ophero > span:last-child{display:flex;flex-direction:column;gap:3px;font-size:13px;min-width:0;} .ophero b{font-family:var(--display);font-weight:400;font-size:18px;}
 .ophero .fr{margin:4px;}
+
+/* sprint 15: test lab */
+.labentry{display:flex;flex-direction:column;align-items:flex-start;gap:2px;width:100%;text-align:left;padding:12px 14px;border-radius:14px;border:1px dashed rgba(127,243,255,.45);background:rgba(127,243,255,.06);color:var(--ink);}
+.labentry b{font-family:var(--display);font-size:16px;letter-spacing:.03em;} .labentry > span:last-child{font-size:13px;color:var(--muted);}
+.labentry .ot{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--hud);}
+.labgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;}
+.labgrid.c4{grid-template-columns:repeat(4,1fr);} .labgrid.c5{grid-template-columns:repeat(5,1fr);}
+.labb{min-height:44px;padding:8px 10px;border-radius:11px;border:1px solid rgba(127,243,255,.28);background:linear-gradient(180deg,rgba(40,58,98,.75),rgba(18,26,48,.9));color:var(--ink);font-weight:700;font-size:13px;line-height:1.2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;}
+.labb:active{transform:scale(.97);} .labb small{font-size:10px;font-weight:600;color:var(--muted);}
+.labb b{font-family:var(--display);font-size:16px;color:var(--gold);}
+.labb.back{border-color:var(--line);background:none;color:var(--muted);width:100%;}
+.labchips{display:flex;flex-wrap:wrap;gap:6px;}
+.labchip{min-height:36px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:rgba(7,11,23,.7);color:var(--muted);font-size:12px;font-weight:700;}
+.labchip.on{border-color:var(--hud);color:var(--ink);background:rgba(127,243,255,.14);box-shadow:0 0 10px rgba(127,243,255,.25);}
+.labcv{display:block;flex:none;width:100%;height:440px;border-radius:14px;border:1px solid rgba(127,243,255,.25);margin-bottom:12px;}
+.labcv.tall{height:380px;}
+
+/* sprint 15: accessibility */
+html.big-text .pill{font-size:15.5px}
+html.big-text .eyebrow{font-size:14px}
+html.big-text .hint{font-size:14.5px}
+html.big-text .team-name small{font-size:14px}
+html.big-text .board-cap{font-size:14.5px}
+html.big-text .fchip{font-size:14px}
+html.big-text .tile .tn{font-size:14.5px}
+html.big-text .tile .tl{font-size:13px}
+html.big-text .tb{font-size:11px}
+html.big-text .fold summary{font-size:15.5px}
+html.big-text .fold summary::after{font-size:14px}
+html.big-text .form b{font-size:15.5px}
+html.big-text .form .cnt{font-size:13px}
+html.big-text .form p{font-size:14px}
+html.big-text .next .meta{font-size:15.5px}
+html.big-text .efs span{font-size:13px}
+html.big-text .scout{font-size:14.5px}
+html.big-text .nemline{font-size:14.5px}
+html.big-text .powers{font-size:14.5px}
+html.big-text .map .node{font-size:14.5px}
+html.big-text .roadc p{font-size:14px}
+html.big-text .roadc .rw{font-size:14px}
+html.big-text .roadc .nemline{font-size:14px}
+html.big-text .choice span{font-size:14.5px}
+html.big-text .mrow p{font-size:14.5px}
+html.big-text .rtag{font-size:12px}
+html.big-text .mini b{font-size:12px}
+html.big-text .bar-in .info{font-size:14.5px}
+html.big-text .sec-h span{font-size:14.5px}
+html.big-text .usub{font-size:14.5px}
+html.big-text .xpn{font-size:13px}
+html.big-text .chip{font-size:14px}
+html.big-text .combo{font-size:14px}
+html.big-text .shop-foot{font-size:14.5px}
+html.big-text .badge{font-size:12px}
+html.big-text .hired{font-size:14.5px}
+html.big-text .nemcard p{font-size:14px}
+html.big-text .irow{font-size:14.5px}
+html.big-text .fallen{font-size:14.5px}
+html.big-text .btop .brand small{font-size:14px}
+html.big-text .side .nm{font-size:14.5px}
+html.big-text .log{font-size:14.5px}
+html.big-text .tag{font-size:13px}
+html.big-text .ncard p{font-size:14.5px}
+html.big-text .endstats span{font-size:13px}
+html.big-text .pickhead p{font-size:14.5px}
+html.big-text .stat span{font-size:12px}
+html.big-text .sh-sec h3{font-size:14px}
+html.big-text .seg button{font-size:14.5px}
+html.big-text .tlist, html.big-text .chron{font-size:14.5px}
+html.big-text .gearbox > div{font-size:14.5px}
+html.big-text .gopt{font-size:14.5px}
+html.big-text .card .rr{font-size:13px}
+html.big-text .card p{font-size:15.5px}
+html.big-text .card .delta{font-size:14.5px}
+html.big-text .card .ep{font-size:14.5px}
+html.big-text .queue{font-size:14px}
+html.big-text .toast{font-size:15.5px}
+html.big-text .rumour{font-size:14.5px}
+html.big-text .tlogo p{font-size:15.5px}
+html.big-text .hubb b{font-size:14.5px}
+html.big-text .hubb .hs{font-size:13px}
+html.big-text .renown .rtop{font-size:15.5px}
+html.big-text .qb{font-size:14.5px}
+html.big-text .days span b{font-size:15.5px}
+html.big-text .days span i{font-size:11px}
+html.big-text .qrow > div{font-size:14.5px}
+html.big-text .qrow b{font-size:15.5px}
+html.big-text .feat b{font-size:14.5px}
+html.big-text .feat span{font-size:13px}
+html.big-text .feat i{font-size:13px}
+html.big-text .cx b{font-size:14.5px}
+html.big-text .cx span{font-size:12px}
+html.big-text .arow b{font-size:15.5px}
+html.big-text .arow span{font-size:14px}
+html.big-text .lb{font-size:14.5px}
+html.big-text .trow span{font-size:14px}
+html.big-text .coach p{font-size:15.5px}
+html.big-text .linkbtn{font-size:14.5px}
+html.big-text .slot > div{font-size:14.5px}
+html.big-text .slot b{font-size:15.5px}
+html.big-text .slot span{font-size:14px}
+html.big-text .mchip{font-size:14.5px}
+html.big-text .mapdetail p{font-size:14.5px}
+html.big-text .mapdetail .rw{font-size:14px}
+html.big-text .bosscard p{font-size:14.5px}
+html.big-text .babil div{font-size:14.5px}
+html.big-text .babil b{font-size:14.5px}
+html.big-text .seg.tabs button{font-size:15.5px}
+html.big-text .statline i{font-size:12px}
+html.big-text .statline b{font-size:15.5px}
+html.big-text .ltile{font-size:13px}
+html.big-text .lcur > div{font-size:14.5px}
+html.big-text .lcur b{font-size:15.5px}
+html.big-text .lcur span{font-size:14px}
+html.big-text .traits li{font-size:14.5px}
+html.big-text .traits li span{font-size:14px}
+html.big-text .traits li.role b{font-size:14px}
+html.big-text .linkbtn{font-size:14.5px}
+html.big-text .chesthero p{font-size:14.5px}
+html.big-text .streak li span{font-size:14.5px}
+html.big-text .streak li em{font-size:12px}
+html.big-text .qhead span{font-size:14px}
+html.big-text .qbody b{font-size:15.5px}
+html.big-text .qbody > span{font-size:13px}
+html.big-text .qrew{font-size:14.5px}
+html.big-text .qbonus{font-size:14.5px}
+html.big-text .cmdb{font-size:14.5px}
+html.big-text .cmdhint{font-size:14px}
+html.big-text .fab small{font-size:13px}
+html.big-text .rmini{font-size:13px}
+html.big-text .rmini b{font-size:14px}
+html.big-text .flv{font-size:13px}
+html.big-text /* sprint 13: outpost defense */
+.ophud{font-size:14px}
+html.big-text .opwave > span{font-size:14.5px}
+html.big-text .opopt > span:nth-child(2){font-size:14.5px}
+html.big-text .opstat{font-size:14px}
+html.big-text .opend p{font-size:15.5px}
+html.big-text .opentry span{font-size:14.5px}
+html.big-text .opentry .ot{font-size:13px}
+html.big-text /* sprint 14: promotions, html.big-text looks, html.big-text deltas */
+.hint.sub{font-size:14px}
+html.big-text .ptab{font-size:13px}
+html.big-text .ptab i{font-size:12px}
+html.big-text .pn{font-size:14px}
+html.big-text .look .lab{font-size:13px}
+html.big-text .odelta{font-size:14px}
+html.big-text .ophero > span:last-child{font-size:14.5px}
+html.big-text .labentry > span:last-child{font-size:14.5px}
+html.big-text .labentry .ot{font-size:13px}
+html.big-text .labb{font-size:14.5px}
+html.big-text .labb small{font-size:12px}
+html.big-text .labchip{font-size:14px}
+html.big-text body{font-size:16.5px;}
+html.hc{--muted:#c9d6f2; --line:rgba(170,200,255,.38); --ink:#ffffff;}
+html.hc .hint, html.hc .muted{color:#c9d6f2;}
+html.hc .btn.ghost, html.hc .labb, html.hc .seg{outline:1px solid rgba(200,220,255,.3);}
+html.hc .switch:not(.on){outline:1.5px solid #c9d6f2;}
+html.calm *, html.calm *::before, html.calm *::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition:none!important;}
+:focus-visible{outline:2px solid var(--hud)!important;outline-offset:2px;}
+.kpress{transform:scale(.95);filter:brightness(1.3);}
+.sw2{width:32px;height:32px;}
+.linkbtn{padding:10px 6px;min-height:40px;}
+.xbtn{min-width:44px;min-height:44px;}
+.keys{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);}
+kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-radius:5px;border:1px solid var(--line);border-bottom-width:2px;background:var(--panel-2);color:var(--ink);font:700 12px var(--body);text-align:center;}
 </style>
 
 <div id="app" class="wrap"></div>
@@ -697,7 +862,8 @@ h1,h2,h3{letter-spacing:.02em;}
 (() => {
 const app = document.getElementById('app'), barEl = document.getElementById('bar'), sheetEl = document.getElementById('sheet'), sheetBox = sheetEl.querySelector('.sheet');
 const W = 400, H = 280, STEP = 1/30, FINAL = 25;
-const reduced = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const OS_REDUCED = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+let reduced = OS_REDUCED;
 let state = null, B = null;
 
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;}}
@@ -963,7 +1129,7 @@ const teamPower = list => list.reduce((a,u)=>a+unitPower(u),0);
 /* ---------- state ---------- */
 const KEY = 'pocket-warbands-v1', META_KEY = 'pocket-warbands-meta';
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
-const META_DEF = () => ({v:1, runs:0, bestMarch:0, crowns:0, legends:[], renown:0, ach:{}, codex:{cls:{}, perks:{}, rings:{}}, daily:null, chest:{last:null, streak:0}, tut:{}, settings:{music:true, shake:true}, arena:{rating:1000, wins:0, losses:0, joined:false}});
+const META_DEF = () => ({v:1, runs:0, bestMarch:0, crowns:0, legends:[], renown:0, ach:{}, codex:{cls:{}, perks:{}, rings:{}}, daily:null, chest:{last:null, streak:0}, tut:{}, settings:{music:true, shake:true, big:false, hc:false, calm:false, rings:true}, arena:{rating:1000, wins:0, losses:0, joined:false}});
 function loadMeta(){
   const d = META_DEF();
   try{ const m = JSON.parse(localStorage.getItem(META_KEY)); if (m && m.v===1) return Object.assign(d, m, {settings:Object.assign(d.settings, m.settings||{}), arena:Object.assign(d.arena, m.arena||{}), codex:{cls:Object.assign({}, m.codex&&m.codex.cls), perks:Object.assign({}, m.codex&&m.codex.perks), rings:Object.assign({}, m.codex&&m.codex.rings)}, chest:Object.assign(d.chest, m.chest||{}), tut:m.tut||{}, ach:m.ach||{}}); }catch(e){}
@@ -971,6 +1137,12 @@ function loadMeta(){
 }
 function saveMeta(){ try{ localStorage.setItem(META_KEY, JSON.stringify(meta)); }catch(e){} }
 let meta = loadMeta();
+function applyA11y(){
+  const st = meta.settings, h = document.documentElement;
+  reduced = OS_REDUCED || !!st.calm;
+  h.classList.toggle('big-text', !!st.big); h.classList.toggle('hc', !!st.hc); h.classList.toggle('calm', !!st.calm);
+}
+applyA11y();
 function v3Defaults(s){
   Object.assign(s, {v:3, name:s.name||'The Lantern Company', banner:s.banner||{color:0, emblem:0}, morale:3, maxMorale:3, stash:[], nemeses:[], boons:[], boonOffer:null, charter:false,
     pairs:{}, stats:{nemSlain:0, items:0}, ended:null, endless:false, roads:[], node:null, bonusPick:0, nextWeaker:false, sound:true, recentEvents:[], legendChosen:false});
@@ -1467,7 +1639,7 @@ function teamSection(){
       <button class="team-name" data-act="warband"><h1>${esc(state.name)}</h1><small>Sector ${reg.march} · ${esc(reg.name)}${reg.suffix}</small></button>
       <div class="team-stats"><span class="pill num" id="goldpill"><span class="coin"></span><span id="gold">${shownGold ?? state.gold}</span></span><span class="pill">${moraleFlags(state.morale, state.maxMorale)}</span></div>
     </div>
-    <div class="quick"><button class="qb" data-act="daily">${HUBI.daily}Daily${dailyDot()?'<i class="dot"></i>':''}</button><button class="qb" data-act="arena">${HUBI.arena}Arena${arenaReady()&&state.fights>0?'<i class="dot"></i>':''}</button><button class="qb" data-act="codex">${HUBI.codex}Codex</button><button class="qb" data-act="home">${HUBI.settings}Menu</button></div>
+    <div class="quick"><button class="qb" data-act="daily">${HUBI.daily}Daily${dailyDot()?'<i class="dot"></i>':''}</button><button class="qb" data-act="arena">${HUBI.arena}Arena${arenaReady()&&state.fights>0?'<i class="dot"></i>':''}</button><button class="qb" data-act="codex">${HUBI.codex}Codex</button><button class="qb" data-act="lab">${HUBI.lab}Lab</button><button class="qb" data-act="settings">${HUBI.settings}Settings</button><button class="qb" data-act="home">${HUBI.home}Menu</button></div>
   </section>`;
 }
 function armySection(){
@@ -2506,11 +2678,87 @@ function opAct(a, b){
     case 'opperkopen': if (O.phase==='perk') openSheet(opPerkSheet(), 'opperk'); return;
     case 'opfire': if (O.phase==='wave' && O.cds.fire<=0){ O.aim = O.aim ? null : 'fire'; sfx('tap'); renderOpCtrl(); } return;
     case 'oprally': opAbility2(); return;
-    case 'ophero': closeSheet(); return opStart(b.dataset.id);
+    case 'ophero': { closeSheet(); opStart(b.dataset.id); const n = labOpts.startWave; if (n && OP){ labOpts.startWave = 0; OP.wave = n; OP.credits = 120 + 90*(n-1); render(); toast(`Test Lab: starting at wave ${n} with ${OP.credits} credits.`); } return; }
     case 'opspeed': O.speed = O.speed===1 ? 2 : 1; renderOpCtrl(); return;
     case 'opretry': return opStart(O && O.heroId);
     case 'opexit': OP = null; state.screen = 'title'; barEl.hidden = true; return render();
   }
+}
+
+/* ---------- test lab ---------- */
+let labRaf = 0, labOpts = {fx:{}, tier:null, paint:null, visor:null, moving:true};
+const LAB_FX = [['jets','Servo Boots'],['plates','Plating'],['charged','Overcharged'],['laser','Deadeye'],['leech','Bloodthirst'],['lucky','Lucky'],['venge','Vengeful'],['second','Second Wind'],['arcs','Feedback Shield'],['skull','Last Stand'],['berserk','Berserker'],['shadow','Shadowstep'],['storm','Stormborn'],['banner','Standard Bearer'],['halo','Halo'],['phoenix','Revival Beacon'],['gold','Gilded'],['giant','Gene-Boosted'],['colossus','Colossus']];
+function labSheetHTML(){
+  const live = state && !state.ended;
+  const btn = (act, label, extra='') => `<button class="labb" data-act="${act}" ${extra}>${label}</button>`;
+  return `${closeBtn}<div class="eyebrow">Developer tools</div><h2 style="margin-bottom:4px">Test Lab</h2><p class="hint" style="margin-bottom:12px">Jump straight to any feature. Changes apply to your current campaign, so use a fresh one if you want to keep your real run clean.</p>
+  <div class="sh-sec"><h3>Campaign shortcuts</h3>${live ? `<div class="labgrid">
+    ${btn('labcash','+500 credits')}${btn('labpromote','Promote the whole army')}${btn('lablegend','Give a legendary trait')}${btn('labstash','Fill the stash')}${btn('labmythic','Summon a mythic hero')}${btn('labheal','Heal and full morale')}</div>
+    <h3 style="margin-top:6px">Raise the whole army to</h3><div class="labgrid c4">${[3,5,7,10].map(l=>btn('lablevel',`Lv ${l}`,`data-v="${l}"`)).join('')}</div>
+    <h3 style="margin-top:6px">Jump to a boss fight</h3><div class="labgrid c5">${[1,2,3,4,5].map(m=>btn('labboss',`<b>${m}</b><small>${esc(BOSSES[bossOfMarch(m)].short.split(' ').pop().toLowerCase().replace(/^./,c=>c.toUpperCase()))}</small>`,`data-v="${m}"`)).join('')}</div>
+    <h3 style="margin-top:6px">Jump to a sector map</h3><div class="labgrid c5">${[1,2,3,4,5].map(m=>btn('labsector',`Sector ${m}`,`data-v="${m}"`)).join('')}</div>` : '<p class="hint">Start a campaign to use these.</p>'}</div>
+  <div class="sh-sec"><h3>Outpost Defense</h3><p class="hint sub">Start at any wave with extra credits to build with.</p><div class="labgrid c4">${OWAVES.map((w,i)=>btn('labwave',`Wave ${i+1}${w.boss?' · boss':''}`,`data-v="${i+1}"`)).join('')}</div></div>
+  <div class="sh-sec"><h3>Look around</h3><div class="labgrid">${btn('labgallery','Unit and trait gallery')}${btn('labbosses','Boss gallery')}${btn('replaytut','Replay the tips')}</div></div>`;
+}
+function labGalleryHTML(kind){
+  const chip = (k, lab) => `<button class="labchip ${labOpts.fx[k]?'on':''}" data-act="labfx" data-k="${k}">${esc(lab)}</button>`;
+  if (kind==='bosses') return `${closeBtn}<div class="eyebrow">Test Lab</div><h2 style="margin-bottom:10px">Boss gallery</h2><canvas id="labcv" class="labcv tall" data-kind="bosses"></canvas><p class="hint">Each boss is animated as it appears in battle, with its signature move playing on a loop.</p><button class="labb back" data-act="lab">Back to Test Lab</button>`;
+  return `${closeBtn}<div class="eyebrow">Test Lab</div><h2 style="margin-bottom:10px">Unit and trait gallery</h2><canvas id="labcv" class="labcv" data-kind="units"></canvas>
+    <div class="sh-sec"><h3>Rank</h3><div class="seg">${[['','Common'],['epic','Champion'],['legendary','Legend'],['mythic','Mythic']].map(([t,l])=>`<button data-act="labtier" data-v="${t}" class="${(labOpts.tier||'')===t?'on':''}">${l}</button>`).join('')}</div></div>
+    <div class="sh-sec"><h3>Armour and visor</h3><div class="swatches">${PAINTS.map((c,i)=>`<button class="sw2 ${labOpts.paint===c?'on':''}" data-act="labpaint" data-v="${i}" style="--c:${c||'#e3e9f0'}" aria-label="${PAINT_NAMES[i]}"></button>`).join('')}</div><div class="swatches">${VISORS.map((c,i)=>`<button class="sw2 vis ${labOpts.visor===c?'on':''}" data-act="labvisor" data-v="${i}" style="--c:${c||'#7ff3ff'}" aria-label="${VISOR_NAMES[i]}"></button>`).join('')}</div></div>
+    <div class="sh-sec"><h3>Trait effects</h3><div class="labchips">${LAB_FX.map(([k,l])=>chip(k,l)).join('')}</div></div>
+    <div class="labgrid" style="margin-top:4px"><button class="labb" data-act="labmove">${labOpts.moving?'Pause walking':'Walk'}</button><button class="labb back" data-act="lab">Back to Test Lab</button></div>`;
+}
+function startLab(){
+  cancelAnimationFrame(labRaf);
+  const tick = ts => {
+    const c = document.getElementById('labcv'); if (!c || (sheetKind!=='gallery')) return;
+    const w = c.clientWidth || 340, h = c.clientHeight || 300; if (c._w !== w){ setupCanvas(c, w, h); c._w = w; }
+    const ctx = c.getContext('2d'), dpr = Math.min(3, window.devicePixelRatio||1), t = ts/1000; ctx.setTransform(dpr,0,0,dpr,0,0);
+    const g = ctx.createLinearGradient(0,0,0,h); g.addColorStop(0,'#3b3554'); g.addColorStop(1,'#25223a'); ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle = 'rgba(140,200,255,.06)'; ctx.lineWidth = 1; for (let x=0;x<w;x+=20) ln(ctx,x,0,x,h); for (let y=0;y<h;y+=20) ln(ctx,0,y,w,y);
+    ctx.font = '700 10px "Exo 2", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(232,240,255,.8)';
+    if (c.dataset.kind==='bosses'){
+      const ks = BOSS_ORDER, cols = 2, cw = w/cols, rh = h/3;
+      ks.forEach((k,i)=>{ const x = cw*(i%cols) + cw/2, y = rh*Math.floor(i/cols) + rh*0.66, ph = (t + i*0.7) % 3, act = ph > 2.2 ? 1 - (ph-2.2)/0.8 : 0;
+        drawBoss(ctx, {k, x, y, s:1.5, facing:-1, time:t, moving:ph < 1.4, walk:t*6, swing:act, st:{heads:ph>1.5?4:3, slam:act, lunge:act}});
+        ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.strokeText(BOSSES[k].name, x, y + 34); ctx.fillStyle = BOSSES[k].col; ctx.fillText(BOSSES[k].name, x, y + 34); });
+    } else {
+      const cls = RECRUITABLE.concat(['warlord']), cols = 3, cw = w/cols, rh = h/Math.ceil(cls.length/cols);
+      cls.forEach((k,i)=>{ const x = cw*(i%cols) + cw/2, y = rh*Math.floor(i/cols) + rh*0.68, ph = (t*0.9 + i*0.37) % 2.4;
+        drawUnit(ctx, {cls:k, color:teamHex(), paint:labOpts.paint, visor:labOpts.visor, skin:SKINS[i%SKINS.length], x, y, s:k==='warlord'?1.3:k==='knight'?1.5:1.75, facing:1, walk:t*8+i, moving:labOpts.moving, swing: ph>1.9 ? Math.sin((ph-1.9)/0.5*Math.PI) : 0, time:t+i*0.3, tier:labOpts.tier, fx:labOpts.fx});
+        ctx.fillStyle = 'rgba(232,240,255,.85)'; ctx.fillText(CLASSES[k].label, x, y + 33); });
+    }
+    labRaf = requestAnimationFrame(tick);
+  };
+  labRaf = requestAnimationFrame(tick);
+}
+function labRaise(lvl){
+  for (const u of state.roster){ if (u.level >= lvl) continue; const before = traitsBy(u.level); u.level = lvl; u.xp = 0; u.pending += traitsBy(lvl) - before; }
+}
+function labAct(a, b){
+  const toast2 = m => { toast(m); sfx('coin'); };
+  switch (a){
+    case 'lab': sfx('tap'); return openSheet(labSheetHTML(), 'lab');
+    case 'labcash': state.gold += 500; save(); toast2('+500 credits.'); return openSheet(labSheetHTML(), 'lab');
+    case 'labpromote': for (const u of state.roster){ let l = u.level+1; while (!traitAt(l)) l++; const before = traitsBy(u.level); u.level = l; u.xp = 0; u.pending += traitsBy(l)-before; } save(); toast2('Everyone is ready for promotion. Find them in camp.'); return openSheet(labSheetHTML(), 'lab');
+    case 'lablegend': { const u = state.roster[Math.floor(Math.random()*state.roster.length)]; if (!u) return; const id = rollPerkOfRarity(u, Math.random, 'legendary'); if (id){ u.perks.push(id); discover([u], true); checkAch(); } save(); toast2(`${u.name} learned ${id ? PERKS[id].name : 'nothing new'}.`); return openSheet(labSheetHTML(), 'lab'); }
+    case 'labstash': state.rings.push(...Object.keys(RINGS)); state.stash.push(...Object.keys(ITEMS)); save(); toast2('Every ring and piece of gear is in your stash.'); return openSheet(labSheetHTML(), 'lab');
+    case 'labmythic': makeMythic(); save(); toast2('A mythic hero waits in the Market.'); return openSheet(labSheetHTML(), 'lab');
+    case 'labheal': state.roster.forEach(u=>u.wounded=0); state.morale = state.maxMorale; save(); toast2('Everyone is patched up and morale is full.'); return openSheet(labSheetHTML(), 'lab');
+    case 'lablevel': labRaise(+b.dataset.v); save(); toast2(`Army raised to level ${b.dataset.v}. Promotions are waiting in camp.`); return openSheet(labSheetHTML(), 'lab');
+    case 'labboss': { const m = +b.dataset.v; state.ended = null; state.battle = 5*m; state.map = null; setNextNode(); const M = state.map; M.visited = M.nodes.filter(n=>n.r<=4).map(n=>n.id); state.screen = 'camp'; save(); closeSheet(); render(); return toast2(`Sector ${m} assault ready. Deploy when you are.`); }
+    case 'labsector': { const m = +b.dataset.v; state.ended = null; state.battle = (m-1)*5+1; state.map = null; state.node = null; state.enemy = null; setNextNode(); state.screen = 'camp'; save(); closeSheet(); render(); return toast2(`Welcome to sector ${m}.`); }
+    case 'labwave': { const n = +b.dataset.v; closeSheet(); setTimeout(()=>{ openSheet(opHeroSheet(), 'ophero'); labOpts.startWave = n; }, 60); return; }
+    case 'labgallery': openSheet(labGalleryHTML('units'), 'gallery'); return setTimeout(startLab, 30);
+    case 'labbosses': openSheet(labGalleryHTML('bosses'), 'gallery'); return setTimeout(startLab, 30);
+    case 'labfx': labOpts.fx[b.dataset.k] = !labOpts.fx[b.dataset.k]; break;
+    case 'labtier': labOpts.tier = b.dataset.v || null; break;
+    case 'labpaint': labOpts.paint = PAINTS[+b.dataset.v] || null; break;
+    case 'labvisor': labOpts.visor = VISORS[+b.dataset.v] || null; break;
+    case 'labmove': labOpts.moving = !labOpts.moving; break;
+  }
+  if (sheetKind==='gallery'){ const st = sheetBox.scrollTop; sheetBox.innerHTML = labGalleryHTML('units'); sheetBox.scrollTop = st; startLab(); }
 }
 
 /* ---------- march map ---------- */
@@ -3271,6 +3519,9 @@ function draw(alpha){
   for (const b of B.fs){ if (!b.alive || (!b.aura && !b.lion)) continue; const [x,y] = ip(b); const pulse = 0.5+0.5*Math.sin(performance.now()/260); ctx.globalAlpha = 0.12+0.1*pulse; ctx.strokeStyle = b.lion ? '#f6c945' : b.side ? '#ef6a52' : B.ally; ctx.lineWidth=1.5; ctx.setLineDash([3,4]); ctx.beginPath(); ctx.arc(x,y,b.lion?85:Math.min(b.auraR,160),0,Math.PI*2); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1; }
   for (const f of B.fs){ if (!f.alive || !f.nem) continue; const [x,y] = ip(f); ctx.strokeStyle='rgba(239,106,82,.9)'; ctx.lineWidth=2; ctx.beginPath(); ctx.ellipse(x, y+11, 13, 4.5, 0, 0, Math.PI*2); ctx.stroke(); }
   const order = B.fs.slice().sort((a,b)=>(a.alive-b.alive)||(a.y-b.y));
+  if (meta.settings.rings){ for (const f of order){ if (!f.alive) continue; const [x,y] = ip(f), r = f.bossK ? 26 : f.cls==='warlord' ? 14 : f.cls==='knight' ? 13 : 10.5;
+    ctx.globalAlpha = 0.85; ctx.strokeStyle = f.side ? '#ff5a46' : B.ally; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.ellipse(x, y + (f.bossK?20:11), r, r*0.34, 0, 0, Math.PI*2); ctx.stroke();
+    ctx.globalAlpha = 0.18; ctx.fillStyle = ctx.strokeStyle; ctx.fill(); ctx.globalAlpha = 1; } }
   for (const f of order){
     let a = 1, deadT = null;
     if (!f.alive){ deadT = B.t - f.deathT; a = Math.max(0.22, 1 - deadT*0.7); }
@@ -3282,12 +3533,13 @@ function draw(alpha){
   for (const f of order){
     if (!f.alive || f.bossK) continue;
     const [x,y] = ip(f), big = f.cls==='warlord', w = big?30:f.cls==='knight'?22:18, bx = x-w/2, by = y-(big?42:f.cls==='knight'?37:f.cls==='mage'?35:29);
-    ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillRect(bx,by,w,3.2);
-    ctx.fillStyle='rgba(255,255,255,.75)'; ctx.fillRect(bx,by,w*clamp(f.ghost/f.maxHp,0,1),3.2);
-    ctx.fillStyle = f.side ? '#ff8a73' : B.ally; ctx.fillRect(bx,by,w*clamp(f.hp/f.maxHp,0,1),3.2);
+    const hb = meta.settings.big ? 5 : 4;
+    ctx.fillStyle='rgba(0,0,0,.6)'; ctx.fillRect(bx-0.5,by-0.5,w+1,hb+1);
+    ctx.fillStyle='rgba(255,255,255,.75)'; ctx.fillRect(bx,by,w*clamp(f.ghost/f.maxHp,0,1),hb);
+    ctx.fillStyle = f.side ? '#ff8a73' : B.ally; ctx.fillRect(bx,by,w*clamp(f.hp/f.maxHp,0,1),hb);
     ctx.fillStyle = f.side ? '#5a1f16' : '#0f2f45'; ctx.beginPath(); ctx.arc(bx-3.5,by+1.6,4.3,0,Math.PI*2); ctx.fill();
     ctx.fillStyle='#fff'; ctx.font='700 6px "Exo 2", system-ui, sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(f.level, bx-3.5, by+1.9);
-    if (f.ult){ const full = f.ultC>=99; ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillRect(bx,by+4,w,2); ctx.fillStyle = full ? (Math.sin(B.t*12)>0?'#fff3b0':'#f6b93b') : '#f6b93b'; ctx.fillRect(bx,by+4,w*clamp(f.ultC/100,0,1),2); }
+    if (f.ult){ const full = f.ultC>=99; ctx.fillStyle='rgba(0,0,0,.5)'; ctx.fillRect(bx,by+hb+1,w,2); ctx.fillStyle = full ? (Math.sin(B.t*12)>0?'#fff3b0':'#f6b93b') : '#f6b93b'; ctx.fillRect(bx,by+hb+1,w*clamp(f.ultC/100,0,1),2); }
     if (f.nem){ ctx.font='700 7px "Exo 2", system-ui, sans-serif'; ctx.lineWidth=2.4; ctx.strokeStyle='rgba(0,0,0,.65)'; ctx.strokeText(f.name, x, by-6); ctx.fillStyle='#ffb7a8'; ctx.fillText(f.name, x, by-6); }
     if (f.berserkOn||f.rage){ ctx.strokeStyle='rgba(239,106,82,.8)'; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(x,y-4,12,0,Math.PI*2); ctx.stroke(); }
   }
@@ -3855,8 +4107,10 @@ let resetAllArmed = false;
 function settingsSheetHTML(){
   return `${closeBtn}<div><div class="eyebrow">Settings</div><h2 style="font-size:26px">Camp settings</h2></div>
   <div class="sh-sec">${sw('setsound', state.sound, 'Sound effects')}${sw('setmusic', meta.settings.music, 'Music', 'Plays after your first tap')}${sw('setshake', meta.settings.shake, 'Screen shake and impact', 'Hit-stop, camera punches and shaking')}</div>
+  <div class="sh-sec"><h3>Accessibility</h3>${sw('setbig', meta.settings.big, 'Larger text', 'Bumps up small labels and hints')}${sw('sethc', meta.settings.hc, 'High contrast', 'Brighter secondary text and stronger outlines')}${sw('setcalm', meta.settings.calm, 'Reduce effects', 'Fewer animations, no flashes or screen transitions')}${sw('setrings', meta.settings.rings, 'Team rings in battle', 'Cyan ring under your soldiers, red under foes')}</div>
+  ${KEYS_OK ? `<div class="sh-sec"><h3>Keyboard</h3><div class="keys"><span><kbd>Space</kbd> main button</span><span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> commander abilities</span><span><kbd>S</kbd> skip battle</span><span><kbd>F</kbd> outpost speed</span><span><kbd>Esc</kbd> close panel</span></div></div>` : ''}
   <div class="sh-sec"><h3>Default battle speed</h3><div class="seg">${[1,2,4].map(s=>`<button data-act="setspeed" data-s="${s}" class="${state.speed===s?'on':''}">${s}x</button>`).join('')}</div></div>
-  <div class="sh-sec"><h3>Help</h3><button class="btn ghost wide" data-act="replaytut">Show the tips again</button></div>
+  <div class="sh-sec"><h3>Help</h3><div class="rbtns"><button class="btn ghost wide" data-act="lab">Open the Test Lab</button><button class="btn ghost wide" data-act="replaytut">Show the tips again</button></div></div>
   <div class="sh-sec"><h3>Danger zone</h3><button class="btn ghost danger wide" data-act="resetall">${resetAllArmed?'Tap again to erase everything':'Erase all progress, legends and feats'}</button></div>
   <p class="hint num">Pocket Warbands prototype · ${meta.runs} campaigns begun · renown ${meta.renown}</p>`;
 }
@@ -3964,6 +4218,8 @@ window.addEventListener('scroll', () => { if (coachCur) coachPlace(); }, {passiv
 
 /* ---------- title screen ---------- */
 const HUBI = {
+  lab:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M9 3h6v2h-1v4.2l5.6 9.3A2 2 0 0 1 17.9 21H6.1a2 2 0 0 1-1.7-2.5L10 9.2V5H9zm3 8.2L8.6 17h6.8z"/></svg>',
+  home:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></svg>',
   daily:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 10h18v10H3zM4.5 5h15L21 9H3zM10 12h4v4h-4z"/></svg>',
   arena:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4.6 6L6 4.6 19.4 18 18 19.4zM19.4 6L18 4.6 4.6 18 6 19.4z"/></svg>',
   codex:'<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 5h6a3 3 0 0 1 3 3v12a2.5 2.5 0 0 0-2.5-2.5H3zM21 5h-6a3 3 0 0 0-3 3v12a2.5 2.5 0 0 1 2.5-2.5H21z"/></svg>',
@@ -3986,6 +4242,7 @@ function renderTitle(){
     <span class="hint">${live ? `${esc(state.name)} · sector ${region(state.battle).march}, jump ${stopOf(state.battle)} of 5 · ${state.roster.length} soldiers` : 'Your last campaign has ended.'}</span></div>
   <button class="opentry" data-act="outpost"><span class="ot">New · prototype</span><b>Outpost Defense</b><span>Build defenses, fly your commander, survive 8 waves${meta.outpostBest?` · best: ${meta.outpostBest>8?'all waves':'wave '+meta.outpostBest}`:''}</span></button>
   <div class="hub">${hubButtons()}</div>
+  <button class="labentry" data-act="lab"><span class="ot">Try anything</span><b>Test Lab</b><span>Jump to bosses, any wave, max levels, every trait effect</span></button>
   <div class="renown"><div class="rtop"><b>Renown level ${R.lvl}</b><span class="num">${R.into}/${R.need}</span></div><div class="xp"><i style="width:${Math.round(100*R.into/R.need)}%"></i></div><span class="hint">Earn renown from feats, sieges, daily orders and the Arena. Levels unlock new insignia colours and emblems.</span></div>`;
   startTitleLoop();
 }
@@ -4028,6 +4285,7 @@ function onAct(b){
   if (act!=='reset' && resetArmed) resetArmed = false;
   if (act!=='dismiss' && dismissArmed) dismissArmed = null;
   if (act!=='resetall') resetAllArmed = false;
+  if (act.startsWith('lab')) return labAct(act, b);
   if (act==='outpost' || act.startsWith('op')) return opAct(act, b);
   switch (act){
     case 'soldier': return openSoldier(+b.dataset.id);
@@ -4103,6 +4361,10 @@ function onAct(b){
     case 'settings': sfx('tap'); return openSheet(settingsSheetHTML(), 'settings');
     case 'setsound': state.sound = !state.sound; save(); if (state.sound){ sfx('tap'); musicFor(); } else musicOff(); return openSheet(settingsSheetHTML(), 'settings');
     case 'setmusic': meta.settings.music = !meta.settings.music; saveMeta(); if (meta.settings.music){ const a = audio(); if (a && a.state==='suspended') a.resume().then(musicFor); else musicFor(); } else musicOff(); return openSheet(settingsSheetHTML(), 'settings');
+    case 'setbig': meta.settings.big = !meta.settings.big; saveMeta(); applyA11y(); return openSheet(settingsSheetHTML(), 'settings');
+    case 'sethc': meta.settings.hc = !meta.settings.hc; saveMeta(); applyA11y(); return openSheet(settingsSheetHTML(), 'settings');
+    case 'setcalm': meta.settings.calm = !meta.settings.calm; saveMeta(); applyA11y(); return openSheet(settingsSheetHTML(), 'settings');
+    case 'setrings': meta.settings.rings = !meta.settings.rings; saveMeta(); return openSheet(settingsSheetHTML(), 'settings');
     case 'setshake': meta.settings.shake = !meta.settings.shake; saveMeta(); return openSheet(settingsSheetHTML(), 'settings');
     case 'setspeed': state.speed = +b.dataset.s; save(); return openSheet(settingsSheetHTML(), 'settings');
     case 'replaytut': meta.tut = {}; saveMeta(); closeSheet(); toast('Tips will show again in camp.'); if (state.screen==='camp') later(coachNext, 400); return;
@@ -4138,7 +4400,31 @@ document.addEventListener('keydown', e => {
   if (e.key==='Escape' && sheetKind && sheetKind!=='boon') closeSheet();
   if (e.key==='Enter' && e.target.id==='rename-input') onAct({dataset:{act:'rename'}});
   if (e.key==='Enter' && e.target.id==='wb-input') onAct({dataset:{act:'wbname'}});
+  hotkey(e);
 });
+const KEYS_OK = !!(window.matchMedia && matchMedia('(hover: hover) and (pointer: fine)').matches);
+function hotkey(e){
+  const tg = e.target, k = e.key;
+  if (e.metaKey || e.ctrlKey || e.altKey || e.defaultPrevented) return;
+  if (tg && (tg.tagName==='INPUT' || tg.tagName==='TEXTAREA' || tg.isContentEditable)) return;
+  const vis = el => el && !el.disabled && el.offsetParent !== null;
+  const click = sel => { for (const one of sel.split(/,\s*/)) for (const el of document.querySelectorAll(one)){ if (vis(el)){ e.preventDefault(); el.classList.add('kpress'); setTimeout(()=>el.classList.remove('kpress'), 160); onAct(el); return true; } } return false; };
+  if (sheetKind) return;
+  if (state.screen==='battle' && B && !B.over){
+    if (k>='1' && k<='3'){ e.preventDefault(); return useCmd(Object.keys(CMDS)[+k-1]); }
+    if (k==='s' || k==='S') return click('[data-act="skip"]');
+  }
+  if (state.screen==='outpost' && OP){
+    if (k==='1') return click('#opfire');
+    if (k==='2') return click('#oprally');
+    if (k==='f' || k==='F') return click('[data-act="opspeed"]');
+  }
+  if (k===' ' || k==='Enter'){
+    if (tg && tg.closest && tg.closest('button,a,summary,[role="switch"]')) return;
+    if (state.screen==='results' && document.querySelector('.res-skip,.cascading')){ /* let the cascade skip handler run */ }
+    click('#bar .fab, [data-act="picks"], [data-act="boons"], [data-act="toend"], [data-act="opperkopen"], [data-act="opretry"], .rbtns [data-act="camp"], #app > .wrap [data-act="camp"].btn, [data-act="play"]');
+  }
+}
 sheetEl.addEventListener('click', e => { if (e.target===sheetEl && sheetKind!=='boon' && sheetKind!=='opperk') closeSheet(); });
 /* ---------- drag and drop ---------- */
 const ghost = document.createElement('div'); ghost.className = 'dragghost'; ghost.hidden = true; ghost.innerHTML = '<canvas></canvas>'; document.body.appendChild(ghost);
