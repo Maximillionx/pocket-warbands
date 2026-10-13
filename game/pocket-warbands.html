@@ -161,7 +161,7 @@ button:focus-visible,summary:focus-visible,input:focus-visible{outline:2px solid
 .btn.ghost.danger{color:#ffb7a8;border-color:rgba(239,106,82,.4);}
 .btn.small{font-size:15px;padding:8px 12px;border-radius:11px;box-shadow:0 3px 0 var(--gold-deep);}
 
-.bar-fixed{position:fixed;left:0;right:0;bottom:0;z-index:5;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top, rgba(13,38,48,.98) 70%, rgba(13,38,48,0));}
+.bar-fixed{position:fixed;right:max(16px, calc(50vw - 244px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:5;}
 .bar-in{max-width:488px;margin:0 auto;display:flex;align-items:center;gap:12px;}
 .bar-in .info{flex:1;min-width:0;font-size:13px;color:var(--muted);line-height:1.3;}
 .bar-in .info b{display:block;color:var(--ink);font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -441,7 +441,7 @@ body.dragging,body.dragging *{cursor:grabbing!important;}
 .statline i{font-style:normal;font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;}
 .statline b{font-size:14px;}
 .seg.pos button.bench.on{box-shadow:inset 0 0 0 1.5px var(--warn);}
-.lgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.lgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .ltile{position:relative;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 4px 9px;border-radius:14px;background:var(--bg-2);border:1px solid var(--line);color:var(--ink);font-size:11px;line-height:1.2;text-align:center;min-height:86px;transition:border-color .15s,background .15s;}
 .ltile b{font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
 .ltile.empty{border-style:dashed;color:var(--muted);} .ltile.empty b{font-weight:600;}
@@ -490,6 +490,37 @@ body.dragging,body.dragging *{cursor:grabbing!important;}
 .qdone{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(122,214,158,.18);color:var(--ok);} .qdone svg{width:16px;height:16px;}
 .qbonus{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:16px;border:1px dashed var(--line);font-size:13px;} .qbonus > div{flex:1;display:flex;flex-direction:column;gap:2px;} .qbonus span{color:var(--muted);}
 .qbonus.ready{border-style:solid;border-color:rgba(246,185,59,.6);} .qbonus.claimed{opacity:.6;}
+
+/* sprint 10: commander abilities, cascade, floating button */
+.cmdbar{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;}
+.cmdb{display:flex;align-items:center;gap:8px;padding:7px 10px 7px 7px;border-radius:16px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);font-size:13px;font-weight:700;text-align:left;transition:transform .1s,border-color .15s,background .15s;--p:1;}
+.cmdb b{min-width:0;line-height:1.15;}
+.cmi{position:relative;width:38px;height:38px;flex:none;border-radius:12px;display:grid;place-items:center;background:var(--bg-2);color:var(--cc);overflow:hidden;}
+.cmi svg{width:22px;height:22px;position:relative;z-index:1;}
+.cmcd{position:absolute;inset:0;background:conic-gradient(rgba(5,15,20,.78) calc(var(--p)*360deg), transparent 0);z-index:2;}
+.cmdb.ready{border-color:var(--cc);background:color-mix(in srgb,var(--cc) 14%,var(--panel));}
+.cmdb.ready .cmi{box-shadow:0 0 12px color-mix(in srgb,var(--cc) 60%,transparent);}
+.cmdb.aiming{background:color-mix(in srgb,var(--cc) 30%,var(--panel));transform:scale(1.04);animation:ringpulse 1s ease-in-out infinite;}
+.cmdb:disabled{opacity:.4;} .cmdb:disabled .cmi{color:var(--muted);}
+.cmdb:active{transform:scale(.97);}
+.cmdhint{min-height:16px;margin:6px 0 0;font-size:12px;color:var(--muted);text-align:center;}
+#field.aim{cursor:crosshair;}
+.fab{display:flex;flex-direction:column;align-items:flex-end;gap:0;padding:10px 20px 11px;border-radius:20px;min-width:148px;box-shadow:0 5px 0 var(--gold-deep),0 10px 26px rgba(0,0,0,.45);}
+.fab small{font-family:var(--body);font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;opacity:.72;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fab b{font-weight:400;font-size:22px;line-height:1.05;}
+.wrap.has-bar{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));}
+.team.head{padding-bottom:12px;}
+.team.army .sec-h{margin-bottom:8px;}
+.cz{opacity:0;transform:translateY(12px);transition:opacity .35s ease, transform .35s cubic-bezier(.2,.8,.2,1);}
+.cz.in{opacity:1;transform:none;}
+.unit.off.cz.in{opacity:.55;}
+.rsh{margin:14px 0 8px;} .rsh h2{font-size:18px;}
+.rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.rmini{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 4px;border-radius:14px;background:var(--panel);border:1px solid var(--line);font-size:11px;text-align:center;}
+.rmini canvas{width:44px;height:44px;border-radius:12px;background:radial-gradient(circle at 50% 70%,#2c6170,#173a46);}
+.rmini b{font-size:12px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rmini .xp{width:80%;} .rmini span{color:var(--muted);}
+.rmini.hurt{border-color:rgba(242,166,90,.5);} .rmini.hurt span{color:var(--warn);}
 </style>
 
 <div id="app" class="wrap"></div>
@@ -718,9 +749,10 @@ function stats(u){
     crit:0.05+(c.crit||0), dodge:c.dodge||0, lifesteal:0, cleave:c.cleave||0, volley:0, thorns:0, berserk:false, lastStand:false, vengeful:0, secondWind:false,
     inspire:0, stubborn:false, atkSpd:1, rad:c.rad||6.5, vs:{...(c.vs||{})}, pierce:c.pierce||0, splash:c.splash||0, splashR:24, chain:0, charge:c.charge||0,
     trample:0, aura:c.aura||0, auraR:70, auraAtk:0, healMult:1, mending:0, sainted:false, backstab:0, shadowstep:false, regen:0, phoenix:false, oath:false,
-    warmaster:0, chainN:2, undying:false, kingslayer:false, lion:false, starfall:false, unbreak:false};
+    warmaster:0, chainN:2, undying:false, kingslayer:false, lion:false, starfall:false, unbreak:false, dbl:0, echo:0, echoHits:1, burnHit:0, exec:0};
   for (const id of (u.perks||[])) if (PERKS[id]) PERKS[id].mod(s, u.cls);
   if (u.gear && ITEMS[u.gear]) ITEMS[u.gear].mod(s, u.cls);
+  for (const r of unitRings(u)) if (RINGS[r] && RINGS[r].mod) RINGS[r].mod(s, u.cls);
   s.armor = Math.min(0.6, s.armor); s.dodge = Math.min(0.6, s.dodge);
   return s;
 }
@@ -901,7 +933,7 @@ function makeEnemy(type, nemUid){
   if (!nem && boss && state.nemeses.length) nem = state.nemeses.reduce((a,x)=>x.level>a.level?x:a);
   if (elite){ const k = units.findIndex(u=>u.cls!=='warlord'); if (k>=0) units[k].spells = [pick(rng, ringsOfKind('spell', b>10?['rare','epic']:['common','rare']))]; }
   if (marchOf(b)>=3) for (const u of units) if (u.cls!=='warlord' && !u.spells && rng()<0.15) u.spells = [pick(rng, ringsOfKind('spell', ['common','rare']))];
-  if (boss && reg.march>5) units[0].ult = ['rally','whirl','inferno','avalanche','meteor'][(reg.march-1)%5];
+  
   if (nem){ units[units.length-1] = {cls:nem.cls, level:Math.max(nem.level, Math.round(target)+1), perks:nem.perks.slice(), nem:nem.uid, nemName:nem.full}; }
   return {name: band.name, boss, elite, units, nem: nem ? nem.uid : null};
 }
@@ -1188,15 +1220,21 @@ function formsPanel(list){
 function teamSection(){
   const dep = deployed(), reg = region(state.battle), act = formations(dep.map(u=>u.cls)).filter(f=>f.tier>0);
   const pend = pendingUnits().reduce((a,u)=>a+u.pending,0);
-  return `<section class="team">
+  return `<section class="team head">
     <div class="team-top">
       <button class="flag" data-act="warband" aria-label="Customize your warband">${bannerSVG(teamHex(), state.banner.emblem)}</button>
       <button class="team-name" data-act="warband"><h1>${esc(state.name)}</h1><small>March ${reg.march} · ${esc(reg.name)}${reg.suffix}</small></button>
       <div class="team-stats"><span class="pill num" id="goldpill"><span class="coin"></span><span id="gold">${shownGold ?? state.gold}</span></span><span class="pill">${moraleFlags(state.morale, state.maxMorale)}</span></div>
     </div>
     <div class="quick"><button class="qb" data-act="daily">${HUBI.daily}Daily${dailyDot()?'<i class="dot"></i>':''}</button><button class="qb" data-act="arena">${HUBI.arena}Arena${arenaReady()&&state.fights>0?'<i class="dot"></i>':''}</button><button class="qb" data-act="codex">${HUBI.codex}Codex</button><button class="qb" data-act="home">${HUBI.settings}Menu</button></div>
+  </section>`;
+}
+function armySection(){
+  const dep = deployed(), act = formations(dep.map(u=>u.cls)).filter(f=>f.tier>0);
+  const pend = pendingUnits().reduce((a,u)=>a+u.pending,0);
+  return `<section class="team army"><div class="sec-h"><h2>Your army</h2><span class="num">${dep.length}/${maxMarch()} marching · Power ${teamPower(dep)}</span></div>
     <div class="boardwrap"><canvas id="board" role="img" aria-label="Your marching formation. Tap a soldier to open them."></canvas></div>
-    <div class="board-cap"><span class="num">${dep.length}/${maxMarch()} marching · Power ${teamPower(dep)}</span><span>Drag to arrange · tap to open</span></div>
+    <div class="board-cap"><span>Drag to arrange</span><span>Tap a soldier to open</span></div>
     ${act.length||state.boons.length?`<div class="chiprow">${act.map(f=>`<span class="fchip">${esc(f.F.name)}${f.F.tiers.length>1?' '+f.tier:''}</span>`).join('')}${state.boons.map(b=>`<span class="fchip boon">${esc(BOONS[b].name)}</span>`).join('')}</div>`:''}
     ${fillable()?`<button class="btn ghost wide" data-act="fill">Fill empty ranks from the bench</button>`:''}
     ${pend?`<button class="btn wide pulse" data-act="picks">${plural(pend,'trait','traits')} ready to choose</button>`:''}
@@ -1303,7 +1341,7 @@ function fightHTML(){
     ${e.boss?`<p class="hint" style="color:#e9d3a8">Win to break the gate and march on. A loss costs morale, and you can try again.</p>`:''}
     ${e.elite?`<p class="hint">Elite foes are tougher, but they always carry gear and pay half again in gold.</p>`:''}
     ${state.lossStreak?`<p class="hint">After your last defeat, the scouts found a weaker target.</p>`:''}
-    ${state.fights<2?`<p class="hint">Battles play out on their own. You choose who marches, where they stand, who you hire and which traits they learn. Tap a soldier above to customize them.</p>`:''}`;
+    ${state.fights<2?`<p class="hint">Battles play out on their own. You choose who marches, where they stand, who you hire and which traits they learn. Tap a soldier in your army below to customize them.</p>`:''}`;
 }
 function eventHTML(n){
   const ev = EVENTS[n.event], ctx = n.ctx || {};
@@ -1317,7 +1355,7 @@ function marketHTML(n){
     <p class="hint">Spend what you like, then move on. New gear goes to your stash.</p>
     <div class="mlist">
       ${st.items.map((it,i)=>{ const I = ITEMS[it.id]; return `<div class="mrow"><div><b class="r-${I.rarity}">${esc(I.name)}</b><span class="rtag ${I.rarity}">${I.rarity}</span><p>${esc(I.desc)}${I.who?` ${esc(I.who)}.`:''}</p></div><button class="btn small num" data-act="buy" data-i="${i}" ${it.sold||state.gold<it.price?'disabled':''}>${it.sold?'Sold':it.price+'g'}</button></div>`; }).join('')}
-      ${st.ring?`<div class="mrow">${ringIcon(st.ring.id,true)}<div><b class="r-${RINGS[st.ring.id].rarity}">${esc(RINGS[st.ring.id].name)}</b><span class="rtag ${RINGS[st.ring.id].rarity}">${RINGS[st.ring.id].kind==='ult'?'ultimate':'spell'}</span><p>${esc(RINGS[st.ring.id].desc)}</p></div><button class="btn small num" data-act="buyring" ${st.ring.sold||state.gold<st.ring.price?'disabled':''}>${st.ring.sold?'Sold':st.ring.price+'g'}</button></div>`:''}
+      ${st.ring?`<div class="mrow">${ringIcon(st.ring.id,true)}<div><b class="r-${RINGS[st.ring.id].rarity}">${esc(RINGS[st.ring.id].name)}</b><span class="rtag ${RINGS[st.ring.id].rarity}">${RINGS[st.ring.id].rarity}</span><p>${esc(RINGS[st.ring.id].desc)}</p></div><button class="btn small num" data-act="buyring" ${st.ring.sold||state.gold<st.ring.price?'disabled':''}>${st.ring.sold?'Sold':st.ring.price+'g'}</button></div>`:''}
       <div class="mrow"><div><b>Abbey healer</b><p>Mends every wounded soldier now${wounded?` (${wounded} hurt)`:''}.</p></div><button class="btn small num" data-act="heal" ${!wounded||st.healed||state.gold<price(25)?'disabled':''}>${st.healed?'Done':price(25)+'g'}</button></div>
       <div class="mrow"><div><b>Hire a chaplain</b><p>Restores 1 morale.</p></div><button class="btn small num" data-act="chaplain" ${state.morale>=state.maxMorale||st.chaplain||state.gold<price(90)?'disabled':''}>${st.chaplain?'Hired':price(90)+'g'}</button></div>
     </div>
@@ -1333,37 +1371,42 @@ function roadSection(){
   return `<section class="next ${kind}" id="road">${n ? mapStrip() : ''}${inner}</section>`;
 }
 
-/* ---------- rings: spells and ultimates ---------- */
+/* ---------- rings: passive attack bonuses ---------- */
 const RINGS = {
-  spark:    {name:'Spark Ring', short:'SPARK', rarity:'common', kind:'spell', cd:6, desc:'Every 6 seconds, zaps the nearest foe for 120% attack.'},
-  mend:     {name:'Ring of Mending', short:'MEND', rarity:'common', kind:'spell', cd:8, desc:'Every 8 seconds, heals the most wounded ally for 20% of their max HP.'},
-  stoneskin:{name:'Stoneskin Band', short:'STONESKIN', rarity:'common', kind:'spell', cd:10, desc:'Every 10 seconds, hardens for 3 seconds and takes 50% less damage.'},
-  haste:    {name:'Quickening Ring', short:'HASTE', rarity:'common', kind:'spell', cd:9, desc:'Every 9 seconds, attacks 60% faster for 3 seconds.'},
-  firebolt: {name:'Firebolt Ring', short:'FIREBOLT', rarity:'rare', kind:'spell', cd:7, desc:'Every 7 seconds, hurls a firebolt for 180% that splashes 50% onto nearby foes.'},
-  frost:    {name:'Frost Ring', short:'FROST', rarity:'rare', kind:'spell', cd:9, desc:'Every 9 seconds, freezes the nearest foe solid for 2 seconds.'},
-  blink:    {name:'Blink Ring', short:'BLINK', rarity:'rare', kind:'spell', cd:10, desc:'Every 10 seconds, vanishes and strikes the weakest foe from behind for 150%.'},
-  warcry:   {name:'Warcry Band', short:'WARCRY', rarity:'rare', kind:'spell', cd:12, desc:'Every 12 seconds, allies nearby gain +25% attack for 4 seconds.'},
-  chainl:   {name:'Ring of Chain Lightning', short:'CHAIN LIGHTNING', rarity:'epic', kind:'spell', cd:8, desc:'Every 8 seconds, lightning leaps between up to 5 foes for 120% each.'},
-  vampire:  {name:'Vampire Ring', short:'DRAIN', rarity:'epic', kind:'spell', cd:9, desc:'Every 9 seconds, drains a foe for 200% and heals for the damage dealt.'},
-  aegis:    {name:'Aegis Ring', short:'AEGIS', rarity:'epic', kind:'spell', cd:12, desc:'Every 12 seconds, shields allies nearby for 25% of this soldier’s max HP.'},
-  starfire: {name:'Starfire Ring', short:'STARFIRE', rarity:'legendary', kind:'spell', cd:10, desc:'Every 10 seconds, drops a fireball on the thickest group of foes for 250%.'},
-  hours:    {name:'Ring of Hours', short:'STOP TIME', rarity:'legendary', kind:'spell', cd:14, desc:'Every 14 seconds, stops time for every foe nearby for 1.5 seconds.'},
-  rally:    {name:'Rallying Signet', short:'RALLY', rarity:'rare', kind:'ult', rate:1, desc:'Ultimate: heals every ally for 25% and gives them +30% attack for 5 seconds.'},
-  whirl:    {name:'Whirlwind Signet', short:'WHIRLWIND', rarity:'rare', kind:'ult', rate:1, desc:'Ultimate: spins for 3 seconds, hitting every nearby foe for 80% twice a second.'},
-  inferno:  {name:'Inferno Signet', short:'INFERNO', rarity:'epic', kind:'ult', rate:0.85, desc:'Ultimate: engulfs every foe in a wide circle for 220% and sets them burning.'},
-  titan:    {name:'Titan Signet', short:'TITAN', rarity:'epic', kind:'ult', rate:0.85, desc:'Ultimate: grows huge for 6 seconds, heals fully, deals 50% more and takes 30% less.'},
-  avalanche:{name:'Avalanche Signet', short:'AVALANCHE', rarity:'epic', kind:'ult', rate:0.85, desc:'Ultimate: freezes every foe on the field for 2.5 seconds.'},
-  meteor:   {name:'Meteor Signet', short:'METEOR', rarity:'legendary', kind:'ult', rate:0.7, desc:'Ultimate: calls a meteor on the largest enemy group for 450%, stunning survivors.'},
-  phoenixu: {name:'Phoenix Signet', short:'REBIRTH', rarity:'legendary', kind:'ult', rate:0.6, desc:'Ultimate: raises every fallen ally at 40% HP.'},
-  judgement:{name:'Signet of Judgement', short:'JUDGEMENT', rarity:'legendary', kind:'ult', rate:0.7, desc:'Ultimate: smites the 4 strongest foes for 320% each.'},
+  twin:    {name:'Twin Band', short:'TWIN', rarity:'common', kind:'spell', desc:'12% chance to strike twice.', mod:s=>{ s.dbl += 0.12; }},
+  keen:    {name:'Keen Band', short:'KEEN', rarity:'common', kind:'spell', desc:'+10% critical hit chance.', mod:s=>{ s.crit += 0.10; }},
+  swift:   {name:'Swift Band', short:'SWIFT', rarity:'common', kind:'spell', desc:'Attacks 12% faster.', mod:s=>{ s.atkSpd *= 1.12; }},
+  fang:    {name:'Twinfang Ring', short:'TWINFANG', rarity:'rare', kind:'spell', desc:'22% chance to strike twice.', mod:s=>{ s.dbl += 0.22; }},
+  blood:   {name:'Bloodring', short:'BLOOD', rarity:'rare', kind:'spell', desc:'Heals for 12% of the damage it deals.', mod:s=>{ s.lifesteal += 0.12; }},
+  ember:   {name:'Ember Ring', short:'EMBER', rarity:'rare', kind:'spell', desc:'Hits set foes burning for 30% more over 3 seconds.', mod:s=>{ s.burnHit += 0.3; }},
+  echo:    {name:'Echo Ring', short:'ECHO', rarity:'epic', kind:'spell', desc:'Every third attack strikes twice.', mod:s=>{ s.echo = s.echo ? Math.min(s.echo, 3) : 3; }},
+  storm:   {name:'Stormring', short:'STORM', rarity:'epic', kind:'spell', desc:'Hits arc to another foe for 50%.', mod:s=>{ s.chain = Math.max(s.chain, 0.5); }},
+  headsman:{name:'Headsman’s Ring', short:'HEADSMAN', rarity:'epic', kind:'spell', desc:'Double damage to foes below 30% health.', mod:s=>{ s.exec += 1; }},
+  suns:    {name:'Ring of Twin Suns', short:'TWIN SUNS', rarity:'legendary', kind:'spell', desc:'35% chance to strike twice, and every strike hits 15% harder.', mod:s=>{ s.dbl += 0.35; s.atk *= 1.15; }},
+  doom:    {name:'Doomring', short:'DOOM', rarity:'legendary', kind:'spell', desc:'Every fourth attack strikes three times.', mod:s=>{ s.echo = s.echo || 4; s.echoHits = 2; }},
 };
+const RING_MIGRATE = {spark:'twin', mend:'keen', stoneskin:'swift', haste:'swift', firebolt:'ember', frost:'fang', blink:'fang', warcry:'blood', rally:'blood', whirl:'fang', chainl:'storm', vampire:'headsman', aegis:'echo', inferno:'echo', titan:'headsman', avalanche:'storm', starfire:'suns', hours:'doom', meteor:'suns', phoenixu:'doom', judgement:'suns'};
+function migrateRings(st){
+  if (!st) return;
+  const mp = id => !id ? null : RINGS[id] ? id : (RING_MIGRATE[id] || null);
+  st.rings = (st.rings || []).map(mp).filter(Boolean);
+  for (const u of (st.roster||[])){
+    u.spells = [mp(u.spells?.[0]), mp(u.spells?.[1])];
+    if (u.ult){ const r = mp(u.ult); if (r) st.rings.push(r); u.ult = null; }
+    if (u.spells[0] && u.spells[0]===u.spells[1]){ st.rings.push(u.spells[1]); u.spells[1] = null; }
+  }
+  for (const f of (st.fallen||[])) if (f.spells) f.spells = f.spells.map(mp);
+  if (st.enemy) for (const e of st.enemy.units||[]){ if (e.spells) e.spells = e.spells.map(mp).filter(Boolean); e.ult = null; }
+  if (st.node?.stock?.ring && !RINGS[st.node.stock.ring.id]) st.node.stock.ring.id = mp(st.node.stock.ring.id) || 'twin';
+  if (!st.ringShop || st.ringShop.some(o=>!RINGS[o.id])) st.ringShop = null;
+}
 const RING_VAL = {common:3, rare:5, epic:8, legendary:12};
 const RING_PRICE = {common:45, rare:80, epic:140, legendary:230};
 const unitRings = u => [...((u && u.spells) || []).filter(Boolean), u && u.ult].filter(id=>id && RINGS[id]);
 const ringsOfKind = (kind, rars) => Object.keys(RINGS).filter(id=>RINGS[id].kind===kind && (!rars || rars.includes(RINGS[id].rarity)));
 function rollRing(rng, w, kind){
   const r = rng(), rar = r<w[0] ? 'common' : r<w[0]+w[1] ? 'rare' : r<w[0]+w[1]+w[2] ? 'epic' : 'legendary';
-  const k = kind || (rng()<0.68 ? 'spell' : 'ult');
+  const k = 'spell';
   let pool = ringsOfKind(k, [rar]); if (!pool.length) pool = ringsOfKind(k);
   return pick(rng, pool);
 }
@@ -1371,7 +1414,8 @@ function rollRingShop(){
   const rng = mulberry32((state.seed + state.battle*389 + state.fights*17 + (state.ringRolls||0)*991) >>> 0);
   const w = state.fights < 4 ? [0.12,0.48,0.3] : [0.08,0.44,0.34];
   const first = state.fights===0 && !state.ringRolls;
-  const ids = first ? [rollRing(rng,[0,0.75,0.25],'spell'), rollRing(rng,[0,1,0],'ult')] : [rollRing(rng,w,'spell'), rollRing(rng,w,'ult')];
+  const ids = first ? [rollRing(rng,[0,0.7,0.3]), rollRing(rng,[0,1,0])] : [rollRing(rng,w), rollRing(rng,w)];
+  if (ids[0]===ids[1]) ids[1] = rollRing(rng, w);
   state.ringShop = ids.map(id=>({id, price:price(RING_PRICE[RINGS[id].rarity]), sold:false}));
 }
 const ringIcon = (id, sm) => { const rar = id && RINGS[id] ? RINGS[id].rarity : 'empty'; return `<span class="ringi ${sm?'sm':''} ${rar} ${id&&RINGS[id]&&RINGS[id].kind==='ult'?'ult':''}" aria-hidden="true"><i></i></span>`; };
@@ -1380,7 +1424,7 @@ function ringCard(o, i){
   return `<article class="unit ${R.rarity==='epic'?'t-epic':R.rarity==='legendary'?'t-legendary':''} ${o.sold?'off':''}">
     ${ringIcon(o.id)}
     <div style="min-width:0"><div class="uname">${esc(R.name)}<span class="badge ${R.rarity}">${R.rarity}</span></div>
-      <div class="usub"><b class="${R.kind==='ult'?'r-legendary':'r-role'}">${R.kind==='ult'?'Ultimate':'Spell'}.</b> ${esc(R.desc.replace(/^Ultimate: (.)/,(m,c)=>c.toUpperCase()))}</div></div>
+      <div class="usub">${esc(R.desc)}</div></div>
     <button class="btn small num" data-act="ringbuy" data-i="${i}" ${o.sold||state.gold<o.price?'disabled':''}>${o.sold?'Sold':o.price+'g'}</button></article>`;
 }
 function ringShopSection(){
@@ -1427,54 +1471,11 @@ function bestCluster(f, r){ const foes = foesOf(f); let best = null, bn = -1; fo
 function mostWounded(f, thr){ let best = null, bf = thr; for (const o of B.fs) if (o.alive && o.side===f.side){ const fr = o.hp/o.maxHp; if (fr<bf){ bf = fr; best = o; } } return best; }
 function launch(f, t, kind, onHit){ const k = PROJ[kind] || PROJ.orb, d = Math.hypot(t.x-f.x, t.y-f.y); B.ps.push({src:f, tgt:t, kind, arc:k.arc, sx:f.x+6*f.facing, sy:f.y-10, t:0, dur:Math.max(0.12, d/k.v), mult:0, onHit}); }
 function castText(f, id){ const R = RINGS[id]; addText(f.x, f.y-40, R.short, RARCOL[R.rarity], R.kind==='ult'?11:8); }
-function castSpell(f, id){
-  const foes = foesOf(f); if (!foes.length) return false;
-  const near = nearestOf(f, foes);
-  switch (id){
-    case 'spark': zapFx(f, near, '#bfe3ff'); hit(f, near, 1.2, false); break;
-    case 'mend': { const t = mostWounded(f, 0.85); if (!t) return false; applyHeal(f, t, t.maxHp*0.2); break; }
-    case 'stoneskin': f.shieldT = 3; break;
-    case 'haste': f.hasteT = 3; sparks(f.x, f.y-8, '#ffe08a', 6, 0.7); break;
-    case 'firebolt': launch(f, near, 'fire', ()=>{ hit(f, near, 1.8, false); for (const o of B.fs) if (o!==near && o.alive && o.side!==f.side && Math.hypot(o.x-near.x,o.y-near.y)<32) hit(f, o, 0.5, false); sparks(near.x, near.y-6, '#ff9f43', 12, 1.3); }); break;
-    case 'frost': zapFx(f, near, '#9ad7ff'); near.stun = Math.max(near.stun||0, 2); sparks(near.x, near.y-8, '#d6f1ff', 10, 0.9); break;
-    case 'blink': { const w = foes.reduce((a,b)=>b.hp<a.hp?b:a); puff(f.x,f.y); const dir = w.side ? -1 : 1; f.x = clamp(w.x - dir*14, 12, 366); f.y = w.y; f.px = f.x; f.py = f.y; puff(f.x,f.y); hit(f, w, 1.5, false); break; }
-    case 'warcry': for (const o of B.fs) if (o.alive && o.side===f.side && Math.hypot(o.x-f.x,o.y-f.y)<90){ o.buffT = 4; o.buffM = Math.max(o.buffM||1, 1.25); } B.shake = Math.min(5, B.shake+1); break;
-    case 'chainl': { let from = f, hitSet = new Set(); for (let k=0;k<5;k++){ const cand = B.fs.filter(o=>o.alive && o.side!==f.side && !hitSet.has(o)); if (!cand.length) break; const t = nearestOf(from, cand); if (k && Math.hypot(t.x-from.x,t.y-from.y)>110) break; zapFx(from, t, '#d8c4ff'); hit(f, t, 1.2, false); hitSet.add(t); from = t; } break; }
-    case 'vampire': { const before = near.hp; hit(f, near, 2, false); const dealt = Math.max(0, before - Math.max(0, near.hp)); applyHeal(f, f, dealt); zapFx(near, f, '#ff6b81'); break; }
-    case 'aegis': for (const o of B.fs) if (o.alive && o.side===f.side && Math.hypot(o.x-f.x,o.y-f.y)<90) o.absorb = Math.max(o.absorb||0, f.maxHp*0.25); break;
-    case 'starfire': { const c = bestCluster(f, 34); B.meteors.push({x:c.x, y:c.y, t:0, dur:0.55, r:34, mult:2.5, src:f, stun:0, big:false}); break; }
-    case 'hours': { let n = 0; for (const o of foes) if (Math.hypot(o.x-f.x,o.y-f.y)<110){ o.stun = Math.max(o.stun||0, 1.5); n++; } if (!n) return false; B.rings.push({x:f.x, y:f.y, t:0, col:'#c8f0ff', r:110}); hitStop(0.06); break; }
-    default: return false;
-  }
-  f.casts++; B.casts++; castText(f, id); sfx('shoot');
-  return true;
-}
-function castUlt(f){
-  const id = f.ult, foes = foesOf(f), allies = B.fs.filter(o=>o.side===f.side);
-  switch (id){
-    case 'rally': for (const o of allies) if (o.alive){ applyHeal(f, o, o.maxHp*0.25); o.buffT = 5; o.buffM = Math.max(o.buffM||1, 1.3); } break;
-    case 'whirl': if (!foes.length) return false; f.whirlT = 3; f.whirlTick = 0; break;
-    case 'inferno': { if (!foes.length) return false; const c = bestCluster(f, 70); B.rings.push({x:c.x, y:c.y, t:0, col:'#ff9f43', r:80}); for (const o of foes) if (Math.hypot(o.x-c.x,o.y-c.y)<80){ hit(f, o, 2.2, false); o.burn = {src:f, dps:f.atk*0.35, t:4}; } break; }
-    case 'titan': f.titanT = 6; f.hp = f.maxHp; f.ghost = f.hp; break;
-    case 'avalanche': if (!foes.length) return false; for (const o of foes){ o.stun = Math.max(o.stun||0, 2.5); sparks(o.x, o.y-8, '#d6f1ff', 5, 0.8); } B.rings.push({x:W/2, y:H/2, t:0, col:'#d6f1ff', r:260}); break;
-    case 'meteor': { if (!foes.length) return false; const c = bestCluster(f, 60); B.meteors.push({x:c.x, y:c.y, t:0, dur:0.9, r:60, mult:4.5, src:f, stun:1.5, big:true}); break; }
-    case 'phoenixu': { const dead = allies.filter(o=>!o.alive); if (!dead.length) return false; for (const o of dead){ o.alive = true; o.hp = o.maxHp*0.4; o.ghost = o.hp; o.deathT = null; o.flash = 1; sparks(o.x, o.y-8, '#ffb347', 14, 1.2); } addLog(`${f.name} raised ${plural(dead.length,'fallen ally','fallen allies')}!`, 'k'); break; }
-    case 'judgement': { if (!foes.length) return false; const top = foes.slice().sort((a,b)=>b.maxHp*b.atk - a.maxHp*a.atk).slice(0,4); for (const o of top){ B.zaps.push({x1:o.x, y1:-10, x2:o.x, y2:o.y-6, life:0.4, col:'#fff3b0'}); hit(f, o, 3.2, false); } break; }
-    default: return false;
-  }
-  f.ultCast = true; B.ults++; castText(f, id);
-  B.ultBanner = {text:`${(f.unit ? f.unit.name : f.name).toUpperCase()} · ${RINGS[id].short}`, col:RARCOL[RINGS[id].rarity], t:0, side:f.side};
-  if (!f.side) addLog(`${f.name} unleashed ${RINGS[id].short.toLowerCase()}!`, 'k'); else addLog(`${f.name} unleashed ${RINGS[id].short.toLowerCase()}`, 'd');
-  hitStop(0.14); punch(f.x, f.y, 0.08); B.shake = Math.min(5, B.shake+3); sfx('horn');
-  return true;
-}
 function ringStep(f, dt){
   if (f.burn && f.burn.t>0){ f.burn.t -= dt; damage(f.burn.src, f, f.burn.dps*dt); if (!B.skipping && Math.random()<dt*6) sparks(f.x, f.y-6, f.burn.col||'#ff9f43', 1, 0.4); if (!f.alive) return; }
   if (f.stun>0){ f.stun -= dt*(f.bossK?2.5:1); f.moving = false; return 'stunned'; }
   f.hasteT -= dt; f.shieldT -= dt; f.titanT -= dt; if ((f.buffT -= dt) <= 0) f.buffM = 1;
   if (f.whirlT>0){ f.whirlT -= dt; f.whirlTick -= dt; if (f.whirlTick<=0){ f.whirlTick = 0.5; for (const o of B.fs) if (o.alive && o.side!==f.side && Math.hypot(o.x-f.x,o.y-f.y)<36) hit(f, o, 0.8, false); sparks(f.x, f.y-6, '#e7ecf2', 6, 1.2); } }
-  for (const sp of f.spells){ sp.t -= dt; if (sp.t<=0) sp.t = castSpell(f, sp.id) ? RINGS[sp.id].cd : 0.5; if (!f.alive) return; }
-  if (f.ult){ f.ultC = Math.min(100, f.ultC + dt*2.5*f.rate); if (f.ultC>=100 && castUlt(f)) f.ultC = 0; }
 }
 function meteorStep(dt){
   for (let i=B.meteors.length-1;i>=0;i--){
@@ -1704,6 +1705,87 @@ function paintBossPortraits(root){
   });
 }
 
+/* ---------- commander abilities ---------- */
+const CMDS = {
+  fireball:{name:'Fireball', cd:11, aim:true, unlock:1, col:'#ff9f43', desc:'Tap the field to hurl a fireball. Burns every foe in the blast.'},
+  mend:{name:'Mending Light', cd:18, aim:false, unlock:3, col:'#7ad69e', desc:'Heals your whole army for 22% at once.'},
+  frost:{name:'Frost Nova', cd:16, aim:true, unlock:6, col:'#9ad7ff', desc:'Tap the field to freeze every foe in a wide circle.'},
+};
+const CMD_ORDER = ['fireball','mend','frost'];
+const CMD_IC = {
+  fireball:'<svg viewBox="0 0 24 24"><path d="M12 2.5c1.2 4.2 6 5.6 6 11a6 6 0 0 1-12 0c0-2.6 1.3-4 2.6-5.2.1 2.4 1.3 3.7 2.6 3.7 0-3.6-1.4-5.8.8-9.5z" fill="currentColor"/></svg>',
+  mend:'<svg viewBox="0 0 24 24"><path d="M9.5 3h5v6.5H21v5h-6.5V21h-5v-6.5H3v-5h6.5z" fill="currentColor"/></svg>',
+  frost:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 3.5l3 2.5 3-2.5M9 20.5l3-2.5 3 2.5"/></svg>',
+};
+const CMDR = {side:0, facing:1, x:20, y:140, healed:0, kills:0, name:'Your commander', alive:false};
+let lastCmds = 0;
+const cmdUnlocked = id => !!B && (B.arena || state.battle >= CMDS[id].unlock);
+function cmdPower(){ const al = B.fs.filter(f=>!f.side && f.alive); return al.length ? al.reduce((a,f)=>a+f.atk,0)/al.length : 10; }
+function cmdStep(dt){
+  for (const k in B.cmd) B.cmd[k] = Math.max(0, B.cmd[k]-dt);
+  if (B.autoCmd) for (const id of CMD_ORDER) if (B.cmd[id]<=0 && cmdUnlocked(id) && !B.cmdQ.some(q=>q.id===id)){ if (id==='mend' && hpFrac(0)>0.55) continue; const c = bestCluster(CMDR, 46); if (c) B.cmdQ.push({id, x:c.x, y:c.y}); }
+  while (B.cmdQ.length){ const c = B.cmdQ.shift(); castCmd(c.id, c.x, c.y); }
+}
+function useCmd(id){
+  if (!B || B.over || B.skipping || !CMDS[id] || !cmdUnlocked(id)) return;
+  if (B.cmd[id] > 0){ return; }
+  if (CMDS[id].aim){ B.aim = B.aim===id ? null : id; sfx('tap'); updateCmdBar(true); return; }
+  B.cmdQ.push({id, x:110, y:140}); B.aim = null; updateCmdBar(true);
+}
+function aimAt(clientX, clientY){
+  const c = document.getElementById('field'); if (!c || !B || !B.aim) return false;
+  const r = c.getBoundingClientRect(), x = clamp((clientX - r.left)/r.width*W, 10, W-10), y = clamp((clientY - r.top)/r.height*H, 20, H-10);
+  B.cmdQ.push({id:B.aim, x, y}); B.aim = null; updateCmdBar(true); return true;
+}
+function castCmd(id, x, y){
+  if (!cmdUnlocked(id) || B.cmd[id] > 0 || B.over) return;
+  B.cmd[id] = CMDS[id].cd; B.cmds++;
+  const pw = cmdPower();
+  if (id==='fireball'){
+    B.ps.push({src:CMDR, tgt:{x, y}, kind:'fire', arc:46, sx:26, sy:40, t:0, dur:0.5, mult:0, onHit:()=>{
+      B.rings.push({x, y:y+4, t:0, col:'#ff9f43', r:50});
+      for (const o of B.fs) if (o.alive && o.side===1 && Math.hypot(o.x-x, o.y-y) < 46){ const amt = pw*2.4*(o.bossK?0.5:1)*(1-o.armor*0.5); addText(o.x, o.y-22, Math.round(amt), '#ffb347', 11); damage(CMDR, o, amt); if (o.alive) o.burn = {src:CMDR, dps:pw*0.25, t:3}; }
+      sparks(x, y, '#ff9f43', 26, 1.8); sparks(x, y, '#ffe08a', 12, 1.2); puff(x, y); B.shake = Math.min(6, B.shake+4); hitStop(0.06); punch(x, y, 0.06); sfx('die');
+    }});
+    sfx('shoot');
+  } else if (id==='mend'){
+    for (const o of B.fs) if (o.alive && o.side===0) applyHeal(CMDR, o, o.maxHp*0.22);
+    B.rings.push({x:100, y:140, t:0, col:'#7ad69e', r:190}); sfx('level');
+  } else if (id==='frost'){
+    B.rings.push({x, y, t:0, col:'#d6f1ff', r:70});
+    for (const o of B.fs) if (o.alive && o.side===1 && Math.hypot(o.x-x, o.y-y) < 56){ o.stun = Math.max(o.stun||0, 2); sparks(o.x, o.y-8, '#d6f1ff', 6, 0.8); }
+    B.shake = Math.min(5, B.shake+2); sfx('hit');
+  }
+  addText(x, y-34, CMDS[id].name.toUpperCase(), CMDS[id].col, 11);
+  addLog(`You cast ${CMDS[id].name}`, 'a');
+}
+function cmdBarHTML(){
+  return `<div class="cmdbar">${CMD_ORDER.map(id=>{ const C = CMDS[id], ok = B.arena || state.battle >= C.unlock;
+    return `<button class="cmdb" data-act="cmd" data-id="${id}" id="cmd-${id}" style="--cc:${C.col}" ${ok?'':'disabled'} aria-label="${esc(C.name)}. ${esc(C.desc)}"><span class="cmi">${CMD_IC[id]}<i class="cmcd"></i></span><b>${ok?esc(C.name):`Stop ${C.unlock}`}</b></button>`; }).join('')}</div>
+    ${state.fights<2 && !B.arena ? '<p class="cmdhint" id="cmdhint">Tap Fireball, then tap the battlefield to aim.</p>' : '<p class="cmdhint" id="cmdhint"></p>'}`;
+}
+let cmdKey = '';
+function updateCmdBar(force){
+  if (!B || !B.cmd) return;
+  let key = B.aim || '';
+  for (const id of CMD_ORDER){ const v = B.cmd[id]; key += id + (v>0 ? Math.ceil(v*10) : 'r'); }
+  if (!force && key===cmdKey) return; cmdKey = key;
+  for (const id of CMD_ORDER){
+    const el = document.getElementById('cmd-'+id); if (!el || el.disabled) continue;
+    const v = B.cmd[id], ready = v<=0 && !B.over;
+    el.style.setProperty('--p', ready ? 0 : (v/CMDS[id].cd));
+    el.classList.toggle('ready', ready); el.classList.toggle('aiming', B.aim===id);
+  }
+  const h = document.getElementById('cmdhint'); if (h && B.aim) h.textContent = `Tap the battlefield to cast ${CMDS[B.aim].name}. Tap the button again to cancel.`; else if (h) h.textContent = state.fights<2 && !B.arena ? 'Tap Fireball, then tap the battlefield to aim.' : '';
+  const c = document.getElementById('field'); if (c) c.classList.toggle('aim', !!B.aim);
+}
+function drawAim(ctx){
+  if (!B.aim) return;
+  ctx.save(); ctx.fillStyle = 'rgba(10,20,25,.18)'; ctx.fillRect(0,0,W,H);
+  ctx.font = '13px "Lilita One", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.55)';
+  const t = `Tap to aim ${CMDS[B.aim].name}`; ctx.strokeText(t, W/2, H-16); ctx.fillStyle = CMDS[B.aim].col; ctx.fillText(t, W/2, H-16); ctx.restore();
+}
+
 /* ---------- march map ---------- */
 function genMap(m){
   const rng = mulberry32((state.seed + m*7777) >>> 0), counts = [m===1 ? 1 : 2, 3, 3, 2, 1], nodes = [];
@@ -1866,7 +1948,7 @@ function marketSection(){
   const rings = shopTab==='g', ringNew = (state.ringShop||[]).some(o=>!o.sold && state.gold>=o.price);
   const body = rings
     ? `<div class="list">${state.ringShop.map(ringCard).join('')}</div>
-       <div class="shop-foot"><span>Two spell rings and one ultimate per soldier.</span><button class="btn ghost num" data-act="ringreroll" ${state.gold<15?'disabled':''}>New stock · 15g</button></div>`
+       <div class="shop-foot"><span>Each soldier wears two rings.</span><button class="btn ghost num" data-act="ringreroll" ${state.gold<15?'disabled':''}>New stock · 15g</button></div>`
     : `<div class="list">${state.mythic?mythicCard(state.mythic):''}${state.shop.map(shopCard).join('')}</div>
        ${!state.mythicSeen?`<p class="rumour">A mythic hero will seek you out after your third battle.</p>`:''}
        <div class="shop-foot"><span>${esc(nextUnlockText())}</span><button class="btn ghost num" data-act="reroll" ${state.gold<10?'disabled':''}>New faces · 10g</button></div>`;
@@ -1877,7 +1959,7 @@ function marketSection(){
 function stashSection(){
   if (!state.stash.length && !(state.rings||[]).length) return '';
   const rc = {}; (state.rings||[]).forEach(id=>rc[id]=(rc[id]||0)+1);
-  const ringRows = Object.entries(rc).map(([id,n])=>{ const R = RINGS[id]; return `<div class="irow"><span>${ringIcon(id,true)} <b class="r-${R.rarity}">${esc(R.name)}</b>${n>1?` x${n}`:''} <span class="muted">${esc(R.desc)}</span></span><span class="rtag ${R.rarity}">${R.kind==='ult'?'ultimate':'spell'}</span></div>`; }).join('');
+  const ringRows = Object.entries(rc).map(([id,n])=>{ const R = RINGS[id]; return `<div class="irow"><span>${ringIcon(id,true)} <b class="r-${R.rarity}">${esc(R.name)}</b>${n>1?` x${n}`:''} <span class="muted">${esc(R.desc)}</span></span><span class="rtag ${R.rarity}">ring</span></div>`; }).join('');
   const counts = {}; state.stash.forEach(id=>counts[id]=(counts[id]||0)+1);
   const total = state.stash.length + (state.rings||[]).length;
   return `<details class="fold"><summary>Stash · ${plural(total,'item','items')} to equip</summary><div><p class="hint" style="margin-bottom:8px">Open a soldier and tap a loadout slot to equip.</p>${ringRows}${Object.entries(counts).map(([id,n])=>{ const I = ITEMS[id]; return `<div class="irow"><span><b class="r-${I.rarity}">${esc(I.name)}</b>${n>1?` x${n}`:''} <span class="muted">${esc(I.desc)}${I.who?` ${esc(I.who)}.`:''}</span></span><span class="rtag ${I.rarity}">${I.rarity}</span></div>`; }).join('')}</div></details>`;
@@ -1895,6 +1977,7 @@ function renderCamp(anim=true){
   app.innerHTML = `
   ${teamSection()}
   ${roadSection()}
+  ${armySection()}
   ${nemesesSection()}
   ${marketSection()}
   ${stashSection()}
@@ -1913,12 +1996,23 @@ function renderCamp(anim=true){
 }
 function renderBar(){
   barEl.hidden = false;
-  const n = state.node; let info = '', btn = '';
-  if (!n){ const M = ensureMap(), sel = M.sel!=null && mapAvail().some(a=>a.id===M.sel) ? M.nodes[M.sel] : null; info = sel ? `<b>${esc(ROADS[sel.type].name)}</b><span>${esc(ROADS[sel.type].reward)}</span>` : `<b>Choose your road</b><span>${mapAvail().length} roads open on the map</span>`; btn = sel ? `<button class="btn" data-act="mapgo" data-id="${sel.id}">Travel</button>` : '<button class="btn" data-act="goroad">Open map</button>'; }
-  else if (n.type==='event'){ info = `<b>${esc(EVENTS[n.event].title)}</b><span>${n.done?'Decided':'Make your choice'}</span>`; btn = n.done ? '<button class="btn" data-act="advance">Move on</button>' : '<button class="btn" data-act="goroad">Decide</button>'; }
-  else if (n.type==='market'){ info = `<b>${esc(n.stock.name)}</b><span class="num">${state.gold} gold to spend</span>`; btn = '<button class="btn" data-act="advance">Leave market</button>'; }
-  else { const dep = deployed(), e = state.enemy; info = `<b>${e.boss?'Siege':e.elite?'Elite':'Battle'} · ${esc(e.name)}</b><span class="num">${dep.length} marching vs ${e.units.length}</span>`; btn = !dep.length && fillable() ? '<button class="btn" data-act="fill">Fill ranks</button>' : !dep.length && state.roster.some(u=>u.wounded) ? '<button class="btn" data-act="rest">Rest and recover</button>' : `<button class="btn" data-act="march" ${dep.length?'':'disabled'}>${dep.length?'March!':'No one fit'}</button>`; }
-  barEl.innerHTML = `<div class="bar-in"><div class="info">${info}</div>${btn}</div>`;
+  const n = state.node; let act = '', label = '', sub = '', extra = '', dis = false;
+  if (!n){ const M = ensureMap(), sel = M.sel!=null && mapAvail().some(a=>a.id===M.sel) ? M.nodes[M.sel] : null;
+    if (sel){ act = 'mapgo'; extra = ` data-id="${sel.id}"`; label = sel.type==='skirmish'||sel.type==='elite'||sel.type==='boss' ? 'To battle' : 'Travel'; sub = ROADS[sel.type].name; }
+    else { act = 'tobattle'; label = 'To battle'; sub = `${mapAvail().length} roads open`; } }
+  else if (n.type==='event'){ act = n.done ? 'advance' : 'goroad'; label = n.done ? 'Move on' : 'Decide'; sub = EVENTS[n.event].title; }
+  else if (n.type==='market'){ act = 'advance'; label = 'Move on'; sub = `${state.gold} gold to spend`; }
+  else { const dep = deployed(), e = state.enemy; sub = `${e.boss?'Siege':e.elite?'Elite':'Battle'} · ${dep.length} vs ${e.units.length}`;
+    if (!dep.length && fillable()){ act = 'fill'; label = 'Fill ranks'; }
+    else if (!dep.length && state.roster.some(u=>u.wounded)){ act = 'rest'; label = 'Rest'; }
+    else { act = 'march'; label = 'March!'; dis = !dep.length; } }
+  barEl.innerHTML = `<button class="fab btn" data-act="${act}"${extra} ${dis?'disabled':''}><small>${esc(sub)}</small><b>${label}</b></button>`;
+}
+function toBattle(){
+  const av = mapAvail(); if (!av.length) return;
+  const M = ensureMap(), sel = M.sel!=null && av.find(a=>a.id===M.sel);
+  const nd = sel || av.find(a=>a.type==='skirmish') || av.find(a=>a.type==='elite') || av.find(a=>a.type==='boss') || av[0];
+  mapGo(nd.id);
 }
 function animateGold(from, to){
   const el = document.getElementById('gold'), pill = document.getElementById('goldpill'); if(!el) return;
@@ -1989,22 +2083,22 @@ function loadoutHTML(u){
     const rar = filled ? (kind==='gear' ? ITEMS[id].rarity : RINGS[id].rarity) : '';
     const name = filled ? (kind==='gear' ? ITEMS[id].name : RINGS[id].name) : label;
     const icon = kind==='gear' ? `<span class="gslot ${rar||'empty'}">${GEAR_IC}</span>` : ringIcon(filled?id:null, true);
-    const opts = kind==='gear' ? fit.length : have.filter(r=>RINGS[r].kind===(kind==='ult'?'ult':'spell')).length;
+    const opts = kind==='gear' ? fit.length : have.length;
     return `<button class="ltile ${filled?'':'empty'} ${loadSlot===key?'on':''} ${rar}" data-act="slot" data-slot="${key}">${icon}<b class="${filled?'r-'+rar:''}">${esc(name)}</b>${!filled&&opts?`<i class="tdot"></i>`:''}</button>`;
   };
   let picker = '';
   if (loadSlot){
-    const k = loadSlot, cur = k==='g' ? u.gear : k==='u' ? u.ult : sp[+k];
+    const k = loadSlot, cur = k==='g' ? u.gear : sp[+k];
     const curRow = cur ? (k==='g'
       ? `<div class="lcur"><div><b class="r-${ITEMS[cur].rarity}">${esc(ITEMS[cur].name)}</b><span>${esc(ITEMS[cur].desc)}</span></div><button class="btn ghost small" data-act="unequip">Remove</button></div>`
       : `<div class="lcur"><div><b class="r-${RINGS[cur].rarity}">${esc(RINGS[cur].name)}</b><span>${esc(RINGS[cur].desc.replace(/^Ultimate: (.)/,(m,c)=>c.toUpperCase()))}</span></div><button class="btn ghost small" data-act="ringremove" data-slot="${k}">Remove</button></div>`) : '';
     const list = k==='g'
       ? fit.filter(id=>id!==cur).map(id=>`<button class="gopt" data-act="equip" data-item="${id}"><span><b class="r-${ITEMS[id].rarity}">${esc(ITEMS[id].name)}</b> <span class="muted">${esc(ITEMS[id].desc)}</span></span><span class="eq">${cur?'Swap':'Equip'}</span></button>`)
-      : have.filter(id=>RINGS[id].kind===(k==='u'?'ult':'spell') && id!==cur).map(id=>{ const R = RINGS[id]; return `<button class="gopt" data-act="ringequip" data-ring="${id}" data-slot="${k}"><span>${ringIcon(id,true)} <b class="r-${R.rarity}">${esc(R.name)}</b> <span class="muted">${esc(R.desc.replace(/^Ultimate: (.)/,(m,c)=>c.toUpperCase()))}</span></span><span class="eq">${cur?'Swap':'Equip'}</span></button>`; });
-    const none = k==='g' ? 'No gear for this soldier yet. Elite fights, sieges and markets drop it.' : `No ${k==='u'?'ultimate signets':'spell rings'} in the stash. Visit the Ringmaker in the Market.`;
+      : have.filter(id=>id!==cur).map(id=>{ const R = RINGS[id]; return `<button class="gopt" data-act="ringequip" data-ring="${id}" data-slot="${k}"><span>${ringIcon(id,true)} <b class="r-${R.rarity}">${esc(R.name)}</b> <span class="muted">${esc(R.desc.replace(/^Ultimate: (.)/,(m,c)=>c.toUpperCase()))}</span></span><span class="eq">${cur?'Swap':'Equip'}</span></button>`; });
+    const none = k==='g' ? 'No gear for this soldier yet. Elite fights, sieges and markets drop it.' : 'No rings in the stash. Visit the Ringmaker in the Market.';
     picker = `<div class="lpick">${curRow}${list.length?`<div class="gopts">${list.join('')}</div>`:(cur?'':`<p class="hint">${none}</p>`)}</div>`;
   }
-  return `<div class="sh-sec"><h3>Loadout</h3><div class="lgrid">${tile('g','Gear',u.gear,'gear')}${tile('0','Spell',sp[0],'spell')}${tile('1','Spell',sp[1],'spell')}${tile('u','Ultimate',u.ult,'ult')}</div>${picker}</div>`;
+  return `<div class="sh-sec"><h3>Loadout</h3><div class="lgrid">${tile('g','Gear',u.gear,'gear')}${tile('0','Ring',sp[0],'spell')}${tile('1','Ring',sp[1],'spell')}</div>${picker}</div>`;
 }
 function soldierSheetHTML(u){
   const s = stats(u), c = CLASSES[u.cls], ep = epithet(u);
@@ -2102,7 +2196,7 @@ function fighter(src, side, rng, unit){
   return Object.assign({}, s, {side, cls:src.cls, level:src.level, unit, name: unit ? fullName(unit) : (src.nemName || c.foe), tags:c.tags, prefer:c.prefer||null, proj:c.proj||null,
     skin: unit ? skinOf(unit.id) : pick(rng,SKINS), hp:s.maxHp, ghost:s.maxHp, cdLeft:rng()*s.cd*0.6, ranged:!!c.proj, row: unit ? (unit.row||c.row) : (src.row||c.row), sord: src.ord ?? null,
     nem: src.nem || null, perkIds:(src.perks||[]).slice(), victims:[], killedBy:null, tier: tierOf(unit?unit.perks:src.perks, unit?unit.gear:null, unitRings(unit||src)), fx: fxOf(unit?unit.perks:src.perks, unit?unit.gear:null), dr:0, atkN:0, udUsed:false, stun:0, hasteT:0, shieldT:0, titanT:0, buffT:0, buffM:1, whirlT:0, whirlTick:0, absorb:0, burn:null, casts:0, ultCast:false,
-    spells: ((unit||src).spells||[]).filter(id=>RINGS[id] && RINGS[id].kind==='spell').slice(0,2).map(id=>({id, t:RINGS[id].cd*(0.35+rng()*0.3)})), ult: (unit||src).ult && RINGS[(unit||src).ult] && RINGS[(unit||src).ult].kind==='ult' ? (unit||src).ult : null, ultC:rng()*15, rate: (unit||src).ult && RINGS[(unit||src).ult] ? (RINGS[(unit||src).ult].rate||1) : 1,
+    spells: [], ult: null, ultC:0, rate:1, dbls:0, echoN:0,
     x:0, y:0, px:0, py:0, alive:true, kills:0, healed:0, swing:0, flash:0, walk:rng()*6, facing: side?-1:1, retarget:0, vs_n:0, moving:false, target:null,
     swUsed:false, lsUsed:false, phUsed:false, berserkOn:false, deathT:null, moved:0, stabbed:new Set(), auraS:1, auraA:1, bondMate:null, rage:false});
 }
@@ -2141,7 +2235,7 @@ function startBattle(enemy){
   const tufts = Array.from({length:70},()=>({x:drng()*370, y:drng()*H, s:0.6+drng()*0.8, c:drng()<0.5}));
   const flowers = Array.from({length:14},()=>({x:40+drng()*300, y:drng()*H, c:pick(drng,['#f7efdf','#f6b93b','#e98fb0'])}));
   B = {t:0, rng, seed, fs, ps:[], texts:[], parts:[], zaps:[], log:[], over:false, winner:null, post:0, done:false, tufts, flowers, intro: reduced?0.2:1.0, shake:0, skipping:false,
-       maxA: allies.reduce((a,f)=>a+f.maxHp,0), maxE: fs.filter(f=>f.side).reduce((a,f)=>a+f.maxHp,0), logDirty:true, boss:enemy.boss, enemy, arena:!!enemy.arena, ally:teamHex(), freeze:0, punch:0, pfx:W/2, pfy:H/2, lastKill:null, lastStop:-9, meteors:[], rings:[], casts:0, ults:0, ultBanner:null,
+       maxA: allies.reduce((a,f)=>a+f.maxHp,0), maxE: fs.filter(f=>f.side).reduce((a,f)=>a+f.maxHp,0), logDirty:true, boss:enemy.boss, enemy, arena:!!enemy.arena, ally:teamHex(), freeze:0, punch:0, pfx:W/2, pfy:H/2, lastKill:null, lastStop:-9, meteors:[], rings:[], casts:0, ults:0, ultBanner:null, cmd:{fireball:0, mend:4, frost:3}, aim:null, cmds:0, dbls:0, cmdQ:[],
        horn:hasBoon('warhorn'), bloodoath:hasBoon('bloodoath'), sfxDone:false};
   if (formsBySide[1].length) addLog(`They form up: ${formsBySide[1].map(f=>f.F.name).join(', ')}`,'d');
   if (formsBySide[0].length) addLog(`You form up: ${formsBySide[0].map(f=>f.F.name).join(', ')}`,'a');
@@ -2225,6 +2319,7 @@ function hit(f, t, mult, primary=true){
   for (const tg of t.tags) if (f.vs[tg]){ m *= f.vs[tg]; tag = 'BRACED'; }
   if (t.nem && f.oath) m *= 1.2;
   if (f.kingslayer && (t.cls==='warlord' || t.nem)) m *= 2;
+  if (f.exec && t.hp < 0.3*t.maxHp){ m *= 1 + f.exec; tag = 'EXECUTE'; }
   let charged = false;
   if (primary && f.charge && f.moved >= 45){ m *= f.charge; charged = true; addText(f.x, f.y-30, 'CHARGE', '#f6b93b', 10); B.shake = Math.min(5, B.shake+2); hitStop(0.06); punch(t.x, t.y, 0.05); }
   if (primary && f.backstab && !f.stabbed.has(t)){ m *= f.backstab; f.stabbed.add(t); tag = 'BACKSTAB'; }
@@ -2236,6 +2331,7 @@ function hit(f, t, mult, primary=true){
   addText(t.x + (B.rng()-0.5)*8, t.y-20, Math.round(dmg)+(crit?'!':''), crit ? '#f6b93b' : '#ffffff', crit?12:9);
   sparks(t.x, t.y-6, crit?'#f6b93b':'#fff3d6', crit?7:3); if (primary) sfx('hit');
   damage(f, t, dmg);
+  if (f.burnHit && t.alive) t.burn = {src:f, dps:dmg*f.burnHit/3, t:3};
   if (f.lifesteal && f.alive) f.hp = Math.min(f.maxHp, f.hp + dmg*f.lifesteal);
   if (!f.ranged && t.thorns && f.alive) damage(t, f, dmg*t.thorns);
   if (!primary) return;
@@ -2259,11 +2355,15 @@ function attack(f, t){
     hit(f, t, 1);
     if (f.cleave) for (const o of B.fs){ if(o!==t && o.alive && o.side!==f.side && Math.hypot(o.x-t.x,o.y-t.y)<26+f.rad) hit(f,o,f.cleave,false); }
   }
+  let extra = (f.dbl && B.rng() < f.dbl) ? 1 : 0;
+  if (f.echo){ f.echoN++; if (f.echoN % f.echo === 0) extra = Math.max(extra, f.echoHits); }
+  if (extra){ f.dbls++; B.dbls++; addText(f.x, f.y-34, extra>1?'TRIPLE':'DOUBLE', '#ffd27a', 8);
+    for (let k=0;k<extra;k++){ if (!t.alive) break; if (f.ranged) shoot(f, t, 0.9); else hit(f, t, 0.9, false); } }
   f.moved = 0;
 }
 function shoot(f, t, mult){ const k = PROJ[f.proj]||PROJ.arrow; const d = Math.hypot(t.x-f.x, t.y-f.y); B.ps.push({src:f, tgt:t, kind:f.proj, arc:k.arc, sx:f.x+6*f.facing, sy:f.y-8, t:0, dur:Math.max(0.1, d/k.v), mult}); sfx('shoot'); }
 function simStep(dt){
-  B.t += dt;
+  B.t += dt; cmdStep(dt);
   for (const f of B.fs){ f.px = f.x; f.py = f.y; f.auraS = 1; f.auraA = 1; f.dr = 0; }
   for (const b of B.fs){ if (!b.alive || (!b.aura && !b.lion)) continue; for (const o of B.fs) if (o.alive && o.side===b.side){ const d = Math.hypot(o.x-b.x,o.y-b.y); if (b.aura && d < b.auraR){ o.auraS += b.aura; o.auraA += b.auraAtk; } if (b.lion && d < 85){ o.auraA += 0.15; o.dr = Math.max(o.dr, 0.15); } } }
   for (const f of B.fs){
@@ -2369,6 +2469,7 @@ function draw(alpha){
   ctx.setTransform(k,0,0,k,0,0);
   drawBossBar(ctx);
   drawUltBanner(ctx);
+  drawAim(ctx);
   if (B.intro>0){
     const p = 1 - B.intro, a = p<0.2 ? p/0.2 : B.intro<0.25 ? B.intro/0.25 : 1, sc = 0.8 + Math.min(1,p/0.25)*0.2;
     ctx.globalAlpha = a; ctx.save(); ctx.translate(W/2,H/2); ctx.scale(sc,sc);
@@ -2394,6 +2495,7 @@ function renderBattleShell(){
     <div class="side r"><span class="nm"><span id="ec" class="num"></span> · Foe</span><div class="bar"><i id="eb"></i></div></div>
   </div>
   <div class="field"><canvas id="field"></canvas></div>
+  ${cmdBarHTML()}
   <div class="ctrl"><div class="speeds">${[1,2,4].map(s=>`<button data-act="speed" data-s="${s}" class="${state.speed===s?'on':''}">${s}x</button>`).join('')}</div><button class="btn ghost" data-act="skip">Skip to result</button></div>
   <div class="log" id="log"></div>`;
   sizeField(); window.scrollTo({top:0});
@@ -2417,7 +2519,7 @@ function frame(ts){
   else if (!B.over){
     const na = B.fs.filter(f=>f.alive&&!f.side).length, ne = B.fs.filter(f=>f.alive&&f.side).length, last = (na===1 || ne===1) && B.fs.length>=8 && !reduced;
     if (last && !B.lastMan){ B.lastMan = true; addText(W/2, 40, na===1?'LAST ONE STANDING':'ONE FOE LEFT', '#ffd27a', 12); }
-    acc += dt*spd*(last?0.55:1); while (acc >= STEP){ simStep(STEP); acc -= STEP; if (B.over){ acc=0; break; } }
+    acc += dt*spd*(last?0.55:1)*(B.aim?0.25:1); while (acc >= STEP){ simStep(STEP); acc -= STEP; if (B.over){ acc=0; break; } }
   }
   else { B.post += dt; if (!B.sfxDone){ B.sfxDone = true; sfx(B.winner===0?'win':'lose'); if (B.lastKill && meta.settings.shake && !reduced){ B.pfx = B.lastKill.x; B.pfy = B.lastKill.y; } } }
   B.punch *= Math.pow(0.02, dt); if (B.over && meta.settings.shake && !reduced && B.lastKill) B.punch = Math.max(B.punch, 0.1*Math.min(1, B.post*3));
@@ -2427,11 +2529,11 @@ function frame(ts){
   if (B.ultBanner) B.ultBanner.t += dt;
   for (const f of B.fs){ if (f.ghost > f.hp) f.ghost = Math.max(f.hp, f.ghost - (f.ghost-f.hp)*Math.min(1,dt*3) - dt*4); else f.ghost = f.hp; }
   B.shake *= Math.pow(0.02, dt);
-  draw(B.over || B.intro>0 ? 1 : acc/STEP); updateHud();
+  draw(B.over || B.intro>0 ? 1 : acc/STEP); updateHud(); updateCmdBar(false);
   if (B.over && B.post>1.6 && !B.done){ B.done=true; finishBattle(); return; }
   raf = requestAnimationFrame(frame);
 }
-function skip(){ if(!B||B.over) return; B.skipping=true; B.intro=0; B.freeze=0; let guard=0; while(!B.over && guard++<5000) simStep(STEP); B.texts=[]; B.ps=[]; B.parts=[]; B.zaps=[]; B.meteors=[]; B.rings=[]; B.ultBanner=null; B.post=0.8; B.skipping=false; for(const f of B.fs) f.ghost=f.hp; }
+function skip(){ if(!B||B.over) return; B.aim=null; B.cmdQ=[]; B.skipping=true; B.intro=0; B.freeze=0; let guard=0; while(!B.over && guard++<5000) simStep(STEP); B.texts=[]; B.ps=[]; B.parts=[]; B.zaps=[]; B.meteors=[]; B.rings=[]; B.ultBanner=null; B.post=0.8; B.skipping=false; for(const f of B.fs) f.ghost=f.hp; }
 
 /* ---------- after battle ---------- */
 function makeNemesis(f, slainIds, rng){
@@ -2483,7 +2585,7 @@ function finishBattle(){
     if (status==='wounded'){ u.wounded = hasBoon('surgeons') ? 0 : 1; chron(u, `Wounded at stop ${b}${f.killedBy && f.killedBy.nem ? ` by ${f.killedBy.name}` : ''}`); }
     if (status==='slain'){ slain.push(u); state.rings.push(...unitRings(u)); state.roster = state.roster.filter(x=>x!==u); state.fallen.push({name:fullName(u), cls:u.cls, level:u.level, kills:u.kills, battle:b, perks:u.perks.slice(), killer: f.killedBy ? f.killedBy.name : null}); u.pending = 0; }
     else { const bits = []; if (f.kills) bits.push(`felled ${f.kills}`); if (f.healed>=30) bits.push(`healed ${Math.round(f.healed)}`); if (mvp) bits.push('MVP'); if (f.kills>=2 || mvp || f.healed>=30) chron(u, `Stop ${b}: ${bits.join(', ')}`); }
-    rows.push({id:u.id, name:fullName(u), cls:u.cls, skin:skinOf(u.id), casts:f.casts, ult:f.ultCast, pa:pAttrs(u.perks,u.gear,unitRings(u)), tc:tierCls(u.perks,u.gear,unitRings(u)), gain, ...g, level:u.level, toPct: status==='slain'?0:Math.round(100*u.xp/need(u.level)), kills:f.kills, healed:Math.round(f.healed), status, catchUp, mvp});
+    rows.push({id:u.id, name:fullName(u), cls:u.cls, skin:skinOf(u.id), dbls:f.dbls, pa:pAttrs(u.perks,u.gear,unitRings(u)), tc:tierCls(u.perks,u.gear,unitRings(u)), gain, ...g, level:u.level, toPct: status==='slain'?0:Math.round(100*u.xp/need(u.level)), kills:f.kills, healed:Math.round(f.healed), status, catchUp, mvp});
   }
   const slainIds = new Set(slain.map(u=>u.id));
   if (!win && state.nemeses.length < 3){
@@ -2530,7 +2632,7 @@ function finishBattle(){
   if (win){ state.wins++; state.lossStreak = 0; } else { state.losses++; state.lossStreak++; }
   if (state.morale<=0) state.ended = {won:false, reason:'morale'};
   else if (win && boss && b===FINAL && !state.endless) state.ended = {won:true};
-  quest('spells10', B.casts); if (B.fs.some(f=>!f.side && f.ultCast)) quest('ult1');
+  quest('spells10', B.cmds); quest('ult1', B.dbls); lastCmds = B.cmds;
   if (win) quest('win2'); if (win && elite) quest('elite1'); if (win && boss) quest('siege1'); if (nemSlain) quest('nemesis1');
   quest('kills25', totalKills); quest('levels3', rows.reduce((a,r)=>a+r.ups,0));
   addRenown(win ? (boss ? 8 : 2) : 0);
@@ -2538,7 +2640,7 @@ function finishBattle(){
   state.results = {win, gold, enemy:B.enemy.name, secs:Math.round(B.t), rows, battle:b, boss, elite, drilled, retry: boss && !win, newMarch: boss && win, cards, moraleDelta};
   state.rolls = 0; rollShop(); state.ringRolls = 0; rollRingShop();
   if (!state.ended){ if (win || !boss) setNextNode(); else { state.node = {type:'boss'}; state.enemy = makeEnemy('boss'); } }
-  state.screen = 'results'; B = null; save(); checkAch({flawless, siege: win && boss, ult: allies.some(f=>f.ultCast)}); if (meta.arena.joined) postArena(false); render();
+  state.screen = 'results'; B = null; save(); checkAch({flawless, siege: win && boss, ult: lastCmds>=3}); if (meta.arena.joined) postArena(false); render();
 }
 
 /* ---------- results ---------- */
@@ -2556,58 +2658,73 @@ function ncard(c){
   const lead = c.ring ? ringIcon(c.ring, true) : c.item ? `<span class="gem ${ITEMS[c.item].rarity}"></span>` : c.cls ? `<canvas data-cls="${c.cls}" ${c.foe?'data-side="foe"':''} data-skin="${SKINS[2]}"${c.pa||''}></canvas>` : '';
   return `<div class="ncard ${c.kind} ${c.item?ITEMS[c.item].rarity:c.ring?RINGS[c.ring].rarity:''}">${lead}<div><b>${esc(c.title)}</b><p>${esc(c.text)}</p></div></div>`;
 }
+let resTimers = [];
+function resLater(fn, ms){ resTimers.push(setTimeout(fn, ms)); }
 function renderResults(){
   const r = state.results; barEl.hidden = true;
   const reg = region(r.battle);
   let sub = `vs ${esc(r.enemy)} · ${r.secs}s`;
   if (r.newMarch) sub = state.ended && state.ended.won ? `${esc(reg.lord)} has fallen. The crown road is yours.` : `${esc(reg.boss)} has fallen. The road to the next march is open.`;
   else if (r.retry) sub = 'The gate held. Regroup and try the siege again.';
+  const idx = r.rows.map((x,i)=>i), hi = idx.filter(i=>{ const x = r.rows[i]; return x.mvp || x.ups || x.status==='slain'; }).slice(0,4), rest = idx.filter(i=>!hi.includes(i));
+  const tags = x => `${x.mvp?'<span class="tag mvp">MVP</span>':''}${x.ups?`<span class="tag up">Level up</span>`:''}${x.kills?`<span class="tag k">${plural(x.kills,'kill','kills')}</span>`:''}${x.healed?`<span class="tag h">${x.healed} healed</span>`:''}${x.dbls?`<span class="tag cu">${x.dbls} double ${x.dbls===1?'strike':'strikes'}</span>`:''}${x.status==='wounded'?`<span class="tag w">${hasBoon('surgeons')?'Patched up':'Wounded'}</span>`:''}${x.status==='slain'?'<span class="tag s">Slain</span>':''}`;
   app.className = 'wrap' + (reduced?'':' enter');
   app.innerHTML = `
   <div class="banner ${r.win?'win':'loss'}" style="margin-top:8px"><div class="eyebrow">${r.arena?'Arena bout':`${r.boss?'Siege':r.elite?'Elite battle':'Battle'} · stop ${stopOf(r.battle)}`}</div><h1 id="rh1">${r.win?'Victory!':'Defeat'}</h1><p>${sub}</p>
     <div class="pills"><span class="pill num" id="goldpill"><span class="coin"></span>+<span id="gold">0</span></span><span class="pill">Morale ${moraleFlags(state.morale, state.maxMorale)}${r.moraleDelta?` <span class="num">${r.moraleDelta>0?'+1':'-1'}</span>`:''}</span></div></div>
-  ${r.cards.length?`<div class="ncards">${r.cards.map(ncard).join('')}</div>`:''}
-  <div class="list">${r.rows.map((x,i)=>`
-    <article class="unit ${x.status==='slain'?'off':''} ${x.tc||''}" data-row="${i}">
+  ${hi.length?`<div class="sec-h rsh cz" data-cz="h"><h2>Standouts</h2><span class="skipt">Tap to skip</span></div>`:''}
+  <div class="list">${hi.map(i=>{ const x = r.rows[i]; return `
+    <article class="unit cz ${x.status==='slain'?'off':''} ${x.tc||''}" data-row="${i}">
       <canvas class="port" data-cls="${x.cls}" data-skin="${x.skin}"${x.pa||''}></canvas>
       <div style="min-width:0">
         <div class="uname">${esc(x.name)}</div>
         <div class="usub num"><span class="lv">Lv ${x.fromLvl}</span> ${CLASSES[x.cls].label}</div>
         <div class="xprow"><div class="xp"><i style="width:${x.fromPct}%"></i></div></div>
-        <div class="tags">${x.mvp?'<span class="tag mvp">MVP</span>':''}${x.ups?`<span class="tag up">Level up</span>`:''}${x.catchUp?'<span class="tag cu">Catch-up XP</span>':''}${x.kills?`<span class="tag k">${plural(x.kills,'kill','kills')}</span>`:''}${x.healed?`<span class="tag h">${x.healed} healed</span>`:''}${x.ult?'<span class="tag up">Ultimate</span>':''}${x.casts?`<span class="tag cu">${plural(x.casts,'spell','spells')}</span>`:''}${x.status==='wounded'?`<span class="tag w">${hasBoon('surgeons')?'Wounded · patched up':'Wounded · sits out 1 battle'}</span>`:''}${x.status==='slain'?'<span class="tag s">Slain</span>':''}</div>
+        <div class="tags">${tags(x)}</div>
       </div>
       <span class="gain num">+${x.gain} XP</span>
-    </article>`).join('')}</div>
-  ${r.drilled.length?`<p class="hint">Drilling in camp: ${r.drilled.map(d=>esc(d.name)+(d.ups?' (level up)':'')).join(', ')} earned ${hasBoon('drillmaster')?18:6} XP.</p>`:''}
-  <div id="rbtn">${resultsButton()}</div>`;
+    </article>`; }).join('')}</div>
+  ${rest.length?`<div class="sec-h rsh cz" data-cz="r"><h2>The rest of the line</h2><span class="num">${rest.length} soldiers</span></div>
+  <div class="rgrid">${rest.map(i=>{ const x = r.rows[i]; return `<div class="rmini cz ${x.status==='wounded'?'hurt':''} ${x.tc||''}" data-row="${i}"><canvas class="port" data-cls="${x.cls}" data-skin="${x.skin}"${x.pa||''}></canvas><b>${esc(x.name.split(' ')[0])}</b><div class="xp"><i style="width:${x.fromPct}%"></i></div><span class="num">${x.status==='wounded'?'Wounded':`+${x.gain} XP`}</span></div>`; }).join('')}</div>`:''}
+  ${r.cards.length?`<div class="ncards cz" data-cz="c">${r.cards.map(ncard).join('')}</div>`:''}
+  ${r.drilled.length?`<p class="hint cz" data-cz="d">Drilling in camp: ${r.drilled.map(d=>esc(d.name)+(d.ups?' (level up)':'')).join(', ')} earned ${hasBoon('drillmaster')?18:6} XP.</p>`:''}
+  <div id="rbtn" class="cz" data-cz="b">${resultsButton()}</div>`;
   paintPortraits(app);
-  animateResults();
+  animateResults(hi, rest);
 }
-function animateResults(){
+function animateResults(hi, rest){
   const r = state.results, goldEl = document.getElementById('gold');
+  resTimers.forEach(clearTimeout); resTimers = [];
   const needChoice = () => pendingUnits().length || state.boonOffer;
-  if (reduced){
-    r.rows.forEach((x,i)=>{ const row = app.querySelector(`[data-row="${i}"]`); if(!row) return; row.querySelector('.xp i').style.width=x.toPct+'%'; row.querySelector('.lv').textContent='Lv '+x.level; row.querySelector('.tags').classList.add('show'); });
-    goldEl.textContent = r.gold; if (needChoice()) later(afterChoice, 300); return;
-  }
-  const t0 = performance.now(); const tick = now => { const k=Math.min(1,(now-t0)/700); goldEl.textContent = Math.round(r.gold*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(tick); };
-  later(()=>{ sfx('coin'); requestAnimationFrame(tick); coinFly(document.getElementById('rh1'), document.getElementById('goldpill'), Math.min(12, 4 + Math.round(r.gold/25))); }, 200);
-  if (r.win) later(()=>confetti(r.boss?140:80, innerWidth/2, innerHeight*0.18), 120);
-  let end = 0;
-  r.rows.forEach((x,i)=>{
-    const row = app.querySelector(`[data-row="${i}"]`); if(!row) return;
+  const show = sel => app.querySelectorAll(sel).forEach(el=>el.classList.add('in'));
+  const finalRow = i => { const row = app.querySelector(`[data-row="${i}"]`), x = r.rows[i]; if (!row) return; row.classList.add('in'); const bar = row.querySelector('.xp i'); if (bar){ bar.style.transition='none'; bar.style.width = x.toPct+'%'; } const lv = row.querySelector('.lv'); if (lv) lv.textContent = 'Lv '+x.level; row.querySelector('.tags')?.classList.add('show'); };
+  let done = false;
+  const finish = () => { if (done) return; done = true; resTimers.forEach(clearTimeout); resTimers = []; app.removeEventListener('pointerdown', skipper); r.rows.forEach((x,i)=>finalRow(i)); show('.cz'); app.querySelectorAll('.rsh .skipt').forEach(e=>e.remove()); goldEl.textContent = r.gold; if (needChoice()) later(afterChoice, 450); };
+  const skipper = e => { if (e.target.closest('button')) return; finish(); };
+  if (reduced){ finish(); return; }
+  app.addEventListener('pointerdown', skipper);
+  const t0 = performance.now(); const tick = now => { const k=Math.min(1,(now-t0)/700); goldEl.textContent = Math.round(r.gold*(1-Math.pow(1-k,3))); if(k<1 && !done) requestAnimationFrame(tick); };
+  resLater(()=>{ sfx('coin'); requestAnimationFrame(tick); coinFly(document.getElementById('rh1'), document.getElementById('goldpill'), Math.min(12, 4 + Math.round(r.gold/25))); }, 200);
+  if (r.win) resLater(()=>confetti(r.boss?140:80, innerWidth/2, innerHeight*0.18), 120);
+  let t = 450;
+  if (hi.length) resLater(()=>show('[data-cz="h"]'), t);
+  hi.forEach(i=>{
+    const row = app.querySelector(`[data-row="${i}"]`), x = r.rows[i]; if (!row) return;
     const bar = row.querySelector('.xp i'), lv = row.querySelector('.lv'), tags = row.querySelector('.tags');
-    let t = 350 + i*160;
+    t += 120; resLater(()=>{ row.classList.add('in'); sfx('tap'); }, t); t += 260;
     for (let k=0;k<x.ups;k++){
-      later(()=>{ bar.style.transition='width .42s cubic-bezier(.2,.8,.2,1)'; bar.style.width='100%'; }, t); t += 440;
-      later(()=>{ bar.style.transition='none'; bar.style.width='0%'; lv.textContent='Lv '+(x.fromLvl+k+1); lv.classList.remove('pop'); void lv.offsetWidth; lv.classList.add('pop'); sfx('level'); const rc = row.getBoundingClientRect(); confetti(16, rc.left+40, rc.top+20); }, t); t += 60;
+      resLater(()=>{ bar.style.transition='width .38s cubic-bezier(.2,.8,.2,1)'; bar.style.width='100%'; }, t); t += 400;
+      resLater(()=>{ bar.style.transition='none'; bar.style.width='0%'; lv.textContent='Lv '+(x.fromLvl+k+1); lv.classList.remove('pop'); void lv.offsetWidth; lv.classList.add('pop'); sfx('level'); const rc = row.getBoundingClientRect(); confetti(14, rc.left+40, rc.top+20); }, t); t += 60;
     }
-    later(()=>{ bar.style.transition='width .5s cubic-bezier(.2,.8,.2,1)'; bar.style.width=x.toPct+'%'; tags.classList.add('show'); }, t);
-    end = Math.max(end, t+500);
+    resLater(()=>{ bar.style.transition='width .45s cubic-bezier(.2,.8,.2,1)'; bar.style.width=x.toPct+'%'; tags.classList.add('show'); }, t); t += 240;
   });
-  if (needChoice()) later(afterChoice, end + 450);
+  if (rest.length){ t += 150; resLater(()=>show('[data-cz="r"]'), t); }
+  rest.forEach(i=>{ const row = app.querySelector(`[data-row="${i}"]`), x = r.rows[i]; if (!row) return; t += 70;
+    resLater(()=>{ row.classList.add('in'); const bar = row.querySelector('.xp i'); bar.style.transition='width .5s cubic-bezier(.2,.8,.2,1)'; bar.style.width = (x.ups?100:x.toPct)+'%'; }, t); });
+  t += 300; resLater(()=>show('[data-cz="c"]'), t);
+  t += 200; resLater(()=>{ show('[data-cz="d"]'); show('[data-cz="b"]'); }, t);
+  resLater(finish, t + 250);
 }
-
 /* ---------- end of campaign ---------- */
 const bestPerk = perks => (perks||[]).filter(p=>PERKS[p] && !PERKS[p].special).sort((a,b)=>RANK[PERKS[b].rarity]-RANK[PERKS[a].rarity])[0] || null;
 function legendCands(){
@@ -2657,8 +2774,8 @@ const QUESTS = {
   nemesis1:{text:'Slay a nemesis', target:1, gold:120, ren:30},
   roads2:{text:'Visit 2 crossroads or markets', target:2, gold:40, ren:10},
   siege1:{text:'Win a siege', target:1, gold:100, ren:25},
-  spells10:{text:'Cast 10 spells in battle', target:10, gold:50, ren:15},
-  ult1:{text:'Unleash an ultimate', target:1, gold:70, ren:20},
+  spells10:{text:'Cast 6 commander abilities', target:6, gold:50, ren:15},
+  ult1:{text:'Land 15 double strikes', target:15, gold:60, ren:15},
 };
 function ensureDaily(){
   const d = dateKey();
@@ -2754,7 +2871,7 @@ const ACH = {
   arena5:{name:'Arena Regular', desc:'Win 5 Arena bouts.', ren:60},
   rich:{name:'Deep Pockets', desc:'Hold 500 gold at once.', ren:30},
   roll:{name:'Muster Roll', desc:'Field every recruitable class.', ren:80},
-  ult:{name:'Unleashed', desc:'Fire an ultimate in battle.', ren:30},
+  ult:{name:'Field Commander', desc:'Cast 3 commander abilities in one battle.', ren:30},
   ringlord:{name:'Ringbearer', desc:'Equip a legendary ring.', ren:40},
   streak7:{name:'Faithful Commander', desc:'Claim the war chest 7 days in a row.', ren:80},
 };
@@ -2887,11 +3004,11 @@ function finishArena(){
   for (const f of allies){
     const u = f.unit; u.battles++; u.kills += f.kills;
     const gain = Math.round((6 + 5*f.kills + Math.round(f.healed/20) + (win?6:0))*0.35), g = grantXP(u, gain);
-    rows.push({id:u.id, name:fullName(u), cls:u.cls, skin:skinOf(u.id), casts:f.casts, ult:f.ultCast, pa:pAttrs(u.perks,u.gear,unitRings(u)), tc:tierCls(u.perks,u.gear,unitRings(u)), gain, ...g, level:u.level, toPct:Math.round(100*u.xp/need(u.level)), kills:f.kills, healed:Math.round(f.healed), status:'ok', catchUp:false, mvp:false});
+    rows.push({id:u.id, name:fullName(u), cls:u.cls, skin:skinOf(u.id), dbls:f.dbls, pa:pAttrs(u.perks,u.gear,unitRings(u)), tc:tierCls(u.perks,u.gear,unitRings(u)), gain, ...g, level:u.level, toPct:Math.round(100*u.xp/need(u.level)), kills:f.kills, healed:Math.round(f.healed), status:'ok', catchUp:false, mvp:false});
   }
   const cards = [{kind: win?'rev':'nem', title: win?'Arena victory':'Arena defeat', text:`Rating ${old} → ${meta.arena.rating} (${delta>=0?'+':''}${delta}). No one is hurt in the Arena.`}];
   state.results = {win, gold, enemy:e.name, secs:Math.round(B.t), rows, battle:state.battle, boss:false, elite:false, drilled:[], retry:false, newMarch:false, cards, moraleDelta:0, arena:true};
-  quest('spells10', B.casts); if (allies.some(f=>f.ultCast)) quest('ult1');
+  quest('spells10', B.cmds); quest('ult1', B.dbls); lastCmds = B.cmds;
   quest('arena1'); quest('levels3', rows.reduce((a,r)=>a+r.ups,0)); quest('kills25', allies.reduce((a,f)=>a+f.kills,0));
   if (win) addRenown(5);
   saveMeta(); checkAch();
@@ -2984,7 +3101,7 @@ const COACH = [
   {key:'board', sel:'#board', text:'This is your formation. Drag soldiers between Rear, Line and Vanguard, or drag one off the board to bench them.'},
   {key:'tiles', sel:'.tiles', text:'Tap any soldier to rename them, equip gear and read their chronicle.'},
   {key:'road', sel:'#road', text:'Scout the road ahead. Check their formations and power before you march.'},
-  {key:'march', sel:'#bar .btn', text:'Ready? March! Battles play out on their own, so your choices happen here in camp.'},
+  {key:'march', sel:'#bar .fab', text:'Ready? March! Battles play out on their own, so your choices happen here in camp.'},
 ];
 const coachEl = document.createElement('div'); coachEl.className = 'coach'; coachEl.hidden = true; document.body.appendChild(coachEl);
 const coachRing = document.createElement('div'); coachRing.className = 'coachring'; coachRing.hidden = true; document.body.appendChild(coachRing);
@@ -3144,9 +3261,10 @@ function onAct(b){
     case 'fill': fillRanks(); save(); toast('The bench steps up to fill the ranks.'); return renderCamp(false);
     case 'rest': state.roster.forEach(u=>{ u.wounded = 0; }); save(); toast('The warband rests and binds its wounds.'); return renderCamp(false);
     case 'march': return startBattle();
+    case 'cmd': return useCmd(b.dataset.id);
+    case 'tobattle': return toBattle();
     case 'play': state.screen = state.ended ? 'end' : 'camp'; sfx('tap'); return render();
-    case 'home': closeSheet(); state.screen = 'title';
-state.rings = state.rings || []; if (!state.ringShop) rollRingShop(); return render();
+    case 'home': closeSheet(); state.screen = 'title'; return render();
     case 'daily': sfx('tap'); return openSheet(dailySheetHTML(), 'daily');
     case 'claimchest': claimChest(); openSheet(dailySheetHTML(), 'daily'); return refreshHub();
     case 'claimquest': claimQuest(+b.dataset.i); openSheet(dailySheetHTML(), 'daily'); return refreshHub();
@@ -3277,11 +3395,13 @@ document.addEventListener('touchmove', e => { if (drag) e.preventDefault(); }, {
 document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('.tile, #board')) e.preventDefault(); });
 
 document.addEventListener('pointerdown', () => { if (!state || !state.sound) return; const a = audio(); if (!a) return; if (a.state==='suspended') a.resume().then(musicFor).catch(()=>{}); else if (!MUS.timer) musicFor(); }, true);
+document.addEventListener('pointerdown', e => { if (e.target && e.target.id==='field' && B && B.aim && state.screen==='battle'){ if (aimAt(e.clientX, e.clientY)) e.preventDefault(); } });
 let rsz = 0;
 window.addEventListener('resize', () => { clearTimeout(rsz); rsz = setTimeout(()=>{ if (state.screen==='battle' && B) sizeField(); else if (state.screen==='camp') drawBoard(0); else if (state.screen==='title') startTitleLoop(); if (coachCur) coachPlace(); }, 120); });
 
 state = load();
 if (!state) newCampaign();
+migrateRings(state); if (!state.ringShop) rollRingShop();
 state.screen = 'title';
 if (state.node && (state.node.type==='skirmish'||state.node.type==='elite'||state.node.type==='boss') && !state.enemy) state.enemy = makeEnemy(state.node.type, state.node.nem);
 if (!state.node && !state.roads.length && !state.ended) setNextNode();
