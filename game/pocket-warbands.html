@@ -398,6 +398,18 @@ body.dragging,body.dragging *{cursor:grabbing!important;}
 .coachring{position:fixed;z-index:34;border-radius:16px;border:2px solid var(--gold);box-shadow:0 0 0 9999px rgba(5,15,20,.45),0 0 24px rgba(246,185,59,.5);pointer-events:none;transition:all .25s var(--ease);}
 .fxc{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40;}
 .toast.ach{border-color:var(--gold);background:#2c2410;color:#ffe7b0;font-weight:600;}
+/* map */
+.mapwrap{border-radius:14px;overflow:hidden;border:2px solid #6b5230;box-shadow:inset 0 0 0 2px rgba(255,240,200,.3),0 8px 20px rgba(0,0,0,.35);background:#e2cf9f;}
+#mapcv{display:block;width:100%;height:380px;cursor:pointer;touch-action:manipulation;}
+#mapsel{display:flex;flex-direction:column;gap:10px;}
+.mapchips{display:flex;flex-wrap:wrap;gap:6px;}
+.mchip{border:1.5px solid var(--line);background:rgba(0,0,0,.2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;}
+.mchip.elite{border-color:rgba(239,106,82,.5);} .mchip.event{border-color:rgba(200,156,255,.5);} .mchip.market{border-color:rgba(246,185,59,.5);}
+.mchip.on{background:var(--gold);color:var(--gold-ink);border-color:var(--gold);}
+.mapdetail{display:flex;align-items:center;gap:12px;border-radius:14px;padding:12px 14px;background:rgba(0,0,0,.25);border:1.5px solid var(--line);animation:rise .25s var(--ease) both;}
+.mapdetail > div{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;}
+.mapdetail b{font-size:17px;} .mapdetail p{margin:0;font-size:13px;color:var(--muted);} .mapdetail .rw{font-size:12px;font-weight:700;color:var(--gold);}
+.mapdetail.elite{border-color:rgba(239,106,82,.55);} .mapdetail.event{border-color:rgba(200,156,255,.5);} .mapdetail.market{border-color:rgba(246,185,59,.5);}
 @media (max-width:360px){ .roads{grid-template-columns:1fr;} .hub{grid-template-columns:repeat(2,1fr);} }
 @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;}}
 </style>
@@ -777,9 +789,10 @@ function rollRoads(){
 function setNextNode(){
   state.roads = [];
   if (!state.endless && state.battle > FINAL){ state.node = null; state.enemy = null; return; }
-  if (isBoss(state.battle)){ state.node = {type:'boss'}; state.enemy = makeEnemy('boss'); }
-  else if (state.battle===1){ state.node = {type:'skirmish'}; state.enemy = makeEnemy('skirmish'); }
-  else { state.node = null; state.enemy = null; state.roads = rollRoads(); }
+  const M = ensureMap(); M.sel = null;
+  if (isBoss(state.battle)){ markVisit(M.nodes.find(n=>n.r===4)); state.node = {type:'boss'}; state.enemy = makeEnemy('boss'); }
+  else if (state.battle===1){ markVisit(M.nodes.find(n=>n.r===0)); state.node = {type:'skirmish'}; state.enemy = makeEnemy('skirmish'); }
+  else { state.node = null; state.enemy = null; }
 }
 function makeEnemy(type, nemUid){
   const rng = mulberry32((state.seed ^ (state.battle*2654435761) ^ (state.fights*40503) ^ (type.length*977)) >>> 0);
@@ -1108,7 +1121,7 @@ const BOARD_COLS = {rear:0.18, line:0.5, van:0.82}, BOARD_TOP = 46, BOARD_PAD = 
 let boardRaf = 0;
 function startBoardLoop(){
   cancelAnimationFrame(boardRaf); if (reduced) return;
-  const tick = ts => { if (!state || state.screen!=='camp' || !document.getElementById('board')) return; drawBoard(ts/1000); boardRaf = requestAnimationFrame(tick); };
+  const tick = ts => { if (!state || state.screen!=='camp' || !document.getElementById('board')) return; drawBoard(ts/1000); drawMap(ts/1000); boardRaf = requestAnimationFrame(tick); };
   boardRaf = requestAnimationFrame(tick);
 }
 function drawBoard(t=0){
@@ -1163,6 +1176,13 @@ function mapStrip(){
 }
 function nemById(uid){ return state.nemeses.find(n=>n.uid===uid); }
 function roadsHTML(){
+  const reg = region(state.battle);
+  return `<div class="eyebrow">March ${reg.march} · stop ${stopOf(state.battle)} of 5 · choose your road</div><h2>${esc(reg.name)}${reg.suffix}</h2>
+    ${state.fights<4?'<p class="hint">Plot your route to the castle. Elite fights pay better, crossroads and markets give you breathing room, and red badges mark a nemesis.</p>':''}
+    <div class="mapwrap"><canvas id="mapcv" role="img" aria-label="March map. Glowing stops are the roads open to you."></canvas></div>
+    <div id="mapsel">${mapSelHTML()}</div>`;
+}
+function roadsHTMLOld(){
   return `<div class="eyebrow">Stop ${stopOf(state.battle)} of 5 · choose your road</div><h2>Two roads ahead</h2>
     ${state.fights<4?'<p class="hint">Each march has four stops before the castle. Elite fights pay better, crossroads and markets give you breathing room.</p>':''}
     <div class="roads">${state.roads.map((r,i)=>{ const R = ROADS[r.type], nem = r.nem && nemById(r.nem);
@@ -1213,7 +1233,119 @@ function roadSection(){
   else if (n.type==='event'){ kind = 'event'; inner = eventHTML(n); }
   else if (n.type==='market'){ kind = 'market'; inner = marketHTML(n); }
   else { kind = n.type==='boss' ? 'boss' : n.type==='elite' ? 'elite' : ''; inner = fightHTML(); }
-  return `<section class="next ${kind}" id="road">${mapStrip()}${inner}</section>`;
+  return `<section class="next ${kind}" id="road">${n ? mapStrip() : ''}${inner}</section>`;
+}
+
+/* ---------- march map ---------- */
+function genMap(m){
+  const rng = mulberry32((state.seed + m*7777) >>> 0), counts = [m===1 ? 1 : 2, 3, 3, 2, 1], nodes = [];
+  for (let r=0;r<5;r++){ const n = counts[r]; for (let c=0;c<n;c++) nodes.push({id:nodes.length, r, c, n, x: n===1 ? 0.5 : 0.2 + c*(0.6/(n-1)) + (rng()-0.5)*0.07, jy:(rng()-0.5)*0.05, type:'skirmish', nem:null, next:[]}); }
+  const row = r => nodes.filter(nd=>nd.r===r);
+  for (const nd of nodes){
+    if (nd.r===4) nd.type = 'boss';
+    else if (m===1 && nd.r===0) nd.type = 'skirmish';
+    else nd.type = wpick(rng, nd.r===0 ? [['skirmish',3],['elite',1.4],['event',1.6]] : [['skirmish',3],['elite',2],['event',2],['market', nd.r>=2 ? 1.6 : 0.6]]);
+  }
+  for (let r=0;r<4;r++){ const rw = row(r); if (!rw.some(nd=>nd.type==='skirmish'||nd.type==='elite')) rw[Math.floor(rng()*rw.length)].type = 'skirmish'; }
+  let mk = 0; for (const nd of nodes) if (nd.type==='market' && ++mk>1) nd.type = 'event';
+  for (let r=0;r<4;r++){
+    const a = row(r), b = row(r+1);
+    for (const nd of a){
+      const rel = a.length===1 ? 0.5 : nd.c/(a.length-1), t = Math.round(rel*(b.length-1));
+      nd.next.push(b[t].id);
+      if (b.length>1 && rng()<0.6){ const alt = clamp(t + (rng()<0.5 ? -1 : 1), 0, b.length-1); if (!nd.next.includes(b[alt].id)) nd.next.push(b[alt].id); }
+    }
+    for (const nb of b) if (!a.some(nd=>nd.next.includes(nb.id))){ const rel = b.length===1 ? 0.5 : nb.c/(b.length-1); a[Math.round(rel*(a.length-1))].next.push(nb.id); }
+  }
+  for (const nd of nodes) if ((nd.type==='skirmish'||nd.type==='elite') && state.nemeses.length && rng() < (nd.type==='elite' ? 0.6 : 0.3)) nd.nem = pick(rng, state.nemeses).uid;
+  const deco = Array.from({length:26}, () => ({x:rng(), y:rng(), k:rng()<0.6?'tree':'hill', s:0.7+rng()*0.6}));
+  return {march:m, nodes, cur:null, visited:[], sel:null, anim:null, deco, river: rng()*0.6+0.2};
+}
+function ensureMap(){ const m = marchOf(state.battle); if (!state.map || state.map.march !== m) state.map = genMap(m); return state.map; }
+function mapAvail(){
+  const M = ensureMap(); if (state.node) return [];
+  const r = stopOf(state.battle) - 1, cur = M.cur != null ? M.nodes[M.cur] : null;
+  if (cur && cur.r === r-1) return cur.next.map(id=>M.nodes[id]);
+  return M.nodes.filter(nd=>nd.r===r);
+}
+function markVisit(nd){ const M = state.map; M.cur = nd.id; if (!M.visited.includes(nd.id)) M.visited.push(nd.id); }
+function sprinkleNemesis(uid){
+  const M = state.map; if (!M) return; const r = stopOf(state.battle) - 1;
+  const fut = M.nodes.filter(nd=>nd.r>=r && nd.r<4 && !nd.nem && (nd.type==='skirmish'||nd.type==='elite') && !M.visited.includes(nd.id));
+  if (fut.length) fut[Math.floor(Math.random()*fut.length)].nem = uid;
+}
+let mapHits = [], mapLayout = null;
+function mapPos(nd, w, h){ const pad = 34, top = 30; return {x: nd.x*w, y: h - pad - (nd.r + nd.jy*0) * ((h - pad - top)/4) + nd.jy*40}; }
+function mapIcon(ctx, type, x, y, r, col){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle = col; ctx.strokeStyle = col; ctx.lineCap = 'round';
+  const k = r/18;
+  if (type==='skirmish'){ ctx.lineWidth = 3*k; ln(ctx,-7*k,-7*k,7*k,7*k); ln(ctx,7*k,-7*k,-7*k,7*k); ctx.lineWidth = 2*k; ln(ctx,-9*k,4*k,-4*k,9*k); ln(ctx,9*k,4*k,4*k,9*k); }
+  else if (type==='elite'){ ctx.beginPath(); ctx.arc(0,-2*k,8*k,0,Math.PI*2); ctx.fill(); ctx.fillRect(-5*k,3*k,10*k,6*k); ctx.fillStyle = '#efe0bd'; ctx.beginPath(); ctx.arc(-3.2*k,-2*k,2.3*k,0,Math.PI*2); ctx.arc(3.2*k,-2*k,2.3*k,0,Math.PI*2); ctx.fill(); }
+  else if (type==='event'){ ctx.font = `700 ${18*k}px "Lilita One", system-ui, sans-serif`; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('?', 0, 1*k); }
+  else if (type==='market'){ const g = ctx.createRadialGradient(-2*k,-2*k,1,0,0,9*k); g.addColorStop(0,'#ffe39a'); g.addColorStop(0.6,'#f6b93b'); g.addColorStop(1,'#b47d14'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0,0,8*k,0,Math.PI*2); ctx.fill(); ctx.strokeStyle = '#7a520a'; ctx.lineWidth = 1.2*k; ctx.stroke(); }
+  else if (type==='boss'){ ctx.beginPath(); ctx.moveTo(-12*k,10*k); ctx.lineTo(-12*k,-3*k); ctx.lineTo(-8*k,-3*k); ctx.lineTo(-8*k,-8*k); ctx.lineTo(-4*k,-8*k); ctx.lineTo(-4*k,-3*k); ctx.lineTo(4*k,-3*k); ctx.lineTo(4*k,-8*k); ctx.lineTo(8*k,-8*k); ctx.lineTo(8*k,-3*k); ctx.lineTo(12*k,-3*k); ctx.lineTo(12*k,10*k); ctx.lineTo(3*k,10*k); ctx.lineTo(3*k,4*k); ctx.quadraticCurveTo(0,1*k,-3*k,4*k); ctx.lineTo(-3*k,10*k); ctx.closePath(); ctx.fill(); }
+  ctx.restore();
+}
+const MAPCOL = {skirmish:'#3a2f24', elite:'#b8432f', event:'#6c4bb8', market:'#b47d14', boss:'#3a2f24'};
+function drawMap(t=0){
+  const c = document.getElementById('mapcv'); if (!c) return;
+  const M = ensureMap(), w = c.clientWidth || 360, h = Math.round(clamp(w*1.08, 360, 460));
+  if (c._w !== w || !c._ctx){ c.style.height = h+'px'; c._ctx = setupCanvas(c, w, h); c._w = w; }
+  const ctx = c._ctx;
+  const g = ctx.createLinearGradient(0,0,w,h); g.addColorStop(0,'#eadbb2'); g.addColorStop(1,'#d8c08c'); ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+  ctx.fillStyle = 'rgba(120,90,40,.08)'; for (let i=0;i<14;i++){ const x = ((i*97)%w), y = ((i*173)%h); ctx.beginPath(); ctx.arc(x, y, 30 + (i%5)*12, 0, Math.PI*2); ctx.fill(); }
+  ctx.strokeStyle = 'rgba(70,120,150,.45)'; ctx.lineWidth = 7; ctx.beginPath(); ctx.moveTo(-10, h*M.river); ctx.bezierCurveTo(w*0.3, h*(M.river-0.15), w*0.6, h*(M.river+0.2), w+10, h*(M.river-0.05)); ctx.stroke();
+  ctx.strokeStyle = 'rgba(200,230,240,.35)'; ctx.lineWidth = 2; ctx.stroke();
+  for (const d of M.deco){ const x = d.x*w, y = d.y*h, s = d.s;
+    if (d.k==='tree'){ ctx.fillStyle = 'rgba(70,95,50,.55)'; ctx.beginPath(); ctx.moveTo(x, y-10*s); ctx.lineTo(x+6*s, y+3*s); ctx.lineTo(x-6*s, y+3*s); ctx.closePath(); ctx.fill(); ctx.fillStyle = 'rgba(90,60,35,.5)'; ctx.fillRect(x-1, y+3*s, 2, 3*s); }
+    else { ctx.strokeStyle = 'rgba(110,85,50,.45)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y+6*s, 10*s, Math.PI*1.1, Math.PI*1.9); ctx.stroke(); } }
+  ctx.strokeStyle = 'rgba(90,60,30,.6)'; ctx.lineWidth = 3; ctx.strokeRect(4,4,w-8,h-8); ctx.strokeStyle = 'rgba(90,60,30,.25)'; ctx.lineWidth = 1; ctx.strokeRect(9,9,w-18,h-18);
+  ctx.save(); ctx.translate(w-30, h-30); ctx.strokeStyle = 'rgba(90,60,30,.55)'; ctx.fillStyle = 'rgba(90,60,30,.55)'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.arc(0,0,13,0,Math.PI*2); ctx.stroke(); ctx.beginPath(); ctx.moveTo(0,-16); ctx.lineTo(3.5,0); ctx.lineTo(0,16); ctx.lineTo(-3.5,0); ctx.closePath(); ctx.fill(); ctx.font='700 8px Rubik, system-ui, sans-serif'; ctx.textAlign='center'; ctx.fillText('N', 0, -20); ctx.restore();
+  const P = M.nodes.map(nd=>mapPos(nd, w, h)), avail = mapAvail(), availIds = new Set(avail.map(n=>n.id)), vis = new Set(M.visited);
+  for (const nd of M.nodes) for (const nid of nd.next){
+    const a = P[nd.id], b = P[nid], walked = vis.has(nd.id) && vis.has(nid), open = M.cur===nd.id && availIds.has(nid);
+    ctx.save();
+    if (walked){ ctx.strokeStyle = teamHex(); ctx.lineWidth = 4; ctx.setLineDash([]); }
+    else if (open){ ctx.strokeStyle = '#c98a12'; ctx.lineWidth = 3; ctx.setLineDash([7,6]); ctx.lineDashOffset = -t*24; }
+    else { ctx.strokeStyle = 'rgba(80,55,30,.5)'; ctx.lineWidth = 2; ctx.setLineDash([4,6]); }
+    const mx = (a.x+b.x)/2 + (b.y-a.y)*0.06, my = (a.y+b.y)/2;
+    ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.quadraticCurveTo(mx,my,b.x,b.y); ctx.stroke(); ctx.restore();
+  }
+  if (M.cur==null && avail.length){ const sx = w/2, sy = h-10; for (const nd of avail){ const b = P[nd.id]; ctx.save(); ctx.strokeStyle = '#c98a12'; ctx.lineWidth = 3; ctx.setLineDash([7,6]); ctx.lineDashOffset = -t*24; ctx.beginPath(); ctx.moveTo(sx,sy); ctx.lineTo(b.x,b.y); ctx.stroke(); ctx.restore(); } }
+  mapHits = [];
+  for (const nd of M.nodes){
+    const p = P[nd.id], boss = nd.type==='boss', r = boss ? 25 : 18, isAv = availIds.has(nd.id), isVis = vis.has(nd.id), sel = M.sel===nd.id;
+    const dim = !isAv && !isVis && !(boss);
+    ctx.save(); ctx.globalAlpha = dim ? 0.55 : 1;
+    if (isAv){ const pul = 0.5+0.5*Math.sin(t*4 + nd.id); ctx.fillStyle = `rgba(246,185,59,${0.25+0.25*pul})`; ctx.beginPath(); ctx.arc(p.x,p.y,r+7+pul*3,0,Math.PI*2); ctx.fill(); }
+    ctx.fillStyle = isVis ? '#cdb784' : '#f4e7c6'; ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2); ctx.fill();
+    ctx.lineWidth = sel ? 4 : isAv ? 3 : 2; ctx.strokeStyle = sel ? '#f6b93b' : isAv ? '#c98a12' : 'rgba(60,40,20,.75)'; ctx.stroke();
+    mapIcon(ctx, nd.type, p.x, p.y, r, isVis ? 'rgba(58,47,36,.55)' : MAPCOL[nd.type]);
+    if (nd.nem && !isVis){ ctx.fillStyle = '#ef6a52'; ctx.beginPath(); ctx.arc(p.x+r*0.75, p.y-r*0.75, 7, 0, Math.PI*2); ctx.fill(); ctx.strokeStyle = '#5a1f16'; ctx.lineWidth = 1.5; ctx.stroke(); mapIcon(ctx, 'elite', p.x+r*0.75, p.y-r*0.75, 6.5, '#fff'); }
+    if (isVis && !boss){ ctx.strokeStyle = 'rgba(58,47,36,.7)'; ctx.lineWidth = 2.5; ln(ctx, p.x+r*0.45, p.y+r*0.45, p.x+r*0.85, p.y+r*0.85); }
+    ctx.restore();
+    mapHits.push({id:nd.id, x:p.x, y:p.y, r:r+10});
+  }
+  const reg = region(state.battle); ctx.fillStyle = 'rgba(58,40,24,.85)'; ctx.font = '15px "Lilita One", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  const bossP = P[M.nodes.find(n=>n.r===4).id]; ctx.fillText(reg.boss, bossP.x, bossP.y - 34);
+  let tok;
+  if (M.anim){ const k = clamp((performance.now() - M.anim.t0)/500, 0, 1), e = k*k*(3-2*k), a = M.anim.from!=null ? P[M.anim.from] : {x:w/2, y:h-10}, b = P[M.anim.to]; tok = {x:a.x+(b.x-a.x)*e, y:a.y+(b.y-a.y)*e - Math.sin(Math.PI*k)*18}; }
+  else if (M.cur!=null) tok = P[M.cur]; else tok = {x:w/2, y:h-14};
+  if (tok){ const bob = Math.sin(t*3)*2; ctx.save(); ctx.translate(tok.x, tok.y - 22 + bob); ctx.strokeStyle = '#4a3a26'; ctx.lineWidth = 2; ln(ctx, 0, 14, 0, -16); ctx.fillStyle = teamHex(); ctx.beginPath(); ctx.moveTo(0,-16); ctx.lineTo(16,-11); ctx.lineTo(0,-5); ctx.closePath(); ctx.fill(); ctx.strokeStyle = '#0d2630'; ctx.lineWidth = 1; ctx.stroke(); ctx.restore(); }
+}
+function mapSelHTML(){
+  const M = ensureMap(), avail = mapAvail(), nd = M.sel!=null ? M.nodes[M.sel] : null;
+  const chips = `<div class="mapchips" role="group" aria-label="Open roads">${avail.map(n=>`<button class="mchip ${n.type} ${M.sel===n.id?'on':''}" data-act="mapsel" data-id="${n.id}">${esc(ROADS[n.type].name)}${n.nem?' · nemesis':''}</button>`).join('')}</div>`;
+  if (!nd || !avail.some(a=>a.id===nd.id)) return `${chips}<p class="hint">Tap a glowing stop on the map to see what waits there.</p>`;
+  const R = ROADS[nd.type], nem = nd.nem && nemById(nd.nem);
+  return `${chips}<div class="mapdetail ${nd.type}"><div><b>${esc(R.name)}</b><p>${esc(R.desc)}</p><span class="rw">${esc(R.reward)}</span>${nem?`<span class="nemline">Nemesis: ${esc(nem.full)}</span>`:''}</div><button class="btn" data-act="mapgo" data-id="${nd.id}">Travel</button></div>`;
+}
+function refreshMapSel(){ const el = document.getElementById('mapsel'); if (el) el.innerHTML = mapSelHTML(); renderBar(); drawMap(performance.now()/1000); }
+function mapSelect(id){ const M = ensureMap(); if (!mapAvail().some(n=>n.id===id)) return; M.sel = id; sfx('tap'); refreshMapSel(); }
+function mapGo(id){
+  const M = ensureMap(); if (M.anim) return; const nd = M.nodes[id]; if (!nd || !mapAvail().some(n=>n.id===id)) return;
+  M.anim = {from:M.cur, to:id, t0:performance.now()}; sfx('horn');
+  setTimeout(()=>{ M.anim = null; M.sel = null; markVisit(nd); chooseRoadObj({type:nd.type, nem:nd.nem}); }, reduced ? 0 : 520);
 }
 
 /* ---------- camp: other sections ---------- */
@@ -1293,7 +1425,7 @@ function renderCamp(anim=true){
   </div></details>
   <div class="foot"><button class="btn ghost" data-act="sound">${state.sound?'Sound on':'Sound off'}</button><button class="btn ghost danger" data-act="reset">${resetArmed?'Tap again to end this campaign':'End campaign'}</button></div>`;
   if (formOpen) document.getElementById('formfold').open = true;
-  paintPortraits(app); drawBoard(0); startBoardLoop(); renderBar();
+  paintPortraits(app); drawBoard(0); drawMap(0); startBoardLoop(); renderBar();
   if (shownGold !== null && shownGold !== state.gold) animateGold(shownGold, state.gold);
   shownGold = state.gold;
   if (state.boonOffer && state.charter && sheetKind!=='boon') later(openBoons, anim?380:0);
@@ -1303,7 +1435,7 @@ function renderCamp(anim=true){
 function renderBar(){
   barEl.hidden = false;
   const n = state.node; let info = '', btn = '';
-  if (!n){ info = '<b>Choose your road</b><span>Two paths lead on from here</span>'; btn = '<button class="btn" data-act="goroad">Pick a road</button>'; }
+  if (!n){ const M = ensureMap(), sel = M.sel!=null && mapAvail().some(a=>a.id===M.sel) ? M.nodes[M.sel] : null; info = sel ? `<b>${esc(ROADS[sel.type].name)}</b><span>${esc(ROADS[sel.type].reward)}</span>` : `<b>Choose your road</b><span>${mapAvail().length} roads open on the map</span>`; btn = sel ? `<button class="btn" data-act="mapgo" data-id="${sel.id}">Travel</button>` : '<button class="btn" data-act="goroad">Open map</button>'; }
   else if (n.type==='event'){ info = `<b>${esc(EVENTS[n.event].title)}</b><span>${n.done?'Decided':'Make your choice'}</span>`; btn = n.done ? '<button class="btn" data-act="advance">Move on</button>' : '<button class="btn" data-act="goroad">Decide</button>'; }
   else if (n.type==='market'){ info = `<b>${esc(n.stock.name)}</b><span class="num">${state.gold} gold to spend</span>`; btn = '<button class="btn" data-act="advance">Leave market</button>'; }
   else { const dep = deployed(), e = state.enemy; info = `<b>${e.boss?'Siege':e.elite?'Elite':'Battle'} · ${esc(e.name)}</b><span class="num">${dep.length} marching vs ${e.units.length}</span>`; btn = !dep.length && fillable() ? '<button class="btn" data-act="fill">Fill ranks</button>' : !dep.length && state.roster.some(u=>u.wounded) ? '<button class="btn" data-act="rest">Rest and recover</button>' : `<button class="btn" data-act="march" ${dep.length?'':'disabled'}>${dep.length?'March!':'No one fit'}</button>`; }
@@ -1319,8 +1451,8 @@ function animateGold(from, to){
 }
 
 /* ---------- road actions ---------- */
-function chooseRoad(i){
-  const r = state.roads[i]; if (!r) return;
+function chooseRoad(i){ const r = state.roads[i]; if (r) chooseRoadObj(r); }
+function chooseRoadObj(r){
   state.node = {type:r.type, nem:r.nem||null};
   if (r.type==='skirmish'||r.type==='elite') state.enemy = makeEnemy(r.type, r.nem);
   else if (r.type==='event'){
@@ -1834,7 +1966,7 @@ function finishBattle(){
   const slainIds = new Set(slain.map(u=>u.id));
   if (!win && state.nemeses.length < 3){
     const cands = enemies.filter(f=>f.alive && !f.nem && f.cls!=='warlord' && f.victims.length>0).sort((a,c)=>c.victims.length-a.victims.length);
-    if (cands.length){ const nm = makeNemesis(cands[0], slainIds, rng); state.nemeses.push(nm);
+    if (cands.length){ const nm = makeNemesis(cands[0], slainIds, rng); state.nemeses.push(nm); sprinkleNemesis(nm.uid);
       cards.push({kind:'nem', title:'A nemesis is born', text:`${nm.full}, a level ${nm.level} ${CLASSES[nm.cls].foe}, struck down ${nm.victims.join(', ')}. They will hunt you.`, cls:nm.cls, foe:true}); }
   }
   const alive = rows.filter(r=>r.status!=='slain').map(r=>state.roster.find(u=>u.id===r.id)).filter(Boolean);
@@ -2417,6 +2549,8 @@ function onAct(b){
     }
     case 'reroll': if(state.gold<10) return; state.gold-=10; state.rolls++; rollShop(); save(); return renderCamp(false);
     case 'road': return chooseRoad(+b.dataset.i);
+    case 'mapsel': return mapSelect(+b.dataset.id);
+    case 'mapgo': return mapGo(+b.dataset.id);
     case 'goroad': return document.getElementById('road')?.scrollIntoView({behavior: reduced?'auto':'smooth', block:'start'});
     case 'event': return resolveEvent(+b.dataset.i);
     case 'advance': return advance();
@@ -2464,6 +2598,7 @@ function onAct(b){
 }
 document.addEventListener('click', e => {
   if (e.target.id==='board') return;
+  if (e.target.id==='mapcv'){ const r = e.target.getBoundingClientRect(), x = e.clientX-r.left, y = e.clientY-r.top; let best=null, bd=1e9; for (const h of mapHits){ const d = Math.hypot(h.x-x,h.y-y); if (d<h.r && d<bd){ bd=d; best=h; } } if (best){ if (mapAvail().some(n=>n.id===best.id)) mapSelect(best.id); else toast(best.id===ensureMap().cur ? 'Your warband is here.' : 'That road is not open from here.'); } return; }
   if (performance.now() - dragEndedAt < 450){ e.preventDefault(); return; }
   const b = e.target.closest('[data-act]'); if (!b || b.disabled) return; onAct(b);
 });
