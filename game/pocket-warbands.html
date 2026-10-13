@@ -587,6 +587,51 @@ h1,h2,h3{letter-spacing:.02em;}
 .statline span,.qic,.cmi{background:rgba(7,11,23,.8);}
 .toast{background:rgba(10,15,31,.96) !important;border:1px solid rgba(127,243,255,.3);}
 .toast.ach{border-color:rgba(255,194,61,.6);}
+
+/* sprint 12: framed portraits, rarity tiles, screen flow */
+.shop .unit,.list .unit{background:linear-gradient(180deg,#141d37,#0f1629);}
+.shop .unit.t-mythic{background:linear-gradient(#141d37,#141d37) padding-box,linear-gradient(90deg,#ff5fd8,#ffa24c,#4cc9ff,#5ef0a0,#ff5fd8) border-box;}
+.fr{position:relative;display:inline-block;width:var(--fs);height:var(--fs);flex:none;--fc:rgba(143,163,199,.45);--fg:transparent;}
+.frb{position:absolute;inset:0;background:var(--fc);clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);}
+.frb canvas{position:absolute;left:2px;top:2px;width:calc(100% - 4px) !important;height:calc(100% - 4px) !important;border-radius:0 !important;clip-path:polygon(9px 0,100% 0,100% calc(100% - 9px),calc(100% - 9px) 100%,0 100%,0 9px);background:radial-gradient(circle at 50% 78%, color-mix(in srgb, var(--fc) 38%, #0e1428), #090d1b 78%) !important;display:block;}
+.fr::before,.fr::after{content:"";position:absolute;width:11px;height:11px;border-color:var(--fc);border-style:solid;pointer-events:none;}
+.fr::before{top:-4px;right:-4px;border-width:2px 2px 0 0;}
+.fr::after{bottom:-4px;left:-4px;border-width:0 0 2px 2px;}
+.flv{position:absolute;right:-6px;bottom:-6px;min-width:21px;height:19px;padding:0 4px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:11px;line-height:1;color:#06101f;background:var(--fc);clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);z-index:2;}
+.flv.pop{animation:pop .4s var(--ease);}
+.fstar{position:absolute;left:-5px;top:-5px;width:12px;height:12px;background:var(--fc);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);z-index:2;animation:twinkle 1.8s ease-in-out infinite;}
+@keyframes twinkle{0%,100%{transform:scale(.8) rotate(0)}50%{transform:scale(1.15) rotate(45deg)}}
+.fr.r-common{--fc:rgba(143,163,199,.5);} .fr.r-common .flv{color:#e8f0ff;background:#2a3557;}
+.fr.r-rare{--fc:var(--rare);}
+.fr.r-epic{--fc:var(--epic);filter:drop-shadow(0 0 6px rgba(199,155,255,.45));}
+.fr.r-legendary{--fc:var(--legend);filter:drop-shadow(0 0 8px rgba(255,162,76,.55));}
+.fr.r-legendary .frb::after,.fr.r-mythic .frb::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.55) 50%,transparent 65%);background-size:250% 100%;animation:sheen 2.6s ease-in-out infinite;mix-blend-mode:overlay;pointer-events:none;}
+@keyframes sheen{0%{background-position:120% 0}60%,100%{background-position:-60% 0}}
+.fr.r-mythic{--fc:#ff5fd8;filter:drop-shadow(0 0 9px rgba(255,95,216,.55));}
+.fr.r-mythic .frb{background:linear-gradient(135deg,#ff5fd8,#ffa24c,#4cc9ff,#5ef0a0,#ff5fd8);background-size:300% 300%;animation:hue 4s linear infinite;}
+@keyframes hue{0%{background-position:0% 50%}100%{background-position:300% 50%}}
+.unit > .fr{margin:4px 0 0 4px;}
+.unit{grid-template-columns:62px minmax(0,1fr) auto;}
+.pickhead .fr{margin:4px;}
+.tile{padding:12px 6px 10px;gap:4px;border-radius:10px;}
+.tile .fr{margin:4px 0 6px;}
+.tile .tl b{font-weight:700;}
+.tile.rk-rare{border-color:color-mix(in srgb,var(--rare) 40%,transparent);}
+.tile.rk-epic{border-color:color-mix(in srgb,var(--epic) 55%,transparent);background:linear-gradient(180deg,#1b1838,#10172b);}
+.tile.rk-legendary{border-color:color-mix(in srgb,var(--legend) 70%,transparent);background:linear-gradient(180deg,#2a1e1a,#10172b);box-shadow:0 0 18px rgba(255,162,76,.18),inset 0 1px 0 rgba(255,162,76,.35);}
+.tile.rk-mythic{border-color:color-mix(in srgb,var(--mythic) 70%,transparent);background:linear-gradient(180deg,#2a1734,#10172b);box-shadow:0 0 18px rgba(255,95,216,.2),inset 0 1px 0 rgba(255,95,216,.35);}
+.tile.off .fr{filter:grayscale(.6) brightness(.8);}
+.rmini .fr{margin:3px 0 4px;}
+.sfx{position:fixed;inset:0;z-index:60;pointer-events:none;}
+.sfx.fade{background:#070b17;animation:sfxout .5s ease forwards;}
+.sfx.flash{background:radial-gradient(circle at 50% 30%,rgba(255,240,200,.55),rgba(7,11,23,.85));animation:sfxout .5s ease forwards;}
+@keyframes sfxout{from{opacity:1}to{opacity:0}}
+.sfx.warp{background:radial-gradient(circle at 50% 45%,rgba(20,30,70,.9),#03050c 70%);animation:warpout .95s ease forwards;overflow:hidden;}
+.sfx.warp i{position:absolute;left:50%;top:45%;height:2px;width:var(--w);transform-origin:0 50%;background:linear-gradient(90deg,transparent,rgba(127,243,255,.9),#fff);border-radius:2px;opacity:0;animation:streak .7s cubic-bezier(.5,0,.9,.5) var(--d) forwards;}
+.sfx.warp b{position:absolute;left:0;right:0;top:45%;transform:translateY(-50%);text-align:center;font-family:var(--display);font-weight:400;font-size:28px;letter-spacing:.3em;text-transform:uppercase;color:#e8f6ff;text-shadow:0 0 18px rgba(127,243,255,.8);animation:warptext .9s ease forwards;}
+@keyframes streak{0%{opacity:0;transform:rotate(var(--a)) translateX(2vmax) scaleX(.05)}25%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(55vmax) scaleX(1)}}
+@keyframes warpout{0%,55%{opacity:1}100%{opacity:0}}
+@keyframes warptext{0%{opacity:0;letter-spacing:.8em}30%{opacity:1;letter-spacing:.3em}70%{opacity:1}100%{opacity:0;letter-spacing:.15em}}
 </style>
 
 <div id="app" class="wrap"></div>
@@ -850,6 +895,11 @@ function tierOf(perks, gear, rings){ let best = -1; for (const id of (perks||[])
 function fxOf(perks, gear){ const p = new Set(perks||[]); return {giant:p.has('giant'), colossus:p.has('colossus'), berserk:p.has('berserk'), banner:p.has('banner')||p.has('warmaster'), warmaster:p.has('warmaster'),
   halo:p.has('sainted')||p.has('beacon')||p.has('undying'), phoenix:gear==='phoenix', gold:gear==='helm'||p.has('kingslayer'), shadow:p.has('shadowstep'), storm:p.has('stormborn')}; }
 function pAttrs(perks, gear, rings){ const t = tierOf(perks, gear, rings), f = fxOf(perks, gear), k = Object.keys(f).filter(x=>f[x]); return `${t?` data-tier="${t}"`:''}${k.length?` data-fx="${k.join(',')}"`:''}`; }
+function rankOf(perks, gear, rings){ let best = 0; for (const id of (perks||[])) if (PERKS[id]) best = Math.max(best, RANK[PERKS[id].rarity]); if (gear && ITEMS[gear]) best = Math.max(best, RANK[ITEMS[gear].rarity]); for (const r of (rings||[])) if (RINGS[r]) best = Math.max(best, RANK[RINGS[r].rarity]); return ['common','rare','epic','legendary','mythic'][best]; }
+const RANK_LABEL = {common:'', rare:'Veteran', epic:'Champion', legendary:'Legend', mythic:'Mythic'};
+function pframe(o){ const rk = o.rk || 'common', star = rk==='legendary'||rk==='mythic';
+  return `<span class="fr r-${rk} ${o.cls_||''}" style="--fs:${o.size||56}px"><span class="frb"><canvas data-cls="${o.cls}" data-skin="${o.skin}"${o.side?` data-side="${o.side}"`:''}${o.pa||''}></canvas></span>${o.lvl!=null?`<i class="flv num">${o.lvl}</i>`:''}${star?'<i class="fstar"></i>':''}</span>`; }
+const uFrame = (u, size, extra={}) => pframe({cls:u.cls, skin:skinOf(u.id), pa:pAttrs(u.perks,u.gear,unitRings(u)), rk:rankOf(u.perks,u.gear,unitRings(u)), lvl:u.level, size, ...extra});
 const tierCls = (perks, gear, rings) => { const t = tierOf(perks, gear, rings); return t ? 't-'+t : ''; };
 function rollStartPerks(cls, level, rng){ const perks=[]; for (let l=2;l<=level;l++){ if (!traitAt(l)) continue; const p = rollPerks({cls, level:l, perks}, rng, 1)[0]; if(p) perks.push(p); } return perks; }
 const unitPower = u => Math.round((u.boss?2.6:1) * ((CLASSES[u.cls].cost||120)/5) * (1+0.25*(u.level-1)) + (u.perks||[]).length*3 + (u.gear?5:0) + unitRings(u).reduce((a,r)=>a+RING_VAL[RINGS[r].rarity],0));
@@ -1321,14 +1371,15 @@ function applyTeamColor(){ document.documentElement.style.setProperty('--ally', 
 const CLASS_ORDER = ['knight','shield','spear','footman','warlord','rogue','bard','cleric','archer','crossbow','mage'];
 let boardHits = [], shownGold = null, resetArmed = false, dismissArmed = null;
 function tile(u){
-  const off = u.benched || u.wounded;
+  const off = u.benched || u.wounded, rk = rankOf(u.perks,u.gear,unitRings(u));
   const badge = u.pending ? '<span class="tb up">Trait</span>' : u.wounded ? '<span class="tb w">Hurt</span>' : u.benched ? '<span class="tb">Bench</span>' : '';
-  return `<button class="tile ${off?'off':''} ${tierCls(u.perks,u.gear,unitRings(u))}" data-act="soldier" data-id="${u.id}" aria-label="${esc(fullName(u))}, level ${u.level} ${CLASSES[u.cls].label}">
+  return `<button class="tile rk-${rk} ${off?'off':''}" data-act="soldier" data-id="${u.id}" aria-label="${esc(fullName(u))}, level ${u.level} ${RANK_LABEL[rk]} ${CLASSES[u.cls].label}">
     ${badge}<span class="tflags">${u.gear?`<i class="gd ${ITEMS[u.gear].rarity}"></i>`:''}${u.bond?'<i class="bd"></i>':''}${unitRings(u).length?'<i class="rg"></i>':''}</span>
-    <canvas data-cls="${u.cls}" data-skin="${skinOf(u.id)}"${pAttrs(u.perks,u.gear,unitRings(u))}></canvas>
-    <span class="tn">${esc(u.name)}</span><span class="tl num">Lv ${u.level} ${CLASSES[u.cls].label}</span>
+    ${uFrame(u, 60)}
+    <span class="tn">${esc(u.name)}</span><span class="tl">${RANK_LABEL[rk]?`<b class="r-${rk==='legendary'?'legendary':rk}">${RANK_LABEL[rk]}</b> · `:''}${CLASSES[u.cls].label}</span>
     <span class="xp"><i style="width:${Math.round(100*u.xp/need(u.level))}%"></i></span></button>`;
 }
+const rosterOrder = () => state.roster.slice().sort((a,b)=>((a.benched||a.wounded?1:0)-(b.benched||b.wounded?1:0)) || (RANK[rankOf(b.perks,b.gear,unitRings(b))]-RANK[rankOf(a.perks,a.gear,unitRings(a))]) || (b.level-a.level));
 function formsPanel(list){
   const fs = formations(list).filter(f=>f.n>0 && (f.tier>0 || f.id!=='combined' || f.n>=3))
     .sort((a,b)=>(b.tier-a.tier) || ((b.n/b.F.tiers[0])-(a.n/a.F.tiers[0])));
@@ -1361,7 +1412,7 @@ function armySection(){
     ${fillable()?`<button class="btn ghost wide" data-act="fill">Fill empty ranks from the bench</button>`:''}
     ${pend?`<button class="btn wide pulse" data-act="picks">${plural(pend,'trait','traits')} ready to choose</button>`:''}
     ${state.boonOffer?`<button class="btn wide pulse" data-act="boons">Choose a ${state.charter?'charter':'boon'}</button>`:''}
-    <div class="tiles">${state.roster.map(tile).join('')}</div>
+    <div class="tiles">${rosterOrder().map(tile).join('')}</div>
     <details class="fold" id="formfold"><summary>Formations · ${act.length} active</summary><div>${formsPanel(dep.map(u=>u.cls))}</div></details>
   </section>`;
 }
@@ -2013,7 +2064,7 @@ function shopCard(o, i){
   const isNew = CLASSES[o.cls].unlock===state.battle && state.battle>1;
   const tier = o.tier || (o.rare ? 'rare' : 'common'), T = TIERS[tier];
   return `<article class="unit ${tierCls(o.perks)}">
-    <canvas class="port" data-cls="${o.cls}" data-skin="${SKINS[(i*3+o.name.length)%SKINS.length]}"${pAttrs(o.perks)}></canvas>
+    ${pframe({cls:o.cls, skin:SKINS[(i*3+o.name.length)%SKINS.length], pa:pAttrs(o.perks), rk:rankOf(o.perks), lvl:o.level, size:56})}
     <div style="min-width:0">
       <div class="uname">${esc(fullName(o))}${T.label?`<span class="badge ${tier}">${T.label}</span>`:''}${isNew?'<span class="badge new">New</span>':''}</div>
       <div class="usub num">Lv ${o.level} ${CLASSES[o.cls].label} · HP ${Math.round(s.maxHp)} · ${s.heal?`HEAL ${s.heal.toFixed(1)}`:`ATK ${s.atk.toFixed(1)}`}</div>
@@ -2027,7 +2078,7 @@ function shopCard(o, i){
 function mythicCard(o){
   const s = stats(o), full = state.roster.length >= 12, sig = PERKS[o.perks[0]];
   return `<article class="unit t-mythic">
-    <canvas class="port" data-cls="${o.cls}" data-skin="${SKINS[1]}"${pAttrs(o.perks)}></canvas>
+    ${pframe({cls:o.cls, skin:SKINS[1], pa:pAttrs(o.perks), rk:'mythic', lvl:o.level, size:56})}
     <div style="min-width:0">
       <div class="uname">${esc(fullName(o))}<span class="badge mythic">Mythic hero</span></div>
       <div class="usub num">Lv ${o.level} ${CLASSES[o.cls].label} · HP ${Math.round(s.maxHp)} · ATK ${s.atk.toFixed(1)}</div>
@@ -2213,8 +2264,8 @@ function soldierSheetHTML(u){
   const nextTr = (()=>{ for (let l=u.level+1;l<u.level+3;l++) if (traitAt(l)) return l; return null; })();
   const pos = u.benched ? 'bench' : u.row;
   return `${closeBtn}
-  <div class="pickhead"><canvas data-cls="${u.cls}" data-skin="${skinOf(u.id)}"${pAttrs(u.perks,u.gear,unitRings(u))}></canvas>
-    <div><div class="eyebrow">Lv ${u.level} ${c.label}${u.heir?' · Heir':''}${u.wounded?' · <span style="color:var(--warn)">Wounded</span>':''}</div><h2>${esc(u.name)}${ep?` <em>${esc(ep)}</em>`:''}</h2>
+  <div class="pickhead">${uFrame(u, 84)}
+    <div><div class="eyebrow">${RANK_LABEL[rankOf(u.perks,u.gear,unitRings(u))]?`<span class="r-${rankOf(u.perks,u.gear,unitRings(u))}">${RANK_LABEL[rankOf(u.perks,u.gear,unitRings(u))]}</span> · `:''}Lv ${u.level} ${c.label}${u.heir?' · Heir':''}${u.wounded?' · <span style="color:var(--warn)">Wounded</span>':''}</div><h2>${esc(u.name)}${ep?` <em>${esc(ep)}</em>`:''}</h2>
     <div class="xprow"><div class="xp"><i style="width:${Math.round(100*u.xp/need(u.level))}%"></i></div><span class="xpn num">${nextTr?`Promotion at Lv ${nextTr}`:`${u.xp}/${need(u.level)} XP`}</span></div></div></div>
   ${u.pending?`<button class="btn wide pulse" data-act="picks">Choose ${plural(u.pending,'new trait','new traits')}</button>`:''}
   <div class="statline">${chip('HP',Math.round(s.maxHp))}${s.heal?chip('Heal',(s.heal*s.healMult).toFixed(1)):chip('Attack',s.atk.toFixed(1))}${chip('Range',Math.round(s.range))}${chip('Speed',Math.round(s.speed))}${extra}</div>
@@ -2265,7 +2316,7 @@ function pickSheetHTML(u, swap){
   if (!u.offer){ let n = 3 + (hasBoon('fortune')?1:0); if (state.bonusPick>0){ n++; state.bonusPick--; } u.offer = rollPerks(u, mulberry32(state.seed + u.id*131 + u.level*17 + u.perks.length*7), n); save(); }
   const curEp = epithet(u), total = pendingUnits().reduce((a,x)=>a+x.pending,0);
   return `${closeBtn}
-  <div class="pickhead"><canvas data-cls="${u.cls}" data-skin="${skinOf(u.id)}"${pAttrs(u.perks,u.gear,unitRings(u))}></canvas>
+  <div class="pickhead">${uFrame(u, 76)}
     <div><div class="eyebrow">Promotion · Lv ${u.level} ${CLASSES[u.cls].label}</div><h2>${esc(fullName(u))}</h2><p>Choose one trait to keep for the campaign.</p></div></div>
   <div class="cards ${swap?'swap':''}">${u.offer.map(id=>{ const p=PERKS[id]; const ne=epithet({...u, perks:[...u.perks,id]}); const d = deltaLine(u,id);
     return `<button class="card ${p.rarity}" data-act="choose" data-perk="${id}"><span class="rr">${p.rarity}${p.cls?' · '+CLASSES[u.cls].label+' only':''}${p.stack&&u.perks.includes(id)?' · stacks':''}</span><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>${d?`<span class="delta num">${d}</span>`:''}${ne!==curEp?`<span class="ep">Becomes ${esc(u.name)} ${esc(ne)}</span>`:''}</button>`; }).join('')}</div>
@@ -2349,7 +2400,7 @@ function startBattle(enemy){
   if (enemy.arena) addLog(`Arena bout against ${enemy.name}. No one dies here.`,'a');
   checkAch({muster: dep.length>=8, forms3: formsBySide[0].length>=3});
   state.screen = 'battle'; closeSheet();
-  renderBattleShell(); sfx('horn'); coachHide(); musicFor();
+  renderBattleShell(); screenFx('warp'); lastScreen = 'battle'; sfx('horn'); coachHide(); musicFor();
   lastTs = 0; acc = 0; cancelAnimationFrame(raf); raf = requestAnimationFrame(frame);
 }
 function hitStop(sec){ if (B.skipping || reduced || !meta.settings.shake) return; if (B.t - B.lastStop < 0.35) return; B.lastStop = B.t; B.freeze = Math.max(B.freeze, sec); }
@@ -2844,6 +2895,7 @@ function ncard(c){
   return `<div class="ncard ${c.kind} ${c.item?ITEMS[c.item].rarity:c.ring?RINGS[c.ring].rarity:''}">${lead}<div><b>${esc(c.title)}</b><p>${esc(c.text)}</p></div></div>`;
 }
 let resTimers = [];
+function resRank(x){ const u = state.roster.find(v=>v.id===x.id); return u ? rankOf(u.perks,u.gear,unitRings(u)) : (x.tc ? x.tc.slice(2) : 'common'); }
 function resLater(fn, ms){ resTimers.push(setTimeout(fn, ms)); }
 function renderResults(){
   const r = state.results; barEl.hidden = true;
@@ -2860,7 +2912,7 @@ function renderResults(){
   ${hi.length?`<div class="sec-h rsh cz" data-cz="h"><h2>Standouts</h2><span class="skipt">Tap to skip</span></div>`:''}
   <div class="list">${hi.map(i=>{ const x = r.rows[i]; return `
     <article class="unit cz ${x.status==='slain'?'off':''} ${x.tc||''}" data-row="${i}">
-      <canvas class="port" data-cls="${x.cls}" data-skin="${x.skin}"${x.pa||''}></canvas>
+      ${pframe({cls:x.cls, skin:x.skin, pa:x.pa, rk:resRank(x), lvl:x.fromLvl, size:56})}
       <div style="min-width:0">
         <div class="uname">${esc(x.name)}</div>
         <div class="usub num"><span class="lv">Lv ${x.fromLvl}</span> ${CLASSES[x.cls].label}</div>
@@ -2870,7 +2922,7 @@ function renderResults(){
       <span class="gain num">+${x.gain} XP</span>
     </article>`; }).join('')}</div>
   ${rest.length?`<div class="sec-h rsh cz" data-cz="r"><h2>The rest of the line</h2><span class="num">${rest.length} soldiers</span></div>
-  <div class="rgrid">${rest.map(i=>{ const x = r.rows[i]; return `<div class="rmini cz ${x.status==='wounded'?'hurt':''} ${x.tc||''}" data-row="${i}"><canvas class="port" data-cls="${x.cls}" data-skin="${x.skin}"${x.pa||''}></canvas><b>${esc(x.name.split(' ')[0])}</b><div class="xp"><i style="width:${x.fromPct}%"></i></div><span class="num">${x.status==='wounded'?'Wounded':`+${x.gain} XP`}</span></div>`; }).join('')}</div>`:''}
+  <div class="rgrid">${rest.map(i=>{ const x = r.rows[i]; return `<div class="rmini cz ${x.status==='wounded'?'hurt':''}" data-row="${i}">${pframe({cls:x.cls, skin:x.skin, pa:x.pa, rk:resRank(x), lvl:x.level, size:46})}<b>${esc(x.name.split(' ')[0])}</b><div class="xp"><i style="width:${x.fromPct}%"></i></div><span class="num">${x.status==='wounded'?'Wounded':`+${x.gain} XP`}</span></div>`; }).join('')}</div>`:''}
   ${r.cards.length?`<div class="ncards cz" data-cz="c">${r.cards.map(ncard).join('')}</div>`:''}
   ${r.drilled.length?`<p class="hint cz" data-cz="d">Drilling in camp: ${r.drilled.map(d=>esc(d.name)+(d.ups?' (level up)':'')).join(', ')} earned ${hasBoon('drillmaster')?18:6} XP.</p>`:''}
   <div id="rbtn" class="cz" data-cz="b">${resultsButton()}</div>`;
@@ -2882,7 +2934,7 @@ function animateResults(hi, rest){
   resTimers.forEach(clearTimeout); resTimers = [];
   const needChoice = () => pendingUnits().length || state.boonOffer;
   const show = sel => app.querySelectorAll(sel).forEach(el=>el.classList.add('in'));
-  const finalRow = i => { const row = app.querySelector(`[data-row="${i}"]`), x = r.rows[i]; if (!row) return; row.classList.add('in'); const bar = row.querySelector('.xp i'); if (bar){ bar.style.transition='none'; bar.style.width = x.toPct+'%'; } const lv = row.querySelector('.lv'); if (lv) lv.textContent = 'Lv '+x.level; row.querySelector('.tags')?.classList.add('show'); };
+  const finalRow = i => { const row = app.querySelector(`[data-row="${i}"]`), x = r.rows[i]; if (!row) return; row.classList.add('in'); const bar = row.querySelector('.xp i'); if (bar){ bar.style.transition='none'; bar.style.width = x.toPct+'%'; } const lv = row.querySelector('.lv'); if (lv) lv.textContent = 'Lv '+x.level; const fl = row.querySelector('.flv'); if (fl) fl.textContent = x.level; row.querySelector('.tags')?.classList.add('show'); };
   let done = false;
   const finish = () => { if (done) return; done = true; resTimers.forEach(clearTimeout); resTimers = []; app.removeEventListener('pointerdown', skipper); r.rows.forEach((x,i)=>finalRow(i)); show('.cz'); app.querySelectorAll('.rsh .skipt').forEach(e=>e.remove()); goldEl.textContent = r.gold; if (needChoice()) later(afterChoice, 450); };
   const skipper = e => { if (e.target.closest('button')) return; finish(); };
@@ -2899,7 +2951,7 @@ function animateResults(hi, rest){
     t += 120; resLater(()=>{ row.classList.add('in'); sfx('tap'); }, t); t += 260;
     for (let k=0;k<x.ups;k++){
       resLater(()=>{ bar.style.transition='width .38s cubic-bezier(.2,.8,.2,1)'; bar.style.width='100%'; }, t); t += 400;
-      resLater(()=>{ bar.style.transition='none'; bar.style.width='0%'; lv.textContent='Lv '+(x.fromLvl+k+1); lv.classList.remove('pop'); void lv.offsetWidth; lv.classList.add('pop'); sfx('level'); const rc = row.getBoundingClientRect(); confetti(14, rc.left+40, rc.top+20); }, t); t += 60;
+      resLater(()=>{ bar.style.transition='none'; bar.style.width='0%'; lv.textContent='Lv '+(x.fromLvl+k+1); const fl = row.querySelector('.flv'); if (fl){ fl.textContent = x.fromLvl+k+1; fl.classList.remove('pop'); void fl.offsetWidth; fl.classList.add('pop'); } lv.classList.remove('pop'); void lv.offsetWidth; lv.classList.add('pop'); sfx('level'); const rc = row.getBoundingClientRect(); confetti(14, rc.left+40, rc.top+20); }, t); t += 60;
     }
     resLater(()=>{ bar.style.transition='width .45s cubic-bezier(.2,.8,.2,1)'; bar.style.width=x.toPct+'%'; tags.classList.add('show'); }, t); t += 240;
   });
@@ -3352,8 +3404,19 @@ let toastTimer = 0;
 const toastQ = [];
 function toast(msg, kind){ if (kind==='ach'){ toastQ.push({msg, kind}); if (toastQ.length===1) showToast(); return; } if (toastQ.length) return toastQ.push({msg, kind}); const t=document.getElementById('toast'); t.className='toast'; t.textContent=msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>t.classList.remove('show'), 2400); }
 function showToast(){ const it = toastQ[0]; if (!it) return; const t=document.getElementById('toast'); t.className='toast'+(it.kind?' '+it.kind:''); t.textContent=it.msg; t.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ t.classList.remove('show'); toastQ.shift(); if (toastQ.length) setTimeout(showToast, 260); }, it.kind==='ach'?2600:2200); }
+let lastScreen = null;
+function screenFx(kind){
+  if (reduced) return;
+  const old = document.getElementById('sfx'); if (old) old.remove();
+  const el = document.createElement('div'); el.id = 'sfx'; el.className = 'sfx ' + kind;
+  if (kind==='warp'){ let h = ''; for (let i=0;i<46;i++){ const a = Math.random()*360, d = Math.random()*0.25, w = 18 + Math.random()*26; h += `<i style="--a:${a}deg;--d:${d}s;--w:${w}vmax"></i>`; } el.innerHTML = h + '<b>Deploying</b>'; }
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(), kind==='warp' ? 950 : 520);
+}
 function render(){
-  clearTimers(); applyTeamColor(); if (state.screen!=='camp') coachHide();
+  clearTimers();
+  if (lastScreen && lastScreen!==state.screen){ if (state.screen==='results') screenFx('flash'); else if (state.screen==='camp' || state.screen==='title') screenFx('fade'); }
+  lastScreen = state.screen; applyTeamColor(); if (state.screen!=='camp') coachHide();
   if (state.screen==='title') renderTitle();
   else if (state.screen==='end') renderEnd();
   else if (state.screen==='results' && state.results) renderResults();
