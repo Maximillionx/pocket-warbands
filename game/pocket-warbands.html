@@ -632,6 +632,31 @@ h1,h2,h3{letter-spacing:.02em;}
 @keyframes streak{0%{opacity:0;transform:rotate(var(--a)) translateX(2vmax) scaleX(.05)}25%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateX(55vmax) scaleX(1)}}
 @keyframes warpout{0%,55%{opacity:1}100%{opacity:0}}
 @keyframes warptext{0%{opacity:0;letter-spacing:.8em}30%{opacity:1;letter-spacing:.3em}70%{opacity:1}100%{opacity:0;letter-spacing:.15em}}
+
+/* sprint 13: outpost defense */
+.ophud{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--hud);}
+.ophud .bar{flex:1;height:8px;} .ophud .bar i{background:linear-gradient(90deg,#4cc9ff,#7ff3ff);} .ophud span:last-child{color:var(--muted);letter-spacing:0;}
+.opfield canvas{touch-action:none;cursor:crosshair;}
+.opwave{padding:12px 14px;border-radius:12px;border:1px solid rgba(255,94,87,.45);background:linear-gradient(160deg,#3a1420,#141327);display:flex;flex-direction:column;gap:4px;}
+.opwave.boss{border-color:rgba(255,194,61,.6);background:linear-gradient(160deg,#33240f,#141327);}
+.opwave b{font-size:15px;} .opwave > span{font-size:13px;color:var(--muted);}
+.opopts{display:flex;flex-direction:column;gap:8px;}
+.opopt{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px;border-radius:12px;background:var(--panel);border:1px solid var(--line);color:var(--ink);}
+.opopt > span:nth-child(2){flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:13px;} .opopt b{font-size:15px;}
+.opopt:disabled{opacity:.45;}
+.opstat{font-size:12px;color:var(--hud);}
+.opcost{font-weight:800;color:var(--gold);white-space:nowrap;}
+.opico{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;flex:none;background:rgba(7,11,23,.8);color:var(--hud);}
+.opico svg{width:24px;height:24px;} .opico.turret{color:#7ff3ff;} .opico.barracks{color:#a9b8d6;} .opico.pylon{color:#4cc9ff;} .opico.refinery{color:#ffc23d;}
+.opico.big{width:60px;height:60px;} .opico.big svg{width:34px;height:34px;}
+.opsel{display:flex;gap:14px;align-items:center;}
+.opend{padding:16px;border-radius:14px;text-align:center;border:1px solid var(--line);background:var(--panel);display:flex;flex-direction:column;gap:8px;}
+.opend.win{border-color:rgba(255,194,61,.6);} .opend.loss{border-color:rgba(255,94,87,.5);}
+.opend h2{font-size:26px;} .opend p{margin:0;color:var(--muted);font-size:14px;}
+.opbtns{display:flex;gap:8px;justify-content:center;margin-top:6px;}
+.opentry{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:14px 16px;border-radius:12px;border:1px solid rgba(255,94,87,.55);background:linear-gradient(135deg,rgba(255,94,87,.18),rgba(76,201,255,.08)),var(--panel);color:var(--ink);}
+.opentry b{font-family:var(--display);font-weight:400;font-size:20px;} .opentry span{font-size:13px;color:var(--muted);}
+.opentry .ot{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ff8a73;}
 </style>
 
 <div id="app" class="wrap"></div>
@@ -1959,6 +1984,453 @@ function drawAim(ctx){
   ctx.save(); ctx.fillStyle = 'rgba(10,20,25,.18)'; ctx.fillRect(0,0,W,H);
   ctx.font = '13px "Russo One", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.55)';
   const t = `Tap to aim ${CMDS[B.aim].name}`; ctx.strokeText(t, W/2, H-16); ctx.fillStyle = CMDS[B.aim].col; ctx.fillText(t, W/2, H-16); ctx.restore();
+}
+
+/* ---------- outpost defense (prototype) ---------- */
+const OW = 400, OH = 540, OCORE = {x:200, y:290, r:24};
+const OPADS = [[200,198],[284,246],[284,336],[200,384],[116,336],[116,246],[200,96],[350,180],[350,402],[200,486],[50,402],[50,180]];
+const OSPAWN = {N:{x:200,y:-16,name:'north'}, E:{x:416,y:290,name:'east'}, S:{x:200,y:556,name:'south'}, W:{x:-16,y:290,name:'west'}};
+const OBUILD = {
+  turret:  {name:'Laser Turret', icon:'T', cost:[50,60,90], hp:[120,170,240], dmg:[7,11,16], cd:[0.8,0.72,0.62], range:[88,98,110], desc:'Shoots the nearest foe in range.'},
+  barracks:{name:'Barracks', icon:'B', cost:[60,70,100], hp:[160,220,300], troops:[2,3,4], desc:'Trains troopers who guard this spot and respawn.'},
+  pylon:   {name:'Shield Pylon', icon:'P', cost:[30,40,60], hp:[300,520,820], desc:'A tough barrier. Enemies stop to break it.'},
+  refinery:{name:'Refinery', icon:'R', cost:[60,80,120], hp:[100,140,200], income:[25,45,70], desc:'Earns credits every dawn. Jetbikers love to raid it.'},
+};
+const OENEMY = {
+  raider:{cls:'footman', label:'Raiders', hp:40, dmg:6, cd:1.0, range:14, speed:30, armor:0},
+  sniper:{cls:'archer', label:'Snipers', hp:28, dmg:8, cd:1.6, range:68, speed:26, armor:0, ranged:true},
+  brute: {cls:'shield', label:'Brutes', hp:130, dmg:10, cd:1.2, range:14, speed:22, armor:0.25},
+  biker: {cls:'knight', label:'Jetbikers', hp:65, dmg:10, cd:1.0, range:16, speed:58, armor:0.1, raids:true},
+  titan: {boss:'troll', label:'Scrap Titan', hp:1900, dmg:26, cd:1.6, range:28, speed:15, armor:0.2},
+};
+const OWAVES = [
+  {from:['N'], units:{raider:6}},
+  {from:['N','E'], units:{raider:8, sniper:2}},
+  {from:['W'], units:{raider:6, brute:3}},
+  {from:['N','E'], units:{raider:10, sniper:4, biker:2}},
+  {from:['W','S'], units:{raider:8, brute:4, biker:4}},
+  {from:['N','E','S'], units:{raider:14, sniper:6, brute:3}},
+  {from:['E','S','W'], units:{raider:12, brute:4, biker:4, sniper:3}},
+  {from:['N'], units:{titan:1, raider:10, brute:4}, boss:true},
+];
+const OPERKS = {
+  overclock:{name:'Overclock', desc:'Turrets fire 25% faster.', ap:m=>{ m.turretSpd*=1.25; }},
+  hardened:{name:'Hardened Hulls', desc:'Every structure and the core get +30% HP.', ap:m=>{ m.structHp*=1.3; }},
+  drill:{name:'Drill Sergeant', desc:'Barracks troopers get +40% HP and damage.', ap:m=>{ m.troop*=1.4; }},
+  ace:{name:'Ace Pilot', desc:'Your commander deals 30% more and flies 20% faster.', ap:m=>{ m.cmdDmg*=1.3; m.cmdSpd*=1.2; }},
+  boom:{name:'Bigger Booms', desc:'Fireball deals 50% more in a wider blast.', ap:m=>{ m.fire*=1.5; }},
+  tax:{name:'Tax Haven', desc:'+20 credits every dawn.', ap:m=>{ m.dawn+=20; }},
+  barrels:{name:'Long Barrels', desc:'Turret range +20%.', ap:m=>{ m.range*=1.2; }},
+  repair:{name:'Repair Drones', desc:'Structures slowly regenerate during waves.', ap:m=>{ m.regen+=0.012; }},
+  bounty:{name:'Bounty Board', desc:'+2 credits for every kill.', ap:m=>{ m.bounty+=2; }},
+  thorns:{name:'Charged Pylons', desc:'Pylons shock melee attackers for 40% of the hit.', ap:m=>{ m.thorns+=0.4; }},
+  respawn:{name:'Clone Bay', desc:'Your commander respawns in 2 seconds instead of 6.', ap:m=>{ m.respawn=2; }},
+  medic:{name:'Med Drones', desc:'Rally heals 50% more and recharges 30% faster.', ap:m=>{ m.rally*=1.5; m.rallyCd*=0.7; }},
+};
+const OP_DEF_MOD = () => ({turretSpd:1, structHp:1, troop:1, cmdDmg:1, cmdSpd:1, fire:1, dawn:0, range:1, regen:0, bounty:0, thorns:0, respawn:6, rally:1, rallyCd:1});
+let OP = null, opRaf = 0, opLast = 0, opAcc = 0, opDrag = false, opDpr = 1;
+
+function opStart(){
+  const mod = OP_DEF_MOD();
+  OP = {phase:'build', wave:1, credits:120, mod, perks:[], kills:0, t:0, wt:0, speed:1, aim:null, cds:{fire:0, rally:0},
+    core:{x:OCORE.x, y:OCORE.y, r:OCORE.r, hp:600, max:600, cd:0, kind:'core'},
+    pads: OPADS.map((p,i)=>({id:i, x:p[0], y:p[1], b:null})),
+    units:[], ps:[], fx:[], texts:[], spawnQ:[], perkOffer:null,
+    cmd:{x:OCORE.x, y:OCORE.y+40, tx:OCORE.x, ty:OCORE.y+40, hp:160, max:160, cd:0, dead:0, face:1, walk:0, moving:false, swing:0, flash:0},
+    deco: Array.from({length:60},(_,i)=>({x:(i*97.3)%OW, y:(i*151.7)%OH, s:0.6+((i*37)%10)/10, c:i%3===0})), result:null};
+  state.screen = 'outpost'; sfx('tap'); render();
+}
+const opWave = () => OWAVES[OP.wave-1];
+const opIncome = () => 40 + OP.mod.dawn + OP.pads.reduce((a,p)=>a + (p.b && p.b.type==='refinery' ? OBUILD.refinery.income[p.b.lvl-1] : 0), 0);
+function opStructMax(type, lvl){ return Math.round(OBUILD[type].hp[lvl-1] * OP.mod.structHp); }
+function opBuild(padId, type){
+  const pad = OP.pads[padId], D = OBUILD[type]; if (!pad || pad.b || OP.phase!=='build' || OP.credits < D.cost[0]) return false;
+  OP.credits -= D.cost[0]; pad.b = {type, lvl:1, hp:opStructMax(type,1), max:opStructMax(type,1), cd:0, dead:false, ang:-Math.PI/2, spawnT:0, kind:'struct', x:pad.x, y:pad.y, r:13, pad};
+  if (type==='barracks') opTroops(pad);
+  opPuff(pad.x, pad.y, '#7ff3ff'); sfx('coin'); return true;
+}
+function opUpgrade(padId){
+  const pad = OP.pads[padId], b = pad && pad.b; if (!b || b.lvl>=3 || OP.phase!=='build') return false;
+  const c = OBUILD[b.type].cost[b.lvl]; if (OP.credits < c) return false;
+  OP.credits -= c; b.lvl++; b.max = opStructMax(b.type, b.lvl); b.hp = b.max; if (b.type==='barracks') opTroops(pad);
+  opPuff(pad.x, pad.y, '#ffc23d'); sfx('level'); return true;
+}
+function opSell(padId){
+  const pad = OP.pads[padId], b = pad && pad.b; if (!b || OP.phase!=='build') return;
+  let spent = 0; for (let i=0;i<b.lvl;i++) spent += OBUILD[b.type].cost[i];
+  OP.credits += Math.floor(spent/2); OP.units = OP.units.filter(u=>u.home!==pad); pad.b = null; sfx('coin');
+}
+function opTroops(pad){
+  const b = pad.b, n = OBUILD.barracks.troops[b.lvl-1];
+  OP.units = OP.units.filter(u=>u.home!==pad);
+  for (let i=0;i<n;i++){ const ranged = b.lvl>=2 && i===n-1; const a = i/n*Math.PI*2;
+    OP.units.push(opUnit(ranged ? {cls:'archer', hp:42, dmg:8, cd:1.3, range:80, speed:34, ranged:true} : {cls:'footman', hp:60, dmg:7, cd:0.9, range:15, speed:34}, 0, pad.x + Math.cos(a)*20, pad.y + Math.sin(a)*20, {home:pad, slot:a, lvl:b.lvl})); }
+}
+function opUnit(D, side, x, y, extra={}){
+  const sc = side ? 1 + 0.155*(OP.wave-1) : OP.mod.troop * (1 + 0.15*((extra.lvl||1)-1));
+  const hp = Math.round(D.hp * sc);
+  return Object.assign({side, cls:D.cls, boss:D.boss||null, x, y, hp, max:hp, dmg:D.dmg*(side?1+0.06*(OP.wave-1):sc), cd:D.cd, cdl:Math.random()*D.cd, range:D.range, speed:D.speed, armor:D.armor||0, ranged:!!D.ranged, raids:!!D.raids,
+    tgt:null, rt:0, walk:Math.random()*6, moving:false, swing:0, flash:0, face: side?-1:1, dead:false, bt:{heads:3}, slam:6, rad: D.boss ? 18 : D.cls==='knight' ? 8 : 6}, extra);
+}
+function opBeginWave(){
+  if (!OP || OP.phase!=='build') return;
+  const W = opWave(); OP.spawnQ = []; let k = 0;
+  const kinds = []; for (const [kind,n] of Object.entries(W.units)) for (let i=0;i<n;i++) kinds.push(kind);
+  kinds.sort((a,b)=> (a==='titan') - (b==='titan') || Math.random()-0.5);
+  if (W.boss){ const ti = kinds.indexOf('titan'); if (ti>=0){ kinds.splice(ti,1); kinds.splice(Math.floor(kinds.length*0.35),0,'titan'); } }
+  kinds.forEach((kind,i)=>{ const sp = W.from[i % W.from.length]; OP.spawnQ.push({at: 1 + Math.floor(i / W.from.length)*0.75, kind, sp}); });
+  OP.phase = 'wave'; OP.wt = 0; OP.cds.fire = 0; OP.cds.rally = 3; closeSheet(); sfx('horn');
+  opText(OW/2, OH/2-40, `WAVE ${OP.wave}`, '#ff6b57', 22, 1.6); renderOutpost(false);
+}
+function opText(x, y, txt, col, size=9, life=0.9){ if (OP.texts.length<80) OP.texts.push({x, y, txt, col, size, life, max:life}); }
+function opPuff(x, y, col){ for (let i=0;i<10;i++){ const a = Math.random()*Math.PI*2, v = 20+Math.random()*50; OP.fx.push({k:'p', x, y, vx:Math.cos(a)*v, vy:Math.sin(a)*v, life:0.5, col, r:1.6+Math.random()*1.6}); } }
+function opRing(x, y, r, col){ OP.fx.push({k:'r', x, y, r, col, life:0.5}); }
+const opAlive = o => o && !o.dead && o.hp > 0;
+function opStructs(){ const out = []; for (const p of OP.pads) if (p.b && !p.b.dead) out.push(p.b); return out; }
+function opDamage(t, amt, src){
+  if (!opAlive(t) && t!==OP.cmd) return;
+  if (t===OP.cmd && OP.cmd.dead > 0) return;
+  if (t.armor) amt *= 1 - t.armor;
+  t.hp -= amt; t.flash = 1;
+  if (src && !src.ranged && t.kind==='struct' && t.type==='pylon' && OP.mod.thorns) opDamage(src, amt*OP.mod.thorns, null);
+  if (t.hp > 0) return;
+  if (t===OP.cmd){ OP.cmd.dead = OP.mod.respawn; OP.cmd.hp = 0; opPuff(t.x, t.y, '#ffc23d'); opText(t.x, t.y-24, 'COMMANDER DOWN', '#ff6b57', 10, 1.4); sfx('lose'); return; }
+  if (t.kind==='core'){ t.hp = 0; opEnd(false); return; }
+  if (t.kind==='struct'){ t.dead = true; t.hp = 0; opPuff(t.x, t.y, '#ff9f43'); opRing(t.x, t.y, 30, '#ff9f43'); sfx('die'); return; }
+  t.dead = true; opPuff(t.x, t.y, t.side ? '#ff8a73' : '#7ff3ff');
+  if (t.side){ OP.kills++; if (OP.mod.bounty){ OP.credits += OP.mod.bounty; } if (t.boss){ opText(t.x, t.y-40, 'TITAN DOWN!', '#ffd27a', 16, 2); opRing(t.x, t.y, 80, '#ffd27a'); } sfx('die'); }
+  else t.respawn = 10;
+}
+function opShoot(src, tgt, dmg, col){ const d = Math.hypot(tgt.x-src.x, tgt.y-src.y); OP.ps.push({x:src.x, y:src.y-8, sx:src.x, sy:src.y-8, tgt, dmg, t:0, dur:Math.max(0.06, d/360), col, src}); sfx('shoot'); }
+function opNearest(x, y, list, r){ let best = null, bd = r*r; for (const o of list){ if (!opAlive(o)) continue; const d = (o.x-x)**2 + (o.y-y)**2; if (d < bd){ bd = d; best = o; } } return best; }
+function opStep(dt){
+  const O = OP; if (!O || O.phase!=='wave') return;
+  O.t += dt; O.wt += dt; O.cds.fire = Math.max(0, O.cds.fire-dt); O.cds.rally = Math.max(0, O.cds.rally-dt);
+  while (O.spawnQ.length && O.spawnQ[0].at <= O.wt){ const q = O.spawnQ.shift(), sp = OSPAWN[q.sp], D = OENEMY[q.kind];
+    const u = opUnit(D, 1, sp.x + (Math.random()-0.5)*40*(q.sp==='N'||q.sp==='S'?1:0.2), sp.y + (Math.random()-0.5)*40*(q.sp==='E'||q.sp==='W'?1:0.2)); u.kind = q.kind; O.units.push(u);
+    if (D.boss) opText(OW/2, 80, 'THE SCRAP TITAN APPROACHES', '#ffd27a', 13, 2.2); }
+  const enemies = O.units.filter(u=>u.side===1 && opAlive(u)), allies = O.units.filter(u=>u.side===0 && opAlive(u)), structs = opStructs(), cmd = O.cmd;
+  if (O.mod.regen) for (const s of structs) s.hp = Math.min(s.max, s.hp + s.max*O.mod.regen*dt);
+  // commander
+  if (cmd.dead > 0){ cmd.dead -= dt; if (cmd.dead <= 0){ cmd.dead = 0; cmd.hp = cmd.max; cmd.x = O.core.x; cmd.y = O.core.y + 34; cmd.tx = cmd.x; cmd.ty = cmd.y; opPuff(cmd.x, cmd.y, '#ffc23d'); } }
+  else {
+    const dx = cmd.tx - cmd.x, dy = cmd.ty - cmd.y, d = Math.hypot(dx, dy), sp = 92 * O.mod.cmdSpd;
+    cmd.moving = d > 3; if (cmd.moving){ const st = Math.min(d, sp*dt); cmd.x += dx/d*st; cmd.y += dy/d*st; cmd.face = dx >= 0 ? 1 : -1; cmd.walk += dt*8; }
+    cmd.cd -= dt; cmd.swing = Math.max(0, cmd.swing - dt*4); cmd.flash = Math.max(0, cmd.flash - dt*5);
+    const t = opNearest(cmd.x, cmd.y, enemies, 76);
+    if (t && cmd.cd <= 0){ cmd.cd = 0.45; cmd.swing = 1; if (!cmd.moving) cmd.face = t.x >= cmd.x ? 1 : -1; opShoot(cmd, t, 12*O.mod.cmdDmg, '#ffd27a'); }
+    if (cmd.hp < cmd.max && !t) cmd.hp = Math.min(cmd.max, cmd.hp + 4*dt);
+  }
+  const cmdAlive = cmd.dead <= 0;
+  // core gun
+  O.core.cd -= dt; { const t = opNearest(O.core.x, O.core.y, enemies, 100); if (t && O.core.cd <= 0){ O.core.cd = 0.9; opShoot(O.core, t, 7, '#7ff3ff'); } }
+  // structures
+  for (const s of structs){
+    s.flash = Math.max(0, (s.flash||0) - dt*5);
+    if (s.type==='turret'){ const D = OBUILD.turret, L = s.lvl-1; s.cd -= dt*O.mod.turretSpd; const t = opNearest(s.x, s.y, enemies, D.range[L]*O.mod.range);
+      if (t){ s.ang = Math.atan2(t.y-s.y, t.x-s.x); if (s.cd <= 0){ s.cd = D.cd[L]; opShoot(s, t, D.dmg[L], '#7ff3ff'); if (s.lvl===3) setTimeout(()=>{ if (OP===O && opAlive(t)) opShoot(s, t, D.dmg[L]*0.5, '#7ff3ff'); }, 90); } } }
+  }
+  // barracks respawns
+  for (const u of O.units) if (u.side===0 && u.dead && u.home && u.home.b && !u.home.b.dead){ u.respawn -= dt; if (u.respawn <= 0){ u.dead = false; u.hp = u.max; u.x = u.home.x; u.y = u.home.y; } }
+  // units
+  for (const u of O.units){
+    if (!opAlive(u)) continue;
+    u.cdl -= dt; u.swing = Math.max(0, u.swing - dt*4); u.flash = Math.max(0, u.flash - dt*5); u.rt -= dt;
+    let t = null;
+    if (u.side===0){
+      t = opNearest(u.x, u.y, enemies, u.ranged ? 85 : 70);
+      if (t && Math.hypot(t.x-u.home.x, t.y-u.home.y) > 110) t = null;
+      if (!t){ const hx = u.home.x + Math.cos(u.slot)*22, hy = u.home.y + Math.sin(u.slot)*22, d = Math.hypot(hx-u.x, hy-u.y); u.moving = d > 3; if (u.moving){ u.x += (hx-u.x)/d*Math.min(d, u.speed*dt); u.y += (hy-u.y)/d*Math.min(d, u.speed*dt); u.walk += dt*7; u.face = hx>=u.x?1:-1; } continue; }
+    } else {
+      if (u.rt <= 0 || !opAlive(u.tgt) && u.tgt!==O.core){
+        u.rt = 0.5;
+        const near = [...allies, ...(cmdAlive?[cmd]:[]), ...structs];
+        let best = opNearest(u.x, u.y, near, u.ranged ? 75 : 52);
+        if (!best && u.raids){ const loot = structs.filter(s=>s.type==='refinery'); best = opNearest(u.x, u.y, loot.length ? loot : structs.filter(s=>s.type!=='pylon'), 999); }
+        u.tgt = best || O.core;
+      }
+      t = u.tgt;
+      if (t===cmd && !cmdAlive){ u.tgt = O.core; t = O.core; }
+      if (t.kind!=='core' && !opAlive(t) && t!==cmd){ u.tgt = O.core; t = O.core; }
+    }
+    const tr = (t.r || 6), d = Math.hypot(t.x-u.x, t.y-u.y), reach = u.range + tr + u.rad - 4;
+    u.face = t.x >= u.x ? 1 : -1;
+    if (d > reach){ const st = u.speed*dt; u.x += (t.x-u.x)/d*st; u.y += (t.y-u.y)/d*st; u.moving = true; u.walk += dt*u.speed*0.25; }
+    else { u.moving = false; if (u.cdl <= 0){ u.cdl = u.cd; u.swing = 1;
+      if (u.ranged) opShoot(u, t, u.dmg, u.side ? '#ff8a73' : '#7ff3ff'); else { opDamage(t, u.dmg, u); opText(t.x+(Math.random()-0.5)*8, t.y-18, Math.round(u.dmg*(1-(t.armor||0))), u.side?'#ffb7a8':'#e8f0ff', 8, 0.6); }
+      if (u.boss){ u.slam -= u.cd; if (u.slam <= 0){ u.slam = 6; u.bt.slam = 1; opRing(u.x, u.y, 56, '#c9a96a'); for (const o of [...allies, ...(cmdAlive?[cmd]:[]), ...structs]) if (Math.hypot(o.x-u.x, o.y-u.y) < 56) opDamage(o, 30, u); opText(u.x, u.y-50, 'GROUND SLAM', '#e0a84a', 11, 1.2); } }
+    } }
+    if (u.boss && u.bt.slam) u.bt.slam = Math.max(0, u.bt.slam - dt*2.5);
+  }
+  // collisions: units vs units, units vs structures
+  const live = O.units.filter(opAlive); if (cmdAlive) live.push(cmd);
+  for (let i=0;i<live.length;i++) for (let j=i+1;j<live.length;j++){ const a = live[i], b = live[j], ra = a.rad||7, rb = b.rad||7, min = ra+rb; let dx = b.x-a.x, dy = b.y-a.y, d = Math.hypot(dx,dy); if (d < min){ if (d < 0.01){ dx = 0.3; dy = 0.2; d = 0.36; } const p = (min-d)/2, nx = dx/d, ny = dy/d; a.x -= nx*p; a.y -= ny*p; b.x += nx*p; b.y += ny*p; } }
+  const blocks = [...structs, O.core];
+  for (const u of live){ if (u===cmd) continue; for (const s of blocks){ const min = (s.r||13) + (u.rad||7), dx = u.x-s.x, dy = u.y-s.y, d = Math.hypot(dx,dy); if (d < min && d > 0.01){ u.x = s.x + dx/d*min; u.y = s.y + dy/d*min; } } }
+  for (const u of live){ u.x = clamp(u.x, -20, OW+20); u.y = clamp(u.y, -20, OH+20); }
+  // projectiles
+  for (let i=O.ps.length-1;i>=0;i--){ const p = O.ps[i]; p.t += dt; const k = Math.min(1, p.t/p.dur); p.x = p.sx + (p.tgt.x - p.sx)*k; p.y = p.sy + (p.tgt.y - 8 - p.sy)*k;
+    if (k >= 1){ O.ps.splice(i,1); if (opAlive(p.tgt) || p.tgt===O.core || (p.tgt===cmd && cmdAlive)){ opDamage(p.tgt, p.dmg, p.src); opText(p.tgt.x+(Math.random()-0.5)*8, p.tgt.y-20, Math.round(p.dmg*(1-(p.tgt.armor||0))), p.col==='#ffd27a'?'#ffd27a':p.src.side?'#ffb7a8':'#e8f0ff', 8, 0.6); } } }
+  O.units = O.units.filter(u => !u.dead || (u.side===0 && u.home && u.home.b));
+  // wave end
+  if (O.phase==='wave' && !O.spawnQ.length && !O.units.some(u=>u.side===1 && opAlive(u))) opDawn();
+}
+function opFireball(x, y){
+  const O = OP; if (O.cds.fire > 0) return; O.cds.fire = 10; O.aim = null;
+  const r = 42 * Math.sqrt(O.mod.fire), dmg = 55 * O.mod.fire;
+  O.fx.push({k:'fb', x, y, t:0, dur:0.45, r, dmg});
+  sfx('shoot'); renderOpCtrl();
+}
+function opFireballHit(f){
+  const O = OP; opRing(f.x, f.y, f.r, '#ff9f43'); opPuff(f.x, f.y, '#ff9f43'); opPuff(f.x, f.y, '#ffe08a');
+  for (const u of O.units) if (u.side===1 && opAlive(u) && Math.hypot(u.x-f.x, u.y-f.y) < f.r){ opDamage(u, f.dmg*(u.boss?0.5:1), null); opText(u.x, u.y-22, Math.round(f.dmg*(u.boss?0.5:1)), '#ffb347', 11, 0.8); }
+  O.shake = 6; sfx('die');
+}
+function opRally(){
+  const O = OP, c = O.cmd; if (O.cds.rally > 0 || c.dead > 0) return; O.cds.rally = 16 * O.mod.rallyCd;
+  const amt = 0.35 * O.mod.rally;
+  for (const o of [...O.units.filter(u=>u.side===0 && opAlive(u)), ...opStructs(), O.core, c]) if (Math.hypot(o.x-c.x, o.y-c.y) < 90){ o.hp = Math.min(o.max, o.hp + o.max*amt); }
+  opRing(c.x, c.y, 90, '#5ef0a0'); opText(c.x, c.y-30, 'RALLY', '#5ef0a0', 12, 1); sfx('level'); renderOpCtrl();
+}
+function opDawn(){
+  const O = OP;
+  if (O.wave >= OWAVES.length){ opEnd(true); return; }
+  const inc = opIncome(); O.credits += inc;
+  for (const p of O.pads) if (p.b){ p.b.dead = false; p.b.max = opStructMax(p.b.type, p.b.lvl); p.b.hp = p.b.max; if (p.b.type==='barracks') opTroops(p); }
+  O.core.max = Math.round(600*O.mod.structHp); O.core.hp = Math.min(O.core.max, O.core.hp + 120);
+  O.cmd.dead = 0; O.cmd.hp = O.cmd.max;
+  O.units = O.units.filter(u=>u.side===0); O.ps = [];
+  O.wave++; O.phase = 'perk';
+  const pool = Object.keys(OPERKS).filter(k=>!O.perks.includes(k)); const offer = [];
+  while (offer.length < 3 && pool.length){ offer.push(pool.splice(Math.floor(Math.random()*pool.length),1)[0]); }
+  O.perkOffer = offer;
+  opText(OW/2, OH/2-30, `WAVE CLEARED · +${inc} CREDITS`, '#ffd27a', 13, 2);
+  sfx('win'); renderOutpost(false);
+  setTimeout(()=>{ if (OP===O && O.phase==='perk') openSheet(opPerkSheet(), 'opperk'); }, 900);
+}
+function opChoosePerk(id){
+  const O = OP; if (!O || O.phase!=='perk' || !O.perkOffer.includes(id)) return;
+  O.perks.push(id); OPERKS[id].ap(O.mod); O.perkOffer = null; O.phase = 'build';
+  if (id==='hardened'){ for (const p of O.pads) if (p.b){ p.b.max = opStructMax(p.b.type,p.b.lvl); p.b.hp = p.b.max; } O.core.max = Math.round(600*O.mod.structHp); O.core.hp = Math.min(O.core.max, O.core.hp + 180); }
+  if (id==='drill') for (const p of O.pads) if (p.b && p.b.type==='barracks') opTroops(p);
+  closeSheet(); sfx('level'); renderOutpost(false);
+}
+function opEnd(won){
+  const O = OP; if (O.phase==='over') return; O.phase = 'over'; O.result = {won, wave:O.wave, kills:O.kills};
+  meta.outpostBest = Math.max(meta.outpostBest||0, won ? OWAVES.length+1 : O.wave); saveMeta();
+  sfx(won ? 'win' : 'lose'); if (won) confetti(140, innerWidth/2, innerHeight*0.3);
+  setTimeout(()=>{ if (OP===O) renderOutpost(false); }, 900);
+}
+
+/* outpost drawing */
+function opDrawStruct(ctx, b, t){
+  const x = b.x, y = b.y, tc = teamHex();
+  if (b.dead){ ctx.fillStyle = 'rgba(30,28,40,.9)'; ctx.beginPath(); ctx.ellipse(x, y+4, 13, 6, 0, 0, Math.PI*2); ctx.fill(); ctx.fillStyle = '#4a4f5a'; for (let i=0;i<4;i++){ ctx.fillRect(x-9+i*5, y-1+(i%2)*3, 4, 3); } return; }
+  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(x, y+9, 15, 5, 0, 0, Math.PI*2); ctx.fill();
+  ctx.lineWidth = 1.4; ctx.strokeStyle = OUT;
+  if (b.type==='turret'){
+    ctx.fillStyle = '#4a5260'; ctx.beginPath(); ctx.arc(x, y+2, 11, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = tc; ctx.beginPath(); ctx.arc(x, y+2, 6.5, 0, Math.PI*2); ctx.fill();
+    ctx.save(); ctx.translate(x, y-1); ctx.rotate(b.ang); ctx.fillStyle = '#c9d1db'; rr(ctx, -4, -3.4, 18, 6.8, 2); ctx.fill(); ctx.stroke(); if (b.lvl===3){ ctx.fillStyle = '#9aa6b5'; rr(ctx, -2, 3, 15, 3.4, 1.5); ctx.fill(); ctx.stroke(); }
+    ctx.fillStyle = '#7ff3ff'; ctx.fillRect(12, -1.4, 3, 2.8); ctx.restore();
+    ctx.fillStyle = '#e3e9f0'; ctx.beginPath(); ctx.arc(x, y-1, 4.5, 0, Math.PI*2); ctx.fill(); ctx.stroke();
+  } else if (b.type==='barracks'){
+    ctx.fillStyle = '#5b6576'; rr(ctx, x-14, y-9, 28, 18, 3); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#3d4352'; ctx.beginPath(); ctx.moveTo(x-16, y-8); ctx.lineTo(x, y-17); ctx.lineTo(x+16, y-8); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#141826'; rr(ctx, x-5, y-1, 10, 10, 2); ctx.fill(); ctx.fillStyle = tc; ctx.fillRect(x-12, y-4, 4, 3); ctx.fillRect(x+8, y-4, 4, 3);
+    ctx.strokeStyle = '#8a94a6'; ln(ctx, x+12, y-12, x+12, y-27); ctx.globalAlpha = 0.6 + 0.2*Math.sin(t*5); ctx.fillStyle = tc; ctx.fillRect(x+12, y-27, 9, 6); ctx.globalAlpha = 1;
+  } else if (b.type==='pylon'){
+    const pul = 0.5 + 0.5*Math.sin(t*3 + x);
+    ctx.fillStyle = `rgba(127,243,255,${0.10+0.08*pul})`; ctx.beginPath(); ctx.arc(x, y, 17, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = `rgba(127,243,255,${0.45+0.3*pul})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(x, y, 17, 0, Math.PI*2); ctx.stroke();
+    ctx.lineWidth = 1.4; ctx.strokeStyle = OUT; ctx.fillStyle = '#5b6576'; rr(ctx, x-4, y-18, 8, 24, 2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#7ff3ff'; ctx.beginPath(); ctx.arc(x, y-18, 3.4, 0, Math.PI*2); ctx.fill();
+    for (let i=1;i<b.lvl;i++){ ctx.fillStyle = '#ffc23d'; ctx.fillRect(x-3, y-12+i*5, 6, 1.6); }
+  } else if (b.type==='refinery'){
+    ctx.fillStyle = '#4a4f5a'; rr(ctx, x-12, y-6, 24, 14, 3); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#6b5a48'; ctx.beginPath(); ctx.moveTo(x-6, y-6); ctx.lineTo(x, y-24); ctx.lineTo(x+6, y-6); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.save(); ctx.translate(x, y-12); ctx.rotate(t*3); ctx.strokeStyle = '#ffc23d'; ctx.lineWidth = 1.6; for (let i=0;i<3;i++){ ln(ctx, 0, 0, Math.cos(i*2.1)*6, Math.sin(i*2.1)*6); } ctx.restore();
+    ctx.fillStyle = '#ffc23d'; ctx.globalAlpha = 0.5 + 0.5*Math.sin(t*4 + x); ctx.save(); ctx.translate(x+9, y-14 - ((t*12)%10)); ctx.rotate(Math.PI/4); ctx.fillRect(-2,-2,4,4); ctx.restore(); ctx.globalAlpha = 1;
+  }
+  if (b.flash > 0){ ctx.globalAlpha = b.flash*0.5; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(x, y, 14, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; }
+  for (let i=0;i<b.lvl;i++){ ctx.fillStyle = '#ffc23d'; ctx.beginPath(); ctx.arc(x - (b.lvl-1)*3.5 + i*7, y+15, 2, 0, Math.PI*2); ctx.fill(); }
+  if (b.hp < b.max){ const w = 24; ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(x-w/2, y-30, w, 3); ctx.fillStyle = '#7ff3ff'; ctx.fillRect(x-w/2, y-30, w*clamp(b.hp/b.max,0,1), 3); }
+}
+function opDrawCore(ctx, c, t){
+  const x = c.x, y = c.y, pul = 0.5 + 0.5*Math.sin(t*2.5);
+  ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(x, y+12, 30, 9, 0, 0, Math.PI*2); ctx.fill();
+  ctx.lineWidth = 1.6; ctx.strokeStyle = OUT; ctx.fillStyle = '#3d4352';
+  ctx.beginPath(); for (let i=0;i<6;i++){ const a = i*Math.PI/3 + Math.PI/6; ctx.lineTo(x + Math.cos(a)*28, y + 4 + Math.sin(a)*16); } ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#5b6576'; rr(ctx, x-12, y-18, 24, 22, 4); ctx.fill(); ctx.stroke();
+  const g = ctx.createRadialGradient(x, y-14, 1, x, y-14, 16); g.addColorStop(0, '#ffffff'); g.addColorStop(0.35, teamHex()); g.addColorStop(1, 'rgba(76,201,255,0)');
+  ctx.fillStyle = g; ctx.globalAlpha = 0.7 + 0.3*pul; ctx.beginPath(); ctx.arc(x, y-14, 14 + pul*2, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1;
+  ctx.strokeStyle = `rgba(127,243,255,${0.25+0.2*pul})`; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.ellipse(x, y-14, 22, 7, t*0.6, 0, Math.PI*2); ctx.stroke();
+  if (c.flash > 0){ ctx.globalAlpha = c.flash*0.4; ctx.fillStyle = '#ff6b57'; ctx.beginPath(); ctx.arc(x, y-4, 26, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 1; }
+}
+function opDraw(t){
+  const c = document.getElementById('opcv'); if (!c || !OP) return;
+  const w = c.clientWidth || 360, h = Math.round(w*OH/OW);
+  if (c._w !== w){ c.style.height = h+'px'; setupCanvas(c, w, h); c._w = w; opDpr = Math.min(3, window.devicePixelRatio||1); }
+  const ctx = c.getContext('2d'), k = w/OW, O = OP, sh = O.shake || 0;
+  ctx.setTransform(opDpr*k, 0, 0, opDpr*k, opDpr*k*(sh ? (Math.random()-0.5)*sh : 0), opDpr*k*(sh ? (Math.random()-0.5)*sh : 0));
+  const g = ctx.createLinearGradient(0,0,0,OH); g.addColorStop(0,'#3b3554'); g.addColorStop(1,'#25223a'); ctx.fillStyle = g; ctx.fillRect(-20,-20,OW+40,OH+40);
+  ctx.strokeStyle = 'rgba(140,200,255,.05)'; ctx.lineWidth = 1; for (let x=0;x<OW;x+=25) ln(ctx,x,0,x,OH); for (let y=0;y<OH;y+=25) ln(ctx,0,y,OW,y);
+  for (const d of O.deco){ if (d.c){ ctx.fillStyle = 'rgba(15,12,28,.35)'; ctx.beginPath(); ctx.ellipse(d.x, d.y, 5*d.s, 2.2*d.s, 0, 0, Math.PI*2); ctx.fill(); } else { ctx.fillStyle = 'rgba(120,110,160,.4)'; ctx.beginPath(); ctx.moveTo(d.x-3*d.s, d.y); ctx.lineTo(d.x-0.5, d.y-3*d.s); ctx.lineTo(d.x+3*d.s, d.y-0.6); ctx.closePath(); ctx.fill(); } }
+  const W = opWave(), active = O.phase==='build' || O.phase==='wave' ? (W ? W.from : []) : [];
+  for (const [kk, sp] of Object.entries(OSPAWN)){ const on = active.includes(kk);
+    ctx.strokeStyle = on ? (O.phase==='build' ? `rgba(255,107,87,${0.35+0.25*Math.sin(t*4)})` : 'rgba(255,107,87,.18)') : 'rgba(180,170,220,.08)'; ctx.lineWidth = on ? 10 : 8; ctx.setLineDash(on && O.phase==='build' ? [10,8] : []); ctx.lineDashOffset = -t*30;
+    ctx.beginPath(); ctx.moveTo(sp.x, sp.y); ctx.lineTo(O.core.x, O.core.y); ctx.stroke(); ctx.setLineDash([]); }
+  // pads
+  for (const p of O.pads){ if (p.b) continue; const pul = 0.5 + 0.5*Math.sin(t*3 + p.id);
+    ctx.strokeStyle = O.phase==='build' ? `rgba(127,243,255,${0.35+0.35*pul})` : 'rgba(127,243,255,.18)'; ctx.lineWidth = 1.5; ctx.setLineDash([4,3]);
+    ctx.beginPath(); for (let i=0;i<6;i++){ const a = i*Math.PI/3; ctx.lineTo(p.x + Math.cos(a)*13, p.y + Math.sin(a)*13); } ctx.closePath(); ctx.stroke(); ctx.setLineDash([]);
+    if (O.phase==='build'){ ctx.fillStyle = `rgba(127,243,255,${0.5+0.4*pul})`; ctx.fillRect(p.x-4.5, p.y-1, 9, 2); ctx.fillRect(p.x-1, p.y-4.5, 2, 9); } }
+  // collect drawables
+  const items = [];
+  for (const p of O.pads) if (p.b) items.push({y:p.y, f:()=>opDrawStruct(ctx, p.b, t)});
+  items.push({y:O.core.y, f:()=>opDrawCore(ctx, O.core, t)});
+  for (const u of O.units){ if (!opAlive(u)) continue; items.push({y:u.y, f:()=>{
+    if (u.boss) drawBoss(ctx, {k:u.boss, x:u.x, y:u.y, s:1.35, facing:u.face, walk:u.walk, moving:u.moving, swing:u.swing, flash:u.flash, time:t, st:u.bt});
+    else drawUnit(ctx, {cls:u.cls, color: u.side ? '#ef6a52' : teamHex(), skin:SKINS[1], x:u.x, y:u.y, s:u.side?1:0.95, facing:u.face, walk:u.walk, moving:u.moving, swing:u.swing, flash:u.flash, time:t});
+    if (u.hp < u.max){ const bw = u.boss ? 40 : 14, by = u.y - (u.boss ? 62 : 26); ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(u.x-bw/2, by, bw, 2.6); ctx.fillStyle = u.side ? '#ff8a73' : teamHex(); ctx.fillRect(u.x-bw/2, by, bw*clamp(u.hp/u.max,0,1), 2.6); } }}); }
+  const cmd = O.cmd;
+  if (cmd.dead <= 0) items.push({y:cmd.y, f:()=>{
+    ctx.strokeStyle = 'rgba(255,194,61,.35)'; ctx.lineWidth = 1; ctx.setLineDash([3,4]); ctx.beginPath(); ctx.arc(cmd.x, cmd.y+2, 76, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]);
+    drawUnit(ctx, {cls:'knight', color:'#ffc23d', skin:SKINS[0], x:cmd.x, y:cmd.y, s:1.3, facing:cmd.face, walk:cmd.walk, moving:cmd.moving, swing:cmd.swing, flash:cmd.flash, time:t, tier:'legendary', fx:{gold:true}});
+    const bw = 22, by = cmd.y - 36; ctx.fillStyle = 'rgba(0,0,0,.6)'; ctx.fillRect(cmd.x-bw/2, by, bw, 3); ctx.fillStyle = '#ffc23d'; ctx.fillRect(cmd.x-bw/2, by, bw*clamp(cmd.hp/cmd.max,0,1), 3); }});
+  items.sort((a,b)=>a.y-b.y).forEach(i=>i.f());
+  if (cmd.dead <= 0 && Math.hypot(cmd.tx-cmd.x, cmd.ty-cmd.y) > 6){ const pul = 0.5+0.5*Math.sin(t*8); ctx.strokeStyle = `rgba(255,194,61,${0.5+0.4*pul})`; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(cmd.tx, cmd.ty+4, 8+pul*2, 3.4+pul, 0, 0, Math.PI*2); ctx.stroke(); }
+  for (const p of O.ps){ ctx.strokeStyle = p.col; ctx.lineWidth = 2; const dx = p.tgt.x - p.sx, dy = p.tgt.y - 8 - p.sy, d = Math.hypot(dx,dy)||1; ln(ctx, p.x, p.y, p.x - dx/d*7, p.y - dy/d*7); }
+  for (const f of O.fx){
+    if (f.k==='p'){ ctx.globalAlpha = clamp(f.life*2,0,1); ctx.fillStyle = f.col; ctx.beginPath(); ctx.arc(f.x, f.y, f.r, 0, Math.PI*2); ctx.fill(); }
+    else if (f.k==='r'){ const kk = 1 - f.life/0.5; ctx.globalAlpha = 1-kk; ctx.strokeStyle = f.col; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(f.x, f.y, f.r*(0.3+kk*0.7), f.r*(0.3+kk*0.7)*0.5, 0, 0, Math.PI*2); ctx.stroke(); }
+    else if (f.k==='fb'){ const kk = f.t/f.dur, sx = f.x - 120, sy = -30, x = sx + (f.x-sx)*kk, y = sy + (f.y-sy)*kk; ctx.fillStyle = 'rgba(255,140,40,.35)'; ctx.beginPath(); ctx.arc(x, y, 14, 0, Math.PI*2); ctx.fill(); ctx.fillStyle = '#ffd27a'; ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI*2); ctx.fill(); ctx.globalAlpha = 0.4; ctx.strokeStyle = '#ffb347'; ctx.setLineDash([4,4]); ctx.beginPath(); ctx.ellipse(f.x, f.y, f.r, f.r*0.45, 0, 0, Math.PI*2); ctx.stroke(); ctx.setLineDash([]); }
+    ctx.globalAlpha = 1;
+  }
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  for (const tx of O.texts){ ctx.globalAlpha = clamp(tx.life/tx.max*2, 0, 1); ctx.font = `${tx.size>12?'':'700 '}${tx.size}px ${tx.size>12?'"Russo One"':'"Exo 2"'}, system-ui, sans-serif`; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.strokeText(tx.txt, tx.x, tx.y); ctx.fillStyle = tx.col; ctx.fillText(tx.txt, tx.x, tx.y); }
+  ctx.globalAlpha = 1;
+  if (O.phase==='build' && W){ for (const kk of W.from){ const sp = OSPAWN[kk], x = clamp(sp.x, 24, OW-24), y = clamp(sp.y, 18, OH-18), bob = Math.sin(t*5)*3;
+    ctx.fillStyle = 'rgba(255,94,87,.9)'; ctx.save(); ctx.translate(x, y); const ang = Math.atan2(O.core.y-y, O.core.x-x); ctx.rotate(ang); ctx.translate(bob, 0); ctx.beginPath(); ctx.moveTo(10,0); ctx.lineTo(-6,-8); ctx.lineTo(-2,0); ctx.lineTo(-6,8); ctx.closePath(); ctx.fill(); ctx.restore(); } }
+  if (O.aim){ ctx.fillStyle = 'rgba(10,20,25,.15)'; ctx.fillRect(0,0,OW,OH); ctx.font = '14px "Russo One", system-ui, sans-serif'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.strokeText('Tap to aim Fireball', OW/2, OH-18); ctx.fillStyle = '#ff9f43'; ctx.fillText('Tap to aim Fireball', OW/2, OH-18); }
+  if (cmd.dead > 0 && O.phase==='wave'){ ctx.font = '700 12px "Exo 2", system-ui, sans-serif'; ctx.fillStyle = '#ffc23d'; ctx.fillText(`Commander respawning in ${Math.ceil(cmd.dead)}`, OW/2, O.core.y + 48); }
+}
+function opFxStep(dt){
+  const O = OP; O.shake = Math.max(0, (O.shake||0) - dt*20);
+  for (let i=O.fx.length-1;i>=0;i--){ const f = O.fx[i];
+    if (f.k==='fb'){ f.t += dt; if (f.t >= f.dur){ O.fx.splice(i,1); opFireballHit(f); } continue; }
+    f.life -= dt; if (f.k==='p'){ f.x += f.vx*dt; f.y += f.vy*dt; } if (f.life <= 0) O.fx.splice(i,1); }
+  for (let i=O.texts.length-1;i>=0;i--){ const tx = O.texts[i]; tx.life -= dt; tx.y -= dt*14; if (tx.life <= 0) O.texts.splice(i,1); }
+}
+function opLoop(ts){
+  if (!OP || state.screen!=='outpost') return;
+  const dt = opLast ? Math.min(0.05, (ts-opLast)/1000) : 0; opLast = ts;
+  if (OP.phase==='wave'){ opAcc += dt * OP.speed * (OP.aim ? 0.3 : 1); while (opAcc >= STEP){ opStep(STEP); opAcc -= STEP; if (OP.phase!=='wave') break; } }
+  if (OP.phase==='build'){ const c = OP.cmd, dx = c.tx-c.x, dy = c.ty-c.y, d = Math.hypot(dx,dy); c.moving = d>3; if (c.moving){ const st = Math.min(d, 92*OP.mod.cmdSpd*dt); c.x += dx/d*st; c.y += dy/d*st; c.face = dx>=0?1:-1; c.walk += dt*8; } }
+  opFxStep(dt); opDraw(ts/1000); opHud();
+  opRaf = requestAnimationFrame(opLoop);
+}
+
+/* outpost UI */
+function opWaveText(W){ return Object.entries(W.units).map(([k,n])=>`${n} ${OENEMY[k].label}`).join(', '); }
+function renderOutpost(full=true){
+  const O = OP; if (!O){ state.screen = 'title'; return render(); }
+  barEl.hidden = true;
+  if (full || !document.getElementById('opcv')){
+    app.className = 'wrap' + (reduced?'':' enter');
+    app.innerHTML = `
+    <header class="btop">${bannerSVG(teamHex(), state.banner.emblem, 34)}<div class="brand">Outpost Defense<small id="opsub"></small></div><span class="pill num"><span class="coin"></span><span id="opcr">${O.credits}</span></span></header>
+    <div class="ophud"><span>Core</span><div class="bar"><i id="opcore"></i></div><span class="num" id="opcorehp"></span></div>
+    <div class="field opfield"><canvas id="opcv" role="img" aria-label="Your outpost. Tap to move your commander. Tap a pad to build."></canvas></div>
+    <div id="opctrl"></div>`;
+    cancelAnimationFrame(opRaf); opLast = 0; opAcc = 0; opRaf = requestAnimationFrame(opLoop);
+  }
+  renderOpCtrl(); opHud(true);
+}
+function renderOpCtrl(){
+  const O = OP, el = document.getElementById('opctrl'); if (!el) return;
+  const W = opWave();
+  if (O.phase==='over'){
+    const r = O.result;
+    el.innerHTML = `<div class="opend ${r.won?'win':'loss'}"><h2>${r.won?'Outpost held!':'The core has fallen'}</h2><p>${r.won?`You survived all ${OWAVES.length} waves and toppled the Scrap Titan.`:`You held out until wave ${r.wave} of ${OWAVES.length}.`} ${r.kills} enemies destroyed. Best: ${meta.outpostBest>OWAVES.length?'all waves':'wave '+meta.outpostBest}.</p>
+      <div class="opbtns"><button class="btn" data-act="opretry">Play again</button><button class="btn ghost" data-act="opexit">Back to title</button></div></div>`;
+    barEl.hidden = true; return;
+  }
+  if (O.phase==='wave'){
+    el.innerHTML = `<div class="cmdbar"><button class="cmdb ${O.aim?'aiming':''}" data-act="opfire" id="opfire" style="--cc:#ff9f43"><span class="cmi">${CMD_IC.fireball}<i class="cmcd"></i></span><b>Fireball</b></button><button class="cmdb" data-act="oprally" id="oprally" style="--cc:#5ef0a0"><span class="cmi">${CMD_IC.mend}<i class="cmcd"></i></span><b>Rally</b></button><button class="cmdb ready" data-act="opspeed" style="--cc:#7ff3ff"><span class="cmi"><b class="num" style="font-size:13px">${O.speed}x</b></span><b>Speed</b></button></div>
+      <p class="cmdhint">${O.aim ? 'Tap the battlefield to drop the Fireball.' : 'Drag on the field to fly your commander. They shoot anything in the gold circle.'}</p>`;
+    barEl.hidden = true; return;
+  }
+  if (O.phase==='perk'){ el.innerHTML = `<button class="btn wide pulse" data-act="opperkopen">Choose your dawn upgrade</button>`; barEl.hidden = true; barEl.innerHTML = ''; return; }
+  if (!W){ el.innerHTML = ''; return; }
+  const built = O.pads.filter(p=>p.b).length;
+  el.innerHTML = `<div class="opwave ${W.boss?'boss':''}"><div class="eyebrow">${W.boss?'Final wave · boss':`Incoming · wave ${O.wave} of ${OWAVES.length}`}</div><b>${esc(opWaveText(W))}</b><span>From the ${W.from.map(k=>OSPAWN[k].name).join(', ')}. Red lanes on the map show the approach.</span></div>
+    <p class="hint">${built ? 'Tap a structure to upgrade it, or an empty pad to build. Destroyed buildings are rebuilt free at dawn.' : 'Tap a glowing pad to build. Turrets shoot, pylons block, barracks hold ground and refineries earn credits every dawn.'}</p>
+    ${O.perks.length?`<div class="chiprow">${O.perks.map(id=>`<span class="fchip boon">${esc(OPERKS[id].name)}</span>`).join('')}</div>`:''}`;
+  barEl.hidden = false;
+  barEl.innerHTML = O.phase==='build' ? `<button class="fab btn" data-act="opstart"><small>Dawn income +${opIncome()}</small><b>Begin wave ${O.wave}</b></button>` : '';
+}
+function opHud(force){
+  const O = OP; if (!O) return;
+  const cr = document.getElementById('opcr'); if (cr && cr.textContent != O.credits) cr.textContent = O.credits;
+  const cb = document.getElementById('opcore'); if (cb) cb.style.width = (100*clamp(O.core.hp/O.core.max,0,1)).toFixed(1)+'%';
+  const ch = document.getElementById('opcorehp'); if (ch) ch.textContent = `${Math.max(0,Math.round(O.core.hp))}/${O.core.max}`;
+  const sub = document.getElementById('opsub'); if (sub) sub.textContent = O.phase==='wave' ? `Wave ${O.wave} of ${OWAVES.length} · ${plural(O.units.filter(u=>u.side===1 && opAlive(u)).length + O.spawnQ.length,'hostile','hostiles')}` : O.phase==='over' ? 'Debrief' : `Build phase · wave ${O.wave} next`;
+  for (const [id, v, max] of [['opfire', O.cds.fire, 10], ['oprally', O.cds.rally, 16*O.mod.rallyCd]]){ const el = document.getElementById(id); if (!el) continue; el.style.setProperty('--p', v>0 ? v/max : 0); el.classList.toggle('ready', v<=0 && !(id==='oprally' && O.cmd.dead>0)); }
+}
+function opPadSheet(pad){
+  const O = OP, b = pad.b;
+  if (!b){
+    return `${closeBtn}<div class="eyebrow">Build pad</div><h2 style="margin-bottom:10px">Build here</h2><div class="opopts">${Object.entries(OBUILD).map(([k,D])=>{ const ok = O.credits >= D.cost[0];
+      return `<button class="opopt" data-act="opbuild" data-pad="${pad.id}" data-type="${k}" ${ok?'':'disabled'}><span class="opico ${k}">${opIcon(k)}</span><span><b>${esc(D.name)}</b><span class="muted">${esc(D.desc)}</span><span class="opstat num">${opStatLine(k,1)}</span></span><span class="opcost num">${D.cost[0]}cr</span></button>`; }).join('')}</div>`;
+  }
+  const D = OBUILD[b.type], next = b.lvl < 3 ? D.cost[b.lvl] : null, spent = D.cost.slice(0,b.lvl).reduce((a,c)=>a+c,0);
+  return `${closeBtn}<div class="opsel"><span class="opico big ${b.type}">${opIcon(b.type)}</span><div><div class="eyebrow">Level ${b.lvl} of 3</div><h2>${esc(D.name)}</h2><p class="muted" style="margin:4px 0 0">${esc(D.desc)}</p></div></div>
+    <div class="statline" style="margin:12px 0">${opStatLine(b.type, b.lvl).split(' · ').map(x=>`<span><b>${esc(x)}</b></span>`).join('')}</div>
+    ${next!=null ? `<button class="btn wide" data-act="opup" data-pad="${pad.id}" ${O.credits>=next?'':'disabled'}>Upgrade to level ${b.lvl+1} · ${next}cr</button><p class="hint" style="margin:6px 0 10px">Next: ${esc(opStatLine(b.type, b.lvl+1))}</p>` : '<p class="hint" style="margin-bottom:10px">Fully upgraded.</p>'}
+    <button class="linkbtn" data-act="opsell" data-pad="${pad.id}">Scrap for ${Math.floor(spent/2)}cr</button>`;
+}
+function opStatLine(type, lvl){ const D = OBUILD[type], L = lvl-1, m = OP ? OP.mod : OP_DEF_MOD(); const hp = Math.round(D.hp[L]*m.structHp);
+  if (type==='turret') return `${D.dmg[L]} damage · range ${Math.round(D.range[L]*m.range)} · ${hp} HP${lvl===3?' · twin shot':''}`;
+  if (type==='barracks') return `${D.troops[L]} troopers${lvl>=2?' incl. a marksman':''} · ${hp} HP`;
+  if (type==='pylon') return `${hp} HP · blocks the path`;
+  return `+${D.income[L]} credits per dawn · ${hp} HP`; }
+function opIcon(k){ return {turret:'<svg viewBox="0 0 24 24"><circle cx="10" cy="14" r="6" fill="currentColor"/><rect x="10" y="11" width="11" height="4" rx="1.5" fill="currentColor"/></svg>', barracks:'<svg viewBox="0 0 24 24"><path d="M3 11l9-6 9 6v9H3z" fill="currentColor"/><rect x="10" y="14" width="4" height="6" fill="#0a0f1f"/></svg>', pylon:'<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="9" fill="none" stroke="currentColor" stroke-width="2" opacity=".6"/><rect x="10" y="4" width="4" height="16" rx="1.5" fill="currentColor"/></svg>', refinery:'<svg viewBox="0 0 24 24"><path d="M12 3l4 11H8z" fill="currentColor"/><rect x="4" y="14" width="16" height="6" rx="2" fill="currentColor"/></svg>'}[k]; }
+function opPerkSheet(){
+  const O = OP;
+  return `<div class="sh-top"><span class="grab"></span></div><div class="eyebrow">Dawn · wave ${O.wave-1} cleared</div><h2 style="margin-bottom:4px">Choose an upgrade</h2><p class="hint" style="margin-bottom:12px">It lasts for the rest of this defense. Your buildings have been repaired.</p>
+    <div class="cards">${O.perkOffer.map(id=>`<button class="card rare" data-act="opperk" data-id="${id}"><span class="rr">Outpost upgrade</span><h3>${esc(OPERKS[id].name)}</h3><p>${esc(OPERKS[id].desc)}</p></button>`).join('')}</div>`;
+}
+function opPointer(e, type){
+  const c = document.getElementById('opcv'); if (!c || !OP || state.screen!=='outpost') return;
+  const r = c.getBoundingClientRect(), x = (e.clientX - r.left)/r.width*OW, y = (e.clientY - r.top)/r.height*OH;
+  const O = OP;
+  if (type==='down'){
+    if (O.phase==='wave' && O.aim){ opFireball(x, y); return; }
+    if (O.phase==='build'){ let best = null, bd = 22*22; for (const p of O.pads){ const d = (p.x-x)**2 + (p.y-y)**2; if (d < bd){ bd = d; best = p; } } if (best){ sfx('tap'); openSheet(opPadSheet(best), 'oppad', best.id); return; } }
+    if (O.phase==='wave' || O.phase==='build'){ opDrag = true; O.cmd.tx = clamp(x, 8, OW-8); O.cmd.ty = clamp(y, 12, OH-8); }
+  } else if (type==='move' && opDrag){ O.cmd.tx = clamp(x, 8, OW-8); O.cmd.ty = clamp(y, 12, OH-8); }
+  else if (type==='up') opDrag = false;
+}
+document.addEventListener('pointerdown', e => { if (e.target && e.target.id==='opcv'){ opPointer(e, 'down'); e.preventDefault(); } });
+document.addEventListener('pointermove', e => { if (opDrag) opPointer(e, 'move'); });
+document.addEventListener('pointerup', () => { opDrag = false; });
+function opAct(a, b){
+  const O = OP;
+  switch (a){
+    case 'outpost': closeSheet(); return opStart();
+    case 'opbuild': if (opBuild(+b.dataset.pad, b.dataset.type)){ closeSheet(); renderOpCtrl(); opHud(); } return;
+    case 'opup': if (opUpgrade(+b.dataset.pad)){ openSheet(opPadSheet(O.pads[+b.dataset.pad]), 'oppad', +b.dataset.pad); opHud(); } return;
+    case 'opsell': opSell(+b.dataset.pad); closeSheet(); renderOpCtrl(); opHud(); return;
+    case 'opstart': return opBeginWave();
+    case 'opperk': return opChoosePerk(b.dataset.id);
+    case 'opperkopen': if (O.phase==='perk') openSheet(opPerkSheet(), 'opperk'); return;
+    case 'opfire': if (O.phase==='wave' && O.cds.fire<=0){ O.aim = O.aim ? null : 'fire'; sfx('tap'); renderOpCtrl(); } return;
+    case 'oprally': opRally(); return;
+    case 'opspeed': O.speed = O.speed===1 ? 2 : 1; renderOpCtrl(); return;
+    case 'opretry': return opStart();
+    case 'opexit': OP = null; state.screen = 'title'; barEl.hidden = true; return render();
+  }
 }
 
 /* ---------- march map ---------- */
@@ -3388,6 +3860,7 @@ function renderTitle(){
   <div class="tlogo"><h1>Pocket<br><span>Warbands</span></h1><p>Raise a warband. Cross the stars. Remember your nemeses.</p></div>
   <div class="tcta"><button class="btn wide pulse" data-act="play">${live ? (state.fights ? 'Continue campaign' : 'Begin campaign') : 'Raise a new warband'}</button>
     <span class="hint">${live ? `${esc(state.name)} · sector ${region(state.battle).march}, jump ${stopOf(state.battle)} of 5 · ${state.roster.length} soldiers` : 'Your last campaign has ended.'}</span></div>
+  <button class="opentry" data-act="outpost"><span class="ot">New · prototype</span><b>Outpost Defense</b><span>Build defenses, fly your commander, survive 8 waves${meta.outpostBest?` · best: ${meta.outpostBest>8?'all waves':'wave '+meta.outpostBest}`:''}</span></button>
   <div class="hub">${hubButtons()}</div>
   <div class="renown"><div class="rtop"><b>Renown level ${R.lvl}</b><span class="num">${R.into}/${R.need}</span></div><div class="xp"><i style="width:${Math.round(100*R.into/R.need)}%"></i></div><span class="hint">Earn renown from feats, sieges, daily orders and the Arena. Levels unlock new insignia colours and emblems.</span></div>`;
   startTitleLoop();
@@ -3420,6 +3893,7 @@ function render(){
   if (state.screen==='title') renderTitle();
   else if (state.screen==='end') renderEnd();
   else if (state.screen==='results' && state.results) renderResults();
+  else if (state.screen==='outpost' && OP) renderOutpost(true);
   else { state.screen = 'camp'; renderCamp(true); }
   window.scrollTo({top:0});
 }
@@ -3430,6 +3904,7 @@ function onAct(b){
   if (act!=='reset' && resetArmed) resetArmed = false;
   if (act!=='dismiss' && dismissArmed) dismissArmed = null;
   if (act!=='resetall') resetAllArmed = false;
+  if (act==='outpost' || act.startsWith('op')) return opAct(act, b);
   switch (act){
     case 'soldier': return openSoldier(+b.dataset.id);
     case 'warband': sfx('tap'); return openSheet(warbandSheetHTML(), 'warband');
@@ -3537,7 +4012,7 @@ document.addEventListener('keydown', e => {
   if (e.key==='Enter' && e.target.id==='rename-input') onAct({dataset:{act:'rename'}});
   if (e.key==='Enter' && e.target.id==='wb-input') onAct({dataset:{act:'wbname'}});
 });
-sheetEl.addEventListener('click', e => { if (e.target===sheetEl && sheetKind!=='boon') closeSheet(); });
+sheetEl.addEventListener('click', e => { if (e.target===sheetEl && sheetKind!=='boon' && sheetKind!=='opperk') closeSheet(); });
 /* ---------- drag and drop ---------- */
 const ghost = document.createElement('div'); ghost.className = 'dragghost'; ghost.hidden = true; ghost.innerHTML = '<canvas></canvas>'; document.body.appendChild(ghost);
 const benchZone = document.createElement('div'); benchZone.className = 'benchzone'; benchZone.hidden = true; benchZone.textContent = 'Drop here to bench'; document.body.appendChild(benchZone);
