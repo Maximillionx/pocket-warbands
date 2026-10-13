@@ -1,0 +1,13 @@
+{
+  "name": "pocket-warbands-tools",
+  "private": true,
+  "description": "Headless balance bots for Pocket Warbands",
+  "scripts": {
+    "campaign": "node campaign-bot-abilities.js",
+    "campaign:plain": "node campaign-bot.js",
+    "outpost": "node outpost-bot.js"
+  },
+  "dependencies": {
+    "jsdom": "^24.1.3"
+  }
+}
