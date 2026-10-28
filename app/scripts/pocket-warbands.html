@@ -851,6 +851,43 @@ html.calm *, html.calm *::before, html.calm *::after{animation-duration:.001s!im
 .xbtn{min-width:44px;min-height:44px;}
 .keys{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:13px;color:var(--muted);}
 kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-radius:5px;border:1px solid var(--line);border-bottom-width:2px;background:var(--panel-2);color:var(--ink);font:700 12px var(--body);text-align:center;}
+
+/* sprint 16: galaxy */
+.galwrap{padding-bottom:110px;}
+.galhead{display:flex;align-items:center;gap:10px;margin:8px 0 12px;}
+.galhead > div{flex:1;min-width:0;} .galhead h1{font-family:var(--display);font-size:24px;line-height:1.1;margin:2px 0 0;}
+.galmap{border-radius:16px;overflow:hidden;border:1px solid rgba(127,243,255,.22);box-shadow:0 10px 40px rgba(0,0,0,.4);}
+.galmap canvas{display:block;width:100%;height:320px;touch-action:manipulation;cursor:pointer;}
+.galtabs{display:flex;gap:6px;overflow-x:auto;padding:10px 2px 4px;scrollbar-width:none;}
+.gt{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);color:var(--muted);font-size:12px;font-weight:700;}
+.gt i{width:9px;height:9px;border-radius:50%;background:var(--fc);opacity:.55;} .gt.lib i{opacity:1;box-shadow:0 0 6px var(--fc);}
+.gt.on{border-color:var(--fc);color:var(--ink);background:rgba(255,255,255,.05);}
+.galpanel .sh-sec{margin-top:14px;} .galpanel{margin-top:8px;padding:14px;border-radius:16px;background:var(--panel);border:1px solid var(--line);}
+.gfront{display:flex;align-items:center;gap:12px;} .gfront > i{width:34px;height:34px;flex:none;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,var(--fc) 30%,#0b0f22 100%);box-shadow:0 0 14px var(--fc);}
+.gfront h2{font-family:var(--display);font-size:20px;margin:0;line-height:1.15;}
+.gstat{font-size:12px;font-weight:700;color:var(--muted);} .gstat.ok{color:var(--ok);} .gstat.lock{color:var(--warn);}
+.grule{margin:10px 0;font-size:14px;line-height:1.45;}
+.gunlock{display:flex;flex-direction:column;gap:1px;padding:10px 12px;border-radius:12px;border:1px dashed rgba(255,194,61,.45);background:rgba(255,194,61,.06);}
+.gunlock span:first-child{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);} .gunlock b{font-size:15px;} .gunlock span:last-child{font-size:13px;color:var(--muted);}
+.gunlock.have{border-style:solid;border-color:rgba(94,240,160,.4);background:rgba(94,240,160,.06);} .gunlock.have span:first-child{color:var(--ok);}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(36px,1fr));gap:6px;}
+.tgrid button{min-height:40px;border-radius:10px;border:1px solid var(--line);background:var(--bg-2);color:var(--muted);font-family:var(--display);font-size:15px;}
+.tgrid button.on{border-color:var(--foe);color:#fff;background:rgba(255,94,87,.18);box-shadow:0 0 10px rgba(255,94,87,.3);}
+.gchips{display:flex;flex-wrap:wrap;gap:6px;}
+.gchip{min-height:38px;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:var(--bg-2);color:var(--muted);font-size:13px;font-weight:700;}
+.gchip small{font-weight:600;opacity:.75;margin-left:2px;} .gchip.on{border-color:var(--hud);color:var(--ink);background:rgba(127,243,255,.12);}
+.galentry{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,210,122,.45);background:linear-gradient(120deg,rgba(255,210,122,.12),rgba(127,243,255,.06));color:var(--ink);}
+.galentry b{display:block;font-family:var(--display);font-size:17px;letter-spacing:.02em;} .galentry span span{font-size:13px;color:var(--muted);}
+.gdots{position:relative;width:46px;height:46px;flex:none;border-radius:50%;background:radial-gradient(circle,#2a2140,#0a0e20 70%);}
+.gdots i{position:absolute;width:9px;height:9px;border-radius:50%;background:var(--fc);opacity:.3;left:50%;top:50%;margin:-4.5px;}
+.gdots i.on{opacity:1;box-shadow:0 0 6px var(--fc);}
+.gdots i:nth-child(1){transform:translate(0,-17px);} .gdots i:nth-child(2){transform:translate(15px,-8px);} .gdots i:nth-child(3){transform:translate(15px,8px);} .gdots i:nth-child(4){transform:translate(0,17px);} .gdots i:nth-child(5){transform:translate(-15px,8px);} .gdots i:nth-child(6){transform:translate(-15px,-8px);}
+.gdots i.core{--fc:#ffd27a;width:11px;height:11px;margin:-5.5px;opacity:.25;} .gdots i.core.open{opacity:.7;} .gdots i.core.on{opacity:1;box-shadow:0 0 10px #ffd27a;}
+.frontchip i{width:8px;height:8px;border-radius:50%;background:var(--fc);box-shadow:0 0 6px var(--fc);}
+.frontchip{border-color:color-mix(in srgb,var(--fc) 45%,transparent);}
+.galend{margin:14px 0;padding:14px;border-radius:16px;border:1px solid color-mix(in srgb,var(--fc) 55%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--fc) 14%,transparent),transparent);}
+.galend h2{font-family:var(--display);font-size:22px;margin:2px 0 4px;} .galend .gunlock{margin-top:10px;}
+html.big-text .gt, html.big-text .gchip{font-size:14px;} html.big-text .gstat{font-size:13.5px;}
 </style>
 
 <div id="app" class="wrap"></div>
@@ -1071,7 +1108,7 @@ const traitsBy = l => { let n = 0; for (let k=2;k<=l;k++) if (traitAt(k)) n++; r
 const marchOf = b => Math.ceil(b/5);
 const isBoss = b => b%5===0;
 const stopOf = b => (b-1)%5+1;
-function region(b){ const m = marchOf(b), r = REGIONS[(m-1)%REGIONS.length], lap = Math.floor((m-1)/REGIONS.length); return {...r, march:m, suffix: lap ? ' '+['II','III','IV','V'][Math.min(lap-1,3)] : ''}; }
+function region(b){ const m = marchOf(b), r = (m===5 && state && state.run && state.run.front==='core') ? {...REGIONS[4], ...CORE_REGION} : REGIONS[(m-1)%REGIONS.length], lap = Math.floor((m-1)/REGIONS.length); return {...r, march:m, suffix: lap ? ' '+['II','III','IV','V'][Math.min(lap-1,3)] : ''}; }
 
 /* ---------- stats ---------- */
 function stats(u){
@@ -1129,7 +1166,7 @@ const teamPower = list => list.reduce((a,u)=>a+unitPower(u),0);
 /* ---------- state ---------- */
 const KEY = 'pocket-warbands-v1', META_KEY = 'pocket-warbands-meta';
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
-const META_DEF = () => ({v:1, runs:0, bestMarch:0, crowns:0, legends:[], renown:0, ach:{}, codex:{cls:{}, perks:{}, rings:{}}, daily:null, chest:{last:null, streak:0}, tut:{}, settings:{music:true, shake:true, big:false, hc:false, calm:false, rings:true}, arena:{rating:1000, wins:0, losses:0, joined:false}});
+const META_DEF = () => ({v:1, runs:0, bestMarch:0, crowns:0, legends:[], renown:0, ach:{}, codex:{cls:{}, perks:{}, rings:{}}, daily:null, chest:{last:null, streak:0}, tut:{}, settings:{music:true, shake:true, big:false, hc:false, calm:false, rings:true}, galaxy:{lib:{}, maxT:-1, core:false}, arena:{rating:1000, wins:0, losses:0, joined:false}});
 function loadMeta(){
   const d = META_DEF();
   try{ const m = JSON.parse(localStorage.getItem(META_KEY)); if (m && m.v===1) return Object.assign(d, m, {settings:Object.assign(d.settings, m.settings||{}), arena:Object.assign(d.arena, m.arena||{}), codex:{cls:Object.assign({}, m.codex&&m.codex.cls), perks:Object.assign({}, m.codex&&m.codex.perks), rings:Object.assign({}, m.codex&&m.codex.rings)}, chest:Object.assign(d.chest, m.chest||{}), tut:m.tut||{}, ach:m.ach||{}}); }catch(e){}
@@ -1137,6 +1174,8 @@ function loadMeta(){
 }
 function saveMeta(){ try{ localStorage.setItem(META_KEY, JSON.stringify(meta)); }catch(e){} }
 let meta = loadMeta();
+if (!meta.galaxy || !meta.galaxy.lib) meta.galaxy = {lib:{}, maxT:-1, core:false};
+if (meta.crowns > 0 && !Object.keys(meta.galaxy.lib).length){ meta.galaxy.lib.freeport = 0; meta.galaxy.maxT = 0; }
 function applyA11y(){
   const st = meta.settings, h = document.documentElement;
   reduced = OS_REDUCED || !!st.calm;
@@ -1166,7 +1205,7 @@ const hasBoon = id => state.boons.includes(id);
 const maxMarch = () => 8 + (hasBoon('tallbanner')?1:0);
 const deployed = () => state.roster.filter(u=>!u.benched && !u.wounded).slice(0, maxMarch());
 const teamHex = () => (TEAM_COLORS[state.banner.color] || TEAM_COLORS[0]).hex;
-const price = base => Math.round(base * (hasBoon('quartermaster') ? 0.75 : 1));
+const price = base => Math.round(base * (hasBoon('quartermaster') ? 0.75 : 1) * (state ? runMods().price : 1));
 const pendingUnits = () => state.roster.filter(u=>u.pending>0);
 const fillable = () => deployed().length < maxMarch() && state.roster.some(u=>u.benched && !u.wounded);
 function fillRanks(){ for (const u of state.roster){ if (deployed().length>=maxMarch()) break; if (u.benched && !u.wounded) u.benched = false; } }
@@ -1181,16 +1220,17 @@ function grantXP(u, gain){ const fromLvl=u.level, fromPct=Math.round(100*u.xp/ne
 function gainItem(id){ state.stash.push(id); state.stats.items++; }
 function rollItem(rng, w){ const r = rng(); const rar = r<w[0] ? 'common' : r<w[0]+w[1] ? 'rare' : 'epic'; return pick(rng, Object.keys(ITEMS).filter(k=>ITEMS[k].rarity===rar)); }
 
-function newCampaign(){
-  const prev = state;
+function newCampaign(opts={}){
+  const prev = state, run = {front: FRONTS[opts.front] ? opts.front : 'freeport', threat: Math.max(0, Math.min(10, opts.threat||0)), doctrine: DOCTRINES[opts.doctrine] ? opts.doctrine : null}, M = runMods(run), mor = Math.max(1, 3 + M.morale);
   meta.runs++; saveMeta();
-  state = {v:3, name: prev?.name || 'The Lantern Company', banner: prev?.banner || {color:0, emblem:0}, gold:170, mythic:null, mythicSeen:false, battle:1, fights:0, wins:0, losses:0, lossStreak:0, history:{},
+  state = {v:3, name: prev?.name || 'The Lantern Company', banner: prev?.banner || {color:0, emblem:0}, gold:170 + M.startGold, run, mythic:null, mythicSeen:false, battle:1, fights:0, wins:0, losses:0, lossStreak:0, history:{},
     speed: prev?.speed || 1, sound: prev ? prev.sound !== false : true, seed:(Math.random()*1e9)|0, nextId:1, rolls:0, roster:[], fallen:[], shop:[], enemy:null, results:null, screen:'camp',
-    morale:3, maxMorale:3, stash:[], nemeses:[], boons:[], boonOffer:null, charter:true, pairs:{}, stats:{nemSlain:0, items:0}, ended:null, endless:false, roads:[], node:null,
+    morale:mor, maxMorale:mor, stash:[], nemeses:[], boons:[], boonOffer:null, charter:true, pairs:{}, stats:{nemSlain:0, items:0}, ended:null, endless:false, roads:[], node:null,
     bonusPick:0, nextWeaker:false, recentEvents:[], legendChosen:false};
   const founders = [makeUnit('footman','Rook'), makeUnit('archer','Vega',{level:2, xp:9, perks:['steady'], kills:3, battles:2}), makeUnit('shield','Brick',{battles:1, kills:1, xp:10}), makeUnit('spear','Wren')];
+  if (M.founders) founders.forEach(u=>{ if (u.level < M.founders){ const before = traitsBy(u.level); u.level = M.founders; u.xp = 0; u.pending = (u.pending||0) + traitsBy(M.founders) - before; } });
   founders.forEach(u=>{ chron(u, 'Founding member of the warband'); state.roster.push(u); });
-  const L = meta.legends[meta.legends.length-1];
+  const L = opts.heir === -1 ? null : opts.heir != null ? meta.legends[opts.heir] : meta.legends[meta.legends.length-1];
   if (L){
     const rng = mulberry32(state.seed+3);
     const heir = makeUnit(L.cls, freshName(rng), {level:2, perks: L.perk && PERKS[L.perk] && perkFits(PERKS[L.perk], L.cls) ? [L.perk] : [], heir:L.name});
@@ -1216,7 +1256,7 @@ function rollShop(){
     let perks;
     if (tier==='common') perks = rollStartPerks(cls, level, rng);
     else { perks = rollStartPerks(cls, level-1, rng); const p = rollPerkOfRarity({cls, level, perks}, rng, tier); if (p) perks.push(p); }
-    state.shop.push({cls, name:freshName(rng), level, perks, tier, cost: CLASSES[cls].cost + 18*(level-1) + T.mark});
+    state.shop.push({cls, name:freshName(rng), level, perks, tier, cost: Math.round((CLASSES[cls].cost + 18*(level-1) + T.mark) * runMods().price)});
   }
 }
 const MYTHICS = [{name:'Aldrin', cls:'knight', sig:'lionheart'}, {name:'Morwen', cls:'mage', sig:'starfall'}, {name:'Gunnhild', cls:'shield', sig:'unbreakable'}];
@@ -1226,7 +1266,7 @@ function makeMythic(){
   const lg = rollPerkOfRarity({cls:m.cls, level, perks}, rng, 'legendary'); if (lg) perks.push(lg);
   const ep = rollPerkOfRarity({cls:m.cls, level, perks}, rng, 'epic'); if (ep) perks.push(ep);
   while (perks.length < traitsBy(level)+1){ const p = rollPerks({cls:m.cls, level, perks}, rng, 1)[0]; if (!p) break; perks.push(p); }
-  state.mythic = {cls:m.cls, name:m.name, level, perks, cost:220, tier:'mythic'}; state.mythicSeen = true;
+  state.mythic = {cls:m.cls, name:m.name, level, perks, cost:Math.round(220*runMods().price), tier:'mythic'}; state.mythicSeen = true;
   return state.mythic;
 }
 function rollRoads(){
@@ -1256,7 +1296,7 @@ function makeEnemy(type, nemUid){
   const curve = 1 + (b-1)*0.37;
   const weaker = state.nextWeaker; state.nextWeaker = false;
   let target = Math.max(1, 0.65*curve + 0.35*avgLevel(top) - 0.6*Math.min(2, state.lossStreak) + (elite?1:0) + (boss?0.7:0) - (weaker?1:0));
-  const n = clamp(3 + Math.floor((b-1)*0.6) - (boss?2:0) - (state.lossStreak>=2?1:0) + (elite?1:0) - (weaker?1:0), 3, 10);
+  const n = clamp(3 + Math.floor((b-1)*0.6) - (boss?2:0) - (state.lossStreak>=2?1:0) + (elite?1:0) - (weaker?1:0) + runMods().foeExtra, 3, 12);
   const reg = region(b);
   const options = WARBANDS.filter(w => w.fav.some(c=>pool.includes(c)));
   const bk = boss ? bossOfMarch(reg.march) : null;
@@ -1288,7 +1328,7 @@ function rollMarket(){
   const rid = rollRing(rng, [0.2,0.45,0.27]);
   return {items, ring:{id:rid, price:price(RING_PRICE[RINGS[rid].rarity]), sold:false}, healed:false, chaplain:false, name: MARKETS[state.battle % MARKETS.length]};
 }
-const BOSS_TIPS = {troll:'Its slam punishes a crowded front line. Marksmen and Voidcallers win this from range.', hydra:'It spits from far away. Riders and Infiltrators close the gap before the heads multiply.', golem:'Its hull burns close attackers. Gunner slugs pierce its armor, and spreading out beats the vents.', kraken:'It drags your back line into reach. Bulwarks and Medics keep them alive.', lich:'The husks keep coming. Kill the Regent fast. Kingslayers hit him twice as hard.'};
+const BOSS_TIPS = {arch:'Watch for the red line: its beam burns a whole lane. Spread your rows, and save Mending Light for after the beam and the phase shifts.', troll:'Its slam punishes a crowded front line. Marksmen and Voidcallers win this from range.', hydra:'It spits from far away. Riders and Infiltrators close the gap before the heads multiply.', golem:'Its hull burns close attackers. Gunner slugs pierce its armor, and spreading out beats the vents.', kraken:'It drags your back line into reach. Bulwarks and Medics keep them alive.', lich:'The husks keep coming. Kill the Regent fast. Kingslayers hit him twice as hard.'};
 function scoutAdvice(e){
   const c = {}; e.units.forEach(u=>c[u.cls]=(c[u.cls]||0)+1);
   const ranged = (c.archer||0)+(c.crossbow||0)+(c.mage||0), armored = (c.shield||0)+(c.knight||0)+(c.warlord||0);
@@ -1639,7 +1679,7 @@ function teamSection(){
       <button class="team-name" data-act="warband"><h1>${esc(state.name)}</h1><small>Sector ${reg.march} · ${esc(reg.name)}${reg.suffix}</small></button>
       <div class="team-stats"><span class="pill num" id="goldpill"><span class="coin"></span><span id="gold">${shownGold ?? state.gold}</span></span><span class="pill">${moraleFlags(state.morale, state.maxMorale)}</span></div>
     </div>
-    <div class="quick"><button class="qb" data-act="daily">${HUBI.daily}Daily${dailyDot()?'<i class="dot"></i>':''}</button><button class="qb" data-act="arena">${HUBI.arena}Arena${arenaReady()&&state.fights>0?'<i class="dot"></i>':''}</button><button class="qb" data-act="codex">${HUBI.codex}Codex</button><button class="qb" data-act="lab">${HUBI.lab}Lab</button><button class="qb" data-act="settings">${HUBI.settings}Settings</button><button class="qb" data-act="home">${HUBI.home}Menu</button></div>
+    <div class="quick">${frontChip()}<button class="qb" data-act="daily">${HUBI.daily}Daily${dailyDot()?'<i class="dot"></i>':''}</button><button class="qb" data-act="arena">${HUBI.arena}Arena${arenaReady()&&state.fights>0?'<i class="dot"></i>':''}</button><button class="qb" data-act="codex">${HUBI.codex}Codex</button><button class="qb" data-act="lab">${HUBI.lab}Lab</button><button class="qb" data-act="settings">${HUBI.settings}Settings</button><button class="qb" data-act="home">${HUBI.home}Menu</button></div>
   </section>`;
 }
 function armySection(){
@@ -1949,8 +1989,12 @@ const BOSSES = {
     lore:'He ruled the Throne Nebula for a thousand years. Death was a minor scheduling problem.',
     hp:2.0, atk:1.05, armor:0.15, speed:0.55, rad:13, cd:1.3, range:130, proj:'soul',
     abil:[['Rebuild the Fallen','Every 9 seconds, two husk drones crawl out of the wreckage.'],['Soul Drain','Every 7 seconds, drains the weakest foe for 220% and heals for it.']]},
+  arch: {name:'The Architect', short:'ARCHITECT', cry:'The Architect wakes.', col:'#ffd27a',
+    lore:'It designed the five warlords, the Hive and the Regent’s throne. It considers the galaxy a draft.',
+    hp:3.0, atk:1.15, armor:0.2, speed:0.5, rad:17, cd:1.25, range:120, proj:'soul',
+    abil:[['Unmaking Beam','Every 7 seconds, marks a lane of your army with a red line, then burns everything in it for 130%.'],['Phase Shift','At two thirds and one third health, turns untouchable for 3 seconds and builds two constructs.']]},
 };
-const bossOfMarch = m => BOSS_ORDER[(m-1) % BOSS_ORDER.length];
+const bossOfMarch = m => (m===5 && state && state.run && state.run.front==='core') ? 'arch' : BOSS_ORDER[(m-1) % BOSS_ORDER.length];
 function bossAbilText(k){ return BOSSES[k].abil.map(a=>`${a[0]}: ${a[1]}`).join(' '); }
 
 function applyBoss(f, k){
@@ -1974,6 +2018,7 @@ function bossStep(f, dt){
   const D = BOSSES[f.bossK], st = f.bt, foes = foesOf(f); if (!foes.length) return;
   st.a -= dt; st.b -= dt; st.lunge = Math.max(0, st.lunge - dt*3); st.slam = Math.max(0, st.slam - dt*2.5);
   const announce = (txt) => { addText(f.x, f.y-56, txt, D.col, 11); };
+  if (f.enrageAt && B.t > f.enrageAt && !st.enraged){ st.enraged = true; f.atk *= 1.5; f.atkSpd *= 1.5; f.speed *= 1.3; announce('ENRAGED'); sparks(f.x, f.y-20, '#ff4b3a', 22, 1.4); addLog(`${D.name} is enraged`, 'd'); }
   switch (f.bossK){
     case 'troll':
       if (st.a <= 0){ const near = foes.filter(o=>Math.hypot(o.x-f.x,o.y-f.y) < 62); if (near.length){ st.a = 7; st.slam = 1; announce('GROUND SLAM'); B.rings.push({x:f.x, y:f.y+10, t:0, col:'#c9a96a', r:70}); for (const o of near){ hit(f, o, 1.4, false); if (o.alive) o.stun = Math.max(o.stun||0, 1); } B.shake = Math.min(6, B.shake+4); hitStop(0.08); punch(f.x, f.y, 0.07); sfx('die'); } else st.a = 0.6; }
@@ -1992,6 +2037,15 @@ function bossStep(f, dt){
       if (st.a <= 0){ const far = foes.reduce((a,o)=>Math.hypot(o.x-f.x,o.y-f.y) > Math.hypot(a.x-f.x,a.y-f.y) ? o : a); const d = Math.hypot(far.x-f.x, far.y-f.y);
         if (d > 50){ st.a = 6; st.lunge = 1; announce('TENTACLE GRAB'); B.zaps.push({x1:f.x, y1:f.y, x2:far.x, y2:far.y-6, life:0.35, col:'#d77aa5'}); puff(far.x, far.y); far.x = clamp(f.x + (f.side ? -1 : 1)*(f.rad + far.rad + 2), 12, 366); far.y = clamp(f.y + (B.rng()-0.5)*20, 22, 266); far.px = far.x; far.py = far.y; far.stun = Math.max(far.stun||0, 1.2); hit(f, far, 0.8, false); B.shake = Math.min(5, B.shake+2); } else st.a = 1; }
       break;
+    case 'arch': {
+      if (f.immune > 0){ f.immune = Math.max(0, f.immune - dt); } st.shield = f.immune || 0;
+      const ph = f.hp / f.maxHp, phase = () => { f.immune = 3; st.shield = 3; announce('PHASE SHIFT'); sparks(f.x, f.y-20, '#ffd27a', 22, 1.4); const before = B.fs.length; summonSkeleton(f); summonSkeleton(f); B.fs.slice(before).forEach(o=>{ o.name = 'Construct'; }); addLog(`${D.name} shifted out of phase`, 'd'); };
+      if (!st.p1 && ph < 0.66){ st.p1 = true; phase(); } else if (!st.p2 && ph < 0.33){ st.p2 = true; phase(); }
+      if (st.charge > 0){ st.charge -= dt; if (st.charge <= 0){ const y0 = st.beamY; for (const o of foes) if (Math.abs(o.y - y0) < 17) hit(f, o, 1.3, false); B.beam = {y:y0, x:f.x, life:0.45}; B.shake = Math.min(5, (B.shake||0) + 2.5); sfx('hit'); } }
+      else if (st.a <= 0){ st.a = 7; const best = foes.reduce((bst,o)=>{ const n = foes.filter(q=>Math.abs(q.y-o.y)<17).length; return n > bst.n ? {o, n} : bst; }, {o:foes[0], n:-1}).o; st.beamY = best.y; st.charge = 1.5; announce('UNMAKING'); }
+      B.beamWarn = st.charge > 0 ? {y:st.beamY, x:f.x} : null;
+      if (B.beam){ B.beam.life -= dt; if (B.beam.life <= 0) B.beam = null; }
+      break; }
     case 'lich':
       if (st.a <= 0){ st.a = 9; const alive = B.fs.filter(o=>o.alive && o.summon && o.side===f.side).length; if (alive < 4){ announce('REBUILD'); summonSkeleton(f); summonSkeleton(f); st.summons += 2; if (st.summons===2) addLog(`${D.name} rebuilt the fallen`, 'd'); } }
       if (st.b <= 0){ st.b = 7; const w = foes.reduce((a,o)=>o.hp<a.hp?o:a); const before = w.hp; zapFx(w, f, '#a98cff'); hit(f, w, 2.2, false); applyHeal(f, f, Math.max(0, before - Math.max(0, w.hp))); announce('SOUL DRAIN'); }
@@ -2096,11 +2150,37 @@ function drawBoss(ctx, o){
     ctx.fillStyle = '#c9b6ff'; ctx.beginPath(); ctx.arc(0,-19,3,0,Math.PI*2); ctx.fill(); ctx.stroke();
     ctx.restore();
     ctx.fillStyle = '#e8e4d8'; ctx.beginPath(); ctx.arc(10,-9,1.8,0,Math.PI*2); ctx.fill(); ctx.stroke();
+  } else if (k==='arch'){
+    const fly = Math.sin(t*1.6)*2.5 - 6, chg = st.charge > 0 ? 1 : 0, shv = st.shield || 0, rot = t*1.2;
+    const gl = ctx.createRadialGradient(0,14,1,0,14,22); gl.addColorStop(0,'rgba(255,210,122,.55)'); gl.addColorStop(1,'rgba(255,210,122,0)'); ctx.fillStyle = gl; ctx.beginPath(); ctx.ellipse(0,14,22,7,0,0,Math.PI*2); ctx.fill();
+    ctx.translate(0, fly);
+    ctx.strokeStyle = 'rgba(255,210,122,.5)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.ellipse(0,-12,22,6,-0.15,Math.PI,Math.PI*2); ctx.stroke();
+    ctx.strokeStyle = OUT; ctx.lineWidth = 1.6;
+    ctx.fillStyle = '#17142a'; ctx.beginPath(); ctx.moveTo(-9,-6); ctx.lineTo(9,-6); ctx.lineTo(0,16); ctx.closePath(); ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = '#ffd27a'; ctx.lineWidth = 0.9; ln(ctx,-5,-5,0,10); ln(ctx,5,-5,0,10);
+    const hex = (r, y0) => { ctx.beginPath(); for (let i=0;i<6;i++){ const an = Math.PI/6 + i*Math.PI/3; ctx.lineTo(Math.cos(an)*r, y0 + Math.sin(an)*r); } ctx.closePath(); };
+    ctx.strokeStyle = OUT; ctx.lineWidth = 1.6; hex(13, -16); ctx.fillStyle = '#1d1934'; ctx.fill(); ctx.stroke();
+    hex(10.5, -16); ctx.strokeStyle = '#ffd27a'; ctx.lineWidth = 1.1; ctx.stroke();
+    ctx.lineWidth = 0.7; ctx.strokeStyle = 'rgba(255,210,122,.55)'; ln(ctx,-10,-16,-6.5,-16); ln(ctx,6.5,-16,10,-16); ln(ctx,0,-26,0,-21.5); ln(ctx,0,-10.5,0,-6);
+    const eg = 0.6 + 0.4*Math.sin(t*4), ec = chg ? '#ff6b3a' : '#ffd27a';
+    ctx.globalAlpha = a*(0.35 + 0.3*eg); ctx.fillStyle = ec; ctx.beginPath(); ctx.arc(0,-16,8 + chg*2.5,0,Math.PI*2); ctx.fill(); ctx.globalAlpha = a;
+    ctx.strokeStyle = OUT; ctx.lineWidth = 1.2; ctx.fillStyle = '#f4ecd8'; ctx.beginPath(); ctx.ellipse(0,-16,6,4.2,0,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    const look = Math.sin(t*0.9)*1.4; ctx.fillStyle = ec; ctx.beginPath(); ctx.arc(look,-16,2.8,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#120f1e'; ctx.beginPath(); ctx.ellipse(look,-16,0.9,2.3,0,0,Math.PI*2); ctx.fill();
+    for (let i=0;i<3;i++){ const an = rot + i*Math.PI*2/3, x = Math.cos(an)*9, y = -33 + Math.sin(an)*2.2, sc = 0.8 + 0.25*Math.sin(an); ctx.save(); ctx.translate(x,y); ctx.scale(sc,sc); ctx.fillStyle = '#ffd27a'; ctx.strokeStyle = OUT; ctx.lineWidth = 1.1; ctx.beginPath(); ctx.moveTo(0,-5); ctx.lineTo(2.4,0); ctx.lineTo(0,4); ctx.lineTo(-2.4,0); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); }
+    const gB = Math.sin(t*2.2)*1.6, reach = sw*7;
+    const gaunt = (x, y, flip) => { ctx.save(); ctx.translate(x,y); ctx.scale(flip,1); ctx.fillStyle = '#2b2546'; ctx.strokeStyle = OUT; ctx.lineWidth = 1.3; rr(ctx,-3.5,-4,7,8,2); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#ffd27a'; ctx.fillRect(-3.5,-1,7,1.4); ctx.fillStyle = '#2b2546'; for (let j=0;j<3;j++){ rr(ctx,3,-3.5+j*2.6,2.6,2,1); ctx.fill(); ctx.stroke(); } ctx.restore(); };
+    gaunt(-19, -12 - gB, -1); gaunt(18 + reach, -13 + gB - reach*0.3, 1);
+    ctx.strokeStyle = 'rgba(255,210,122,.9)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.ellipse(0,-12,22,6,-0.15,0,Math.PI); ctx.stroke();
+    for (let i=0;i<4;i++){ const an = rot*1.4 + i*Math.PI/2; if (Math.sin(an) < 0) continue; ctx.fillStyle = '#fff3c4'; ctx.beginPath(); ctx.arc(Math.cos(an)*22, -12 + Math.sin(an)*6 - Math.cos(an)*3.3, 1.6, 0, Math.PI*2); ctx.fill(); }
+    if (shv > 0){ ctx.globalAlpha = a*(0.3 + 0.15*Math.sin(t*10)); ctx.strokeStyle = '#ffd27a'; ctx.fillStyle = 'rgba(255,210,122,.12)'; ctx.lineWidth = 1.5; hex(30, -10); ctx.fill(); ctx.stroke(); ctx.globalAlpha = a; }
   }
   if (fl > 0.05){ ctx.globalAlpha = a*fl*0.35; ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.ellipse(0,-10,20,22,0,0,Math.PI*2); ctx.fill(); }
   ctx.restore();
 }
 function drawBossBar(ctx){
+  if (B.beamWarn){ const bw = B.beamWarn; ctx.save(); ctx.globalAlpha = 0.12; ctx.fillStyle = '#ff4b3a'; ctx.fillRect(0, bw.y-17, bw.x, 34); ctx.globalAlpha = 0.45 + 0.45*Math.abs(Math.sin(B.t*12)); ctx.strokeStyle = '#ff4b3a'; ctx.lineWidth = 1.6; ctx.setLineDash([6,5]); ln(ctx, 0, bw.y, bw.x, bw.y); ctx.setLineDash([]); ctx.restore(); }
+  if (B.beam){ const bm = B.beam; ctx.save(); ctx.globalAlpha = clamp(bm.life/0.45, 0, 1); const bg = ctx.createLinearGradient(0, bm.y-15, 0, bm.y+15); bg.addColorStop(0,'rgba(255,210,122,0)'); bg.addColorStop(0.5,'rgba(255,248,220,.95)'); bg.addColorStop(1,'rgba(255,210,122,0)'); ctx.fillStyle = bg; ctx.fillRect(0, bm.y-15, bm.x, 30); ctx.restore(); }
   const f = B.fs.find(x=>x.bossK); if (!f) return;
   const D = BOSSES[f.bossK], w = 236, x = (W-w)/2, y = 9;
   ctx.save(); ctx.globalAlpha = f.alive ? 1 : 0.5;
@@ -2154,7 +2234,7 @@ function aimAt(clientX, clientY){
 }
 function castCmd(id, x, y){
   if (!cmdUnlocked(id) || B.cmd[id] > 0 || B.over) return;
-  B.cmd[id] = CMDS[id].cd; B.cmds++;
+  B.cmd[id] = CMDS[id].cd*runMods().cmdCd; B.cmds++;
   const pw = cmdPower();
   if (id==='fireball'){
     B.ps.push({src:CMDR, tgt:{x, y}, kind:'fire', arc:46, sx:26, sy:40, t:0, dur:0.5, mult:0, onHit:()=>{
@@ -2188,7 +2268,7 @@ function updateCmdBar(force){
   for (const id of CMD_ORDER){
     const el = document.getElementById('cmd-'+id); if (!el || el.disabled) continue;
     const v = B.cmd[id], ready = v<=0 && !B.over;
-    el.style.setProperty('--p', ready ? 0 : (v/CMDS[id].cd));
+    el.style.setProperty('--p', ready ? 0 : (v/(CMDS[id].cd*runMods().cmdCd)));
     el.classList.toggle('ready', ready); el.classList.toggle('aiming', B.aim===id);
   }
   const h = document.getElementById('cmdhint'); if (h && B.aim) h.textContent = `Tap the battlefield to cast ${CMDS[B.aim].name}. Tap the button again to cancel.`; else if (h) h.textContent = state.fights<2 && !B.arena ? 'Tap Fireball, then tap the battlefield to aim.' : '';
@@ -2697,6 +2777,7 @@ function labSheetHTML(){
     <h3 style="margin-top:6px">Raise the whole army to</h3><div class="labgrid c4">${[3,5,7,10].map(l=>btn('lablevel',`Lv ${l}`,`data-v="${l}"`)).join('')}</div>
     <h3 style="margin-top:6px">Jump to a boss fight</h3><div class="labgrid c5">${[1,2,3,4,5].map(m=>btn('labboss',`<b>${m}</b><small>${esc(BOSSES[bossOfMarch(m)].short.split(' ').pop().toLowerCase().replace(/^./,c=>c.toUpperCase()))}</small>`,`data-v="${m}"`)).join('')}</div>
     <h3 style="margin-top:6px">Jump to a sector map</h3><div class="labgrid c5">${[1,2,3,4,5].map(m=>btn('labsector',`Sector ${m}`,`data-v="${m}"`)).join('')}</div>` : '<p class="hint">Start a campaign to use these.</p>'}</div>
+  <div class="sh-sec"><h3>Galaxy</h3><div class="labgrid">${btn('labgalopen','Open the galaxy')}${btn('labgalall','Liberate all six fronts')}${btn('labthreat','Unlock Threat 10')}${btn('labgalreset','Reset the galaxy')}</div>${live ? `<div class="labgrid">${btn('labarch','Fight the Architect')}${btn('labwin','Win this campaign now')}</div>` : ''}</div>
   <div class="sh-sec"><h3>Outpost Defense</h3><p class="hint sub">Start at any wave with extra credits to build with.</p><div class="labgrid c4">${OWAVES.map((w,i)=>btn('labwave',`Wave ${i+1}${w.boss?' · boss':''}`,`data-v="${i+1}"`)).join('')}</div></div>
   <div class="sh-sec"><h3>Look around</h3><div class="labgrid">${btn('labgallery','Unit and trait gallery')}${btn('labbosses','Boss gallery')}${btn('replaytut','Replay the tips')}</div></div>`;
 }
@@ -2719,7 +2800,7 @@ function startLab(){
     ctx.strokeStyle = 'rgba(140,200,255,.06)'; ctx.lineWidth = 1; for (let x=0;x<w;x+=20) ln(ctx,x,0,x,h); for (let y=0;y<h;y+=20) ln(ctx,0,y,w,y);
     ctx.font = '700 10px "Exo 2", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(232,240,255,.8)';
     if (c.dataset.kind==='bosses'){
-      const ks = BOSS_ORDER, cols = 2, cw = w/cols, rh = h/3;
+      const ks = BOSS_ORDER.concat(['arch']), cols = 2, cw = w/cols, rh = h/3;
       ks.forEach((k,i)=>{ const x = cw*(i%cols) + cw/2, y = rh*Math.floor(i/cols) + rh*0.66, ph = (t + i*0.7) % 3, act = ph > 2.2 ? 1 - (ph-2.2)/0.8 : 0;
         drawBoss(ctx, {k, x, y, s:1.5, facing:-1, time:t, moving:ph < 1.4, walk:t*6, swing:act, st:{heads:ph>1.5?4:3, slam:act, lunge:act}});
         ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(0,0,0,.7)'; ctx.strokeText(BOSSES[k].name, x, y + 34); ctx.fillStyle = BOSSES[k].col; ctx.fillText(BOSSES[k].name, x, y + 34); });
@@ -2749,6 +2830,12 @@ function labAct(a, b){
     case 'lablevel': labRaise(+b.dataset.v); save(); toast2(`Army raised to level ${b.dataset.v}. Promotions are waiting in camp.`); return openSheet(labSheetHTML(), 'lab');
     case 'labboss': { const m = +b.dataset.v; state.ended = null; state.battle = 5*m; state.map = null; setNextNode(); const M = state.map; M.visited = M.nodes.filter(n=>n.r<=4).map(n=>n.id); state.screen = 'camp'; save(); closeSheet(); render(); return toast2(`Sector ${m} assault ready. Deploy when you are.`); }
     case 'labsector': { const m = +b.dataset.v; state.ended = null; state.battle = (m-1)*5+1; state.map = null; state.node = null; state.enemy = null; setNextNode(); state.screen = 'camp'; save(); closeSheet(); render(); return toast2(`Welcome to sector ${m}.`); }
+    case 'labgalopen': closeSheet(); return galAct('galaxy', b);
+    case 'labgalall': FRONT_ORDER.forEach(k=>{ if (meta.galaxy.lib[k]==null) meta.galaxy.lib[k] = 0; }); meta.galaxy.maxT = Math.max(0, meta.galaxy.maxT); saveMeta(); toast2('All six fronts liberated. The Architect’s Heart is open.'); return openSheet(labSheetHTML(), 'lab');
+    case 'labthreat': meta.galaxy.maxT = Math.max(9, meta.galaxy.maxT); saveMeta(); toast2('Threat 1 to 10 unlocked.'); return openSheet(labSheetHTML(), 'lab');
+    case 'labgalreset': meta.galaxy = {lib:{}, maxT:-1, core:false}; saveMeta(); toast2('The galaxy is reset.'); return openSheet(labSheetHTML(), 'lab');
+    case 'labarch': { state.run = {...(state.run||{}), front:'core'}; b.dataset.v = '5'; return labAct('labboss', b); }
+    case 'labwin': state.ended = {won:true}; state.screen = 'end'; save(); closeSheet(); return render();
     case 'labwave': { const n = +b.dataset.v; closeSheet(); setTimeout(()=>{ openSheet(opHeroSheet(), 'ophero'); labOpts.startWave = n; }, 60); return; }
     case 'labgallery': openSheet(labGalleryHTML('units'), 'gallery'); return setTimeout(startLab, 30);
     case 'labbosses': openSheet(labGalleryHTML('bosses'), 'gallery'); return setTimeout(startLab, 30);
@@ -2759,6 +2846,182 @@ function labAct(a, b){
     case 'labmove': labOpts.moving = !labOpts.moving; break;
   }
   if (sheetKind==='gallery'){ const st = sheetBox.scrollTop; sheetBox.innerHTML = labGalleryHTML('units'); sheetBox.scrollTop = st; startLab(); }
+}
+
+/* ---------- galaxy: fronts, threat, doctrines ---------- */
+const FRONTS = {
+  freeport:{name:'Freeport Expanse', short:'Freeport', col:'#7ff3ff', rule:'Standard rules. The best place to start.', mod:{}, unlock:'merc'},
+  hive:{name:'The Hive Nebula', short:'Hive Nebula', col:'#c38bff', rule:'Foes swarm: two extra in every squad, each 20% frailer. Battles pay 15% more.', mod:{foeExtra:2, foeHp:0.8, gold:1.15}, unlock:'glass'},
+  fleet:{name:'The Dead Fleet', short:'Dead Fleet', col:'#9fc4dc', rule:'Medicine is scarce: your healing is 40% weaker. Salvage is everywhere: battles pay 30% more.', mod:{heal:0.6, gold:1.3}, unlock:'medics'},
+  forge:{name:'The Solar Forge', short:'Solar Forge', col:'#ff8a2a', rule:'Everything runs hot: both sides attack 20% faster, and your abilities recharge 20% faster.', mod:{allSpd:1.2, cmdCd:0.8}, unlock:'blitz'},
+  iron:{name:'The Iron Dominion', short:'Iron Dominion', col:'#e8c56a', rule:'Foes wear heavy plate (+12% armor), but every win drops a piece of gear.', mod:{foeArmor:0.12, gear:1}, unlock:'veteran'},
+  drift:{name:'The Wild Drift', short:'Wild Drift', col:'#5ef0a0', rule:'Soldiers learn fast (+30% XP), but morale is thin: one fewer flag.', mod:{xp:1.3, morale:-1}, unlock:'quarter'},
+  core:{name:'The Architect’s Heart', short:'Architect’s Heart', col:'#ffd27a', rule:'Foes are 15% tougher and hit 15% harder. The last sector ends at the Architect itself.', mod:{foeHp:1.15, foeAtk:1.15}, unlock:null, final:true},
+};
+const FRONT_ORDER = ['freeport','hive','fleet','forge','iron','drift'];
+const CORE_REGION = {name:'The Architect’s Heart', boss:'The Loom', lord:'The Architect'};
+const DOCTRINES = {
+  merc:{name:'Mercenary Contract', desc:'Start with 120 extra credits, but one fewer morale flag.', mod:{startGold:120, morale:-1}},
+  glass:{name:'Glass Cannon', desc:'Your soldiers deal 20% more damage but have 15% less health.', mod:{myAtk:1.2, myHp:0.85}},
+  medics:{name:'Field Hospital', desc:'Healing is 35% stronger, but your soldiers deal 8% less damage.', mod:{heal:1.35, myAtk:0.92}},
+  blitz:{name:'Blitz Doctrine', desc:'Commander abilities recharge 35% faster, but foes have 8% more health.', mod:{cmdCd:0.65, foeHp:1.08}},
+  veteran:{name:'Veteran Core', desc:'Your founders start at level 3, but battles pay 15% fewer credits.', mod:{founders:3, gold:0.85}},
+  quarter:{name:'Quartermaster Corps', desc:'Everything costs 20% less, but soldiers earn 15% less XP.', mod:{price:0.8, xp:0.85}},
+};
+const THREATS = [null,
+  {name:'Hardened foes', desc:'Foes have 10% more health.', mod:{foeHp:1.1}},
+  {name:'Price gouging', desc:'Everything costs 15% more.', mod:{price:1.15}},
+  {name:'Warlords', desc:'Bosses have 20% more health and damage.', mod:{bossHp:1.2, bossAtk:1.2}},
+  {name:'Sharpened blades', desc:'Foes deal 10% more damage.', mod:{foeAtk:1.1}},
+  {name:'Lean pickings', desc:'Battles pay 20% fewer credits.', mod:{gold:0.8}},
+  {name:'Reinforcements', desc:'One extra foe in every squad.', mod:{foeExtra:1}},
+  {name:'Thin lines', desc:'One fewer morale flag.', mod:{morale:-1}},
+  {name:'Veteran foes', desc:'Foes have another 10% more health.', mod:{foeHp:1.1}},
+  {name:'Jammed comms', desc:'Commander abilities take 25% longer to recharge.', mod:{cmdCd:1.25}},
+  {name:'Enrage', desc:'Bosses enrage after 40 seconds: 50% more damage and speed.', mod:{enrage:40}},
+];
+const MOD_ADD = ['foeExtra','morale','startGold','foeArmor'], MOD_MAX = ['gear','founders','enrage'];
+function runMods(run){
+  run = run || (state && state.run) || {};
+  const m = {foeHp:1, foeAtk:1, bossHp:1, bossAtk:1, foeArmor:0, myHp:1, myAtk:1, heal:1, allSpd:1, gold:1, price:1, xp:1, cmdCd:1, foeExtra:0, morale:0, startGold:0, gear:0, founders:0, enrage:0};
+  const add = o => { for (const k in o){ if (MOD_MAX.includes(k)) m[k] = Math.max(m[k], o[k]); else if (MOD_ADD.includes(k)) m[k] += o[k]; else m[k] *= o[k]; } };
+  if (FRONTS[run.front]) add(FRONTS[run.front].mod);
+  if (DOCTRINES[run.doctrine]) add(DOCTRINES[run.doctrine].mod);
+  for (let i=1;i<=Math.min(10, run.threat||0);i++) add(THREATS[i].mod);
+  return m;
+}
+function applyRunMods(fs){
+  const M = runMods();
+  for (const f of fs){
+    f.atkSpd *= M.allSpd;
+    if (f.side){ const bs = !!f.bossK; f.maxHp *= M.foeHp*(bs?M.bossHp:1); f.atk *= M.foeAtk*(bs?M.bossAtk:1); f.armor = Math.min(0.75, (f.armor||0) + M.foeArmor); if (bs && M.enrage) f.enrageAt = M.enrage; }
+    else { f.maxHp *= M.myHp; f.atk *= M.myAtk; f.healMult *= M.heal; }
+  }
+}
+const runFront = () => (state && state.run && FRONTS[state.run.front]) ? state.run.front : 'freeport';
+const libCount = () => FRONT_ORDER.filter(k=>meta.galaxy.lib[k]!=null).length;
+const coreOpen = () => FRONT_ORDER.every(k=>meta.galaxy.lib[k]!=null);
+const doctrineOpen = k => Object.entries(FRONTS).some(([fk,F])=>F.unlock===k && meta.galaxy.lib[fk]!=null);
+const threatMax = () => meta.galaxy.maxT >= 0 ? Math.min(10, meta.galaxy.maxT+1) : 0;
+function galRecord(){
+  const r = state.run || {front:'freeport', threat:0}, G = meta.galaxy, prev = G.lib[r.front], first = prev == null, wasOpen = coreOpen();
+  G.lib[r.front] = Math.max(prev ?? -1, r.threat||0); G.maxT = Math.max(G.maxT, r.threat||0); if (r.front==='core') G.core = true; saveMeta();
+  return {front:r.front, first, threat:r.threat||0, unlock: first ? FRONTS[r.front].unlock : null, coreNow: !wasOpen && coreOpen()};
+}
+function frontChip(){
+  const k = runFront(), F = FRONTS[k], t = state.run && state.run.threat;
+  return `<button class="qb frontchip" data-act="galaxy" style="--fc:${F.col}" aria-label="Galaxy map. Current front: ${esc(F.name)}"><i></i>${esc(F.short)}${t?` <span class="num">T${t}</span>`:''}</button>`;
+}
+function galEndHTML(e){
+  const g = e.gal; if (!g) return '';
+  const F = FRONTS[g.front], D = g.unlock && DOCTRINES[g.unlock];
+  return `<section class="galend" style="--fc:${F.col}"><div class="eyebrow">${g.front==='core'?'The galaxy is free':g.first?'Front liberated':'Front held'}</div><h2>${esc(F.name)}${g.threat?` <span class="num">· Threat ${g.threat}</span>`:''}</h2>
+    <p class="hint">${g.front==='core' ? 'Every front is liberated and the Architect is unmade. Keep climbing the Threat levels to test your best warbands.' : `${libCount()} of 6 fronts liberated.${g.coreNow?' The road to the Architect’s Heart is open.':''}`}</p>
+    ${D ? `<div class="gunlock"><span>New doctrine</span><b>${esc(D.name)}</b><span>${esc(D.desc)}</span></div>` : ''}
+    ${g.threat >= meta.galaxy.maxT && g.threat < 10 ? `<p class="hint num" style="margin-top:6px">Threat ${g.threat+1} is now open.</p>` : ''}</section>`;
+}
+
+let galSel = null, galRaf = 0, galPick = {threat:0, doctrine:null, heir:null}, galStars = null;
+function galLive(){ return !!(state && !state.ended); }
+function galPos(w, h){
+  const cx = w/2, cy = h/2, rx = w*0.37, ry = h*0.36, P = {core:{x:cx, y:cy}};
+  FRONT_ORDER.forEach((k,i)=>{ const a = -Math.PI/2 + i*Math.PI/3 + 0.3; P[k] = {x:cx + Math.cos(a)*rx, y:cy + Math.sin(a)*ry}; });
+  return P;
+}
+function renderGalaxy(){
+  barEl.hidden = true; closeSheet();
+  const live = galLive();
+  if (!galSel || (galSel==='core' && !coreOpen() && !live)) galSel = live ? runFront() : (FRONT_ORDER.find(k=>meta.galaxy.lib[k]==null) || (coreOpen() && !meta.galaxy.core ? 'core' : 'freeport'));
+  if (galPick.heir == null) galPick.heir = meta.legends.length ? meta.legends.length-1 : -1;
+  galPick.threat = Math.min(galPick.threat, threatMax());
+  if (galPick.doctrine && !doctrineOpen(galPick.doctrine)) galPick.doctrine = null;
+  app.className = 'wrap galwrap' + (reduced?'':' enter');
+  app.innerHTML = `<header class="galhead"><button class="xbtn" data-act="galback" aria-label="Back">‹</button><div><div class="eyebrow">The galaxy</div><h1>${meta.galaxy.core?'The galaxy is free':'Liberate every front'}</h1></div><span class="pill num" aria-label="${libCount()} of 6 fronts liberated">${libCount()}/6</span></header>
+    <div class="galmap"><canvas id="galcv" role="img" aria-label="Galaxy map with six fronts around the Architect’s Heart. Tap a front to see it."></canvas></div>
+    <div class="galtabs" role="tablist">${FRONT_ORDER.concat(['core']).map(k=>`<button role="tab" class="gt ${galSel===k?'on':''} ${meta.galaxy.lib[k]!=null?'lib':''}" data-act="galsel" data-k="${k}" style="--fc:${FRONTS[k].col}" aria-selected="${galSel===k}" ${k==='core'&&!coreOpen()?'aria-label="The Architect’s Heart, locked"':''}><i></i>${esc(FRONTS[k].short)}</button>`).join('')}</div>
+    <section class="galpanel" id="galpanel">${galPanelHTML()}</section>`;
+  galBar(); startGalLoop();
+}
+function galBar(){
+  const live = galLive(), F = FRONTS[galSel], locked = galSel==='core' && !coreOpen();
+  barEl.hidden = false;
+  barEl.innerHTML = live ? `<button class="fab btn" data-act="camp"><small>Sector ${region(state.battle).march}</small><b>Back to camp</b></button>`
+    : `<button class="fab btn" data-act="galaunch" ${locked?'disabled':''}><small>${galPick.threat?`Threat ${galPick.threat}`:'Standard'}${galPick.doctrine?` · ${esc(DOCTRINES[galPick.doctrine].name)}`:''}</small><b>${locked?'Locked':'Launch'}</b></button>`;
+}
+function galPanelHTML(){
+  const live = galLive(), k = galSel, F = FRONTS[k], G = meta.galaxy, best = G.lib[k], locked = k==='core' && !coreOpen(), D = F.unlock && DOCTRINES[F.unlock];
+  const status = locked ? `<span class="gstat lock">Locked · liberate all six fronts first</span>` : best!=null ? `<span class="gstat ok">Liberated${best?` · best Threat ${best}`:''}</span>` : `<span class="gstat">Not yet liberated</span>`;
+  let h = `<div class="gfront" style="--fc:${F.col}"><i></i><div><h2>${esc(F.name)}</h2>${status}</div></div>
+    <p class="grule">${esc(F.rule)}</p>
+    ${D ? `<div class="gunlock ${best!=null?'have':''}"><span>${best!=null?'Doctrine unlocked':'Liberating unlocks'}</span><b>${esc(D.name)}</b><span>${esc(D.desc)}</span></div>` : k==='core' ? `<div class="gunlock ${G.core?'have':''}"><span>Final front</span><b>The Architect</b><span>A new boss waits at the end of the fifth sector. Unmake it to free the galaxy.</span></div>` : ''}`;
+  if (live){ h += `<p class="hint" style="margin-top:12px">Campaign in progress: ${esc(FRONTS[runFront()].name)}, sector ${region(state.battle).march}.${state.run&&state.run.threat?` Threat ${state.run.threat}.`:''}${state.run&&state.run.doctrine?` Doctrine: ${esc(DOCTRINES[state.run.doctrine].name)}.`:''} Finish or abandon it to launch a new one.</p>`; return h; }
+  if (locked) return h;
+  const tm = threatMax();
+  h += `<div class="sh-sec"><h3>Threat</h3>${tm ? `<div class="tgrid">${Array.from({length:tm+1},(_,i)=>`<button class="${galPick.threat===i?'on':''}" data-act="galthreat" data-v="${i}" aria-label="Threat ${i}">${i}</button>`).join('')}</div>
+      <p class="hint sub" style="margin-top:6px">${galPick.threat ? `Threat ${galPick.threat} adds <b>${esc(THREATS[galPick.threat].name)}</b>: ${esc(THREATS[galPick.threat].desc)}${galPick.threat>1?` Plus everything below it.`:''}` : 'Standard difficulty.'} Higher Threat earns more renown.</p>` : '<p class="hint sub">Win any campaign to unlock Threat levels.</p>'}</div>`;
+  const docs = Object.keys(DOCTRINES).filter(doctrineOpen);
+  h += `<div class="sh-sec"><h3>Doctrine</h3>${docs.length ? `<div class="gchips"><button class="gchip ${!galPick.doctrine?'on':''}" data-act="galdoc" data-v="">None</button>${docs.map(d=>`<button class="gchip ${galPick.doctrine===d?'on':''}" data-act="galdoc" data-v="${d}">${esc(DOCTRINES[d].name)}</button>`).join('')}</div>${galPick.doctrine?`<p class="hint sub" style="margin-top:6px">${esc(DOCTRINES[galPick.doctrine].desc)}</p>`:''}` : '<p class="hint sub">Each front you liberate unlocks a doctrine: a trade-off you can pick at launch.</p>'}</div>`;
+  const ls = meta.legends.map((l,i)=>({l,i})).slice(-4).reverse();
+  h += `<div class="sh-sec"><h3>Heir from the Hall of Legends</h3>${ls.length ? `<div class="gchips"><button class="gchip ${galPick.heir===-1?'on':''}" data-act="galheir" data-v="-1">No heir</button>${ls.map(({l,i})=>`<button class="gchip ${galPick.heir===i?'on':''}" data-act="galheir" data-v="${i}">${esc(l.name.split(' ')[0])} <small>${esc(CLASSES[l.cls].label)}</small></button>`).join('')}</div>${galPick.heir>=0&&meta.legends[galPick.heir]?`<p class="hint sub" style="margin-top:6px">${(()=>{ const l = meta.legends[galPick.heir]; return `The heir of ${esc(l.name)} joins at level 2${l.perk&&PERKS[l.perk]?`, carrying ${esc(PERKS[l.perk].name)}`:''}.`; })()}</p>`:''}` : '<p class="hint sub">When a campaign ends you enshrine a soldier. Their heir can join a later warband.</p>'}</div>`;
+  return h;
+}
+function galRefresh(){ const p = document.getElementById('galpanel'); if (!p) return render(); p.innerHTML = galPanelHTML(); app.querySelectorAll('.gt').forEach(b=>{ const on = b.dataset.k===galSel; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); galBar(); }
+function drawGalaxy(ctx, w, h, t){
+  const P = galPos(w, h), cx = w/2, cy = h/2, G = meta.galaxy, live = galLive();
+  const g = ctx.createRadialGradient(cx, cy, 4, cx, cy, Math.max(w,h)*0.7); g.addColorStop(0,'#2a2140'); g.addColorStop(0.45,'#111632'); g.addColorStop(1,'#070a18'); ctx.fillStyle = g; ctx.fillRect(0,0,w,h);
+  if (!galStars){ const rng = mulberry32(4711); galStars = Array.from({length:420},(_,i)=>{ const arm = i%3, r = Math.pow(rng(),0.7), a = arm*Math.PI*2/3 + r*4.2 + (rng()-0.5)*0.55; return {r, a, s:rng(), c:rng()}; }); }
+  const rot = reduced ? 0 : t*0.025;
+  for (const s of galStars){ const a = s.a + rot, rr2 = s.r; const x = cx + Math.cos(a)*rr2*w*0.52, y = cy + Math.sin(a)*rr2*h*0.46; ctx.globalAlpha = 0.25 + 0.6*s.s*(1-rr2*0.5); ctx.fillStyle = s.c > 0.93 ? '#ffd27a' : s.c > 0.8 ? '#c8a8ff' : '#dfe8ff'; const z = s.s > 0.9 ? 1.6 : 1; ctx.fillRect(x, y, z, z); }
+  ctx.globalAlpha = 1;
+  for (const k of FRONT_ORDER){ const p = P[k], F = FRONTS[k], ng = ctx.createRadialGradient(p.x,p.y,2,p.x,p.y,48); ng.addColorStop(0, F.col+'33'); ng.addColorStop(1, F.col+'00'); ctx.fillStyle = ng; ctx.beginPath(); ctx.arc(p.x,p.y,48,0,Math.PI*2); ctx.fill(); }
+  const cg = ctx.createRadialGradient(cx,cy,2,cx,cy,40); cg.addColorStop(0,'rgba(255,210,122,.55)'); cg.addColorStop(1,'rgba(255,210,122,0)'); ctx.fillStyle = cg; ctx.beginPath(); ctx.arc(cx,cy,40,0,Math.PI*2); ctx.fill();
+  const team = teamHex();
+  for (const k of FRONT_ORDER){ const p = P[k], lib = G.lib[k]!=null; ctx.strokeStyle = lib ? team : 'rgba(170,190,255,.25)'; ctx.lineWidth = lib ? 2 : 1.2; ctx.setLineDash(lib ? [] : [4,5]); ctx.lineDashOffset = reduced ? 0 : -t*12; ln(ctx, p.x, p.y, cx, cy); }
+  ctx.setLineDash([]);
+  const node = (k, p, r) => {
+    const F = FRONTS[k], lib = G.lib[k]!=null, sel = galSel===k, locked = k==='core' && !coreOpen();
+    if (sel){ ctx.strokeStyle = 'rgba(255,255,255,.85)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(p.x, p.y, r + 6 + (reduced?0:Math.sin(t*4)*1.5), 0, Math.PI*2); ctx.stroke(); }
+    const pg = ctx.createRadialGradient(p.x - r*0.35, p.y - r*0.4, 1, p.x, p.y, r); pg.addColorStop(0, '#ffffff'); pg.addColorStop(0.25, F.col); pg.addColorStop(1, '#0b0f22');
+    ctx.globalAlpha = locked ? 0.45 : 1; ctx.fillStyle = pg; ctx.beginPath(); ctx.arc(p.x, p.y, r, 0, Math.PI*2); ctx.fill();
+    ctx.strokeStyle = lib ? team : 'rgba(10,14,30,.9)'; ctx.lineWidth = lib ? 2.4 : 1.4; ctx.stroke(); ctx.globalAlpha = 1;
+    if (k==='core'){
+      if (locked){ ctx.fillStyle = '#e8f0ff'; rr(ctx, p.x-5, p.y-1, 10, 8, 2); ctx.fill(); ctx.strokeStyle = '#e8f0ff'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.arc(p.x, p.y-2, 3.4, Math.PI, 0); ctx.stroke(); }
+      else { ctx.fillStyle = '#f4ecd8'; ctx.beginPath(); ctx.ellipse(p.x, p.y, 7, 4.6, 0, 0, Math.PI*2); ctx.fill(); ctx.fillStyle = G.core ? team : '#ff8a3a'; ctx.beginPath(); ctx.arc(p.x + (reduced?0:Math.sin(t*0.9)*1.6), p.y, 2.8, 0, Math.PI*2); ctx.fill(); }
+    }
+    if (lib && k!=='core'){ ctx.strokeStyle = '#e8f0ff'; ctx.lineWidth = 1.2; ln(ctx, p.x + r*0.55, p.y - r*0.55, p.x + r*0.55, p.y - r - 12); ctx.fillStyle = team; ctx.beginPath(); ctx.moveTo(p.x + r*0.55, p.y - r - 12); ctx.lineTo(p.x + r*0.55 + 11, p.y - r - 9); ctx.lineTo(p.x + r*0.55, p.y - r - 6); ctx.closePath(); ctx.fill(); }
+    if (live && runFront()===k){ const a = reduced ? 0.8 : t*1.6, sx = p.x + Math.cos(a)*(r+9), sy = p.y + Math.sin(a)*(r+9)*0.6; ctx.save(); ctx.translate(sx, sy); ctx.rotate(a + Math.PI/2); ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.moveTo(0,-4); ctx.lineTo(3,3); ctx.lineTo(-3,3); ctx.closePath(); ctx.fill(); ctx.restore(); }
+    ctx.font = '700 10px "Exo 2", system-ui, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.lineWidth = 3; ctx.strokeStyle = 'rgba(5,8,20,.85)';
+    const lab = F.short + (G.lib[k] ? ` · T${G.lib[k]}` : '');
+    ctx.strokeText(lab, p.x, p.y + r + 5); ctx.fillStyle = lib ? '#ffffff' : locked ? 'rgba(220,230,255,.55)' : 'rgba(220,230,255,.85)'; ctx.fillText(lab, p.x, p.y + r + 5);
+  };
+  for (const k of FRONT_ORDER) node(k, P[k], 15);
+  node('core', P.core, 19);
+}
+function startGalLoop(){
+  cancelAnimationFrame(galRaf);
+  const tick = ts => {
+    const c = document.getElementById('galcv'); if (!c || state.screen!=='galaxy') return;
+    const w = c.clientWidth || 360, h = c.clientHeight || 300; if (c._w !== w || c._h !== h){ setupCanvas(c, w, h); c._w = w; c._h = h; }
+    const ctx = c.getContext('2d'), dpr = Math.min(3, window.devicePixelRatio||1); ctx.setTransform(dpr,0,0,dpr,0,0);
+    drawGalaxy(ctx, w, h, ts/1000);
+    if (!reduced) galRaf = requestAnimationFrame(tick);
+  };
+  galRaf = requestAnimationFrame(tick);
+  const c = document.getElementById('galcv');
+  if (c && !c._bound){ c._bound = true; c.addEventListener('pointerdown', e => { const r = c.getBoundingClientRect(), x = e.clientX - r.left, y = e.clientY - r.top, P = galPos(r.width, r.height); let best = null, bd = 34; for (const k in P){ const d = Math.hypot(P[k].x - x, P[k].y - y); if (d < bd){ bd = d; best = k; } } if (best){ galSel = best; sfx('tap'); galRefresh(); if (reduced) startGalLoop(); } }); }
+}
+function galAct(a, b){
+  switch (a){
+    case 'galaxy': sfx('tap'); galSel = null; galPick.heir = null; state.screen = 'galaxy'; save(); return render();
+    case 'galback': sfx('tap'); state.screen = galLive() ? 'camp' : 'title'; save(); return render();
+    case 'galsel': galSel = b.dataset.k; sfx('tap'); galRefresh(); if (reduced) startGalLoop(); return;
+    case 'galthreat': galPick.threat = +b.dataset.v; sfx('tap'); return galRefresh();
+    case 'galdoc': galPick.doctrine = b.dataset.v || null; sfx('tap'); return galRefresh();
+    case 'galheir': galPick.heir = +b.dataset.v; sfx('tap'); return galRefresh();
+    case 'galaunch': { if (galLive() || (galSel==='core' && !coreOpen())) return; shownGold = null;
+      newCampaign({front:galSel, threat:galPick.threat, doctrine:galPick.doctrine, heir:galPick.heir}); galPick.heir = null; state.screen = 'camp'; save(); screenFx('warp'); sfx('level'); render();
+      return toast(`Launching into ${FRONTS[state.run.front].name}${state.run.threat?` at Threat ${state.run.threat}`:''}.`); }
+  }
 }
 
 /* ---------- march map ---------- */
@@ -2922,7 +3185,7 @@ function stashSection(){
   return `<details class="fold"><summary>Stash · ${plural(total,'item','items')} to equip</summary><div><p class="hint" style="margin-bottom:8px">Open a soldier and tap a loadout slot to equip.</p>${ringRows}${Object.entries(counts).map(([id,n])=>{ const I = ITEMS[id]; return `<div class="irow"><span><b class="r-${I.rarity}">${esc(I.name)}</b>${n>1?` x${n}`:''} <span class="muted">${esc(I.desc)}${I.who?` ${esc(I.who)}.`:''}</span></span><span class="rtag ${I.rarity}">${I.rarity}</span></div>`; }).join('')}</div></details>`;
 }
 function hallList(){
-  if (!meta.legends.length) return '<p class="hint">No legends yet. When a campaign ends, you enshrine one soldier here, and their heir joins your next warband.</p>';
+  if (!meta.legends.length) return '<p class="hint">No legends yet. When a campaign ends, you enshrine one soldier here, and their heir can join a later warband.</p>';
   return `<div class="fallen">${meta.legends.slice().reverse().map(l=>`<div><span>${esc(l.name)}, Lv ${l.level} ${CLASSES[l.cls].label}</span><span class="num">${plural(l.kills,'kill','kills')} · march ${l.march}${l.won?' · crowned':''}</span></div>`).join('')}</div>`;
 }
 function renderCamp(anim=true){
@@ -3229,6 +3492,7 @@ function startBattle(enemy){
   }
   const allies = fs.filter(f=>!f.side);
   for (const f of allies){ if (f.unit.bond){ const m = allies.find(o=>o.unit.id===f.unit.bond); if (m){ f.bondMate = m; f.maxHp*=1.08; f.atk*=1.08; } } }
+  if (!enemy.arena) applyRunMods(fs);
   for (const f of fs){ f.hp = f.maxHp; f.ghost = f.maxHp; }
   place(fs.filter(f=>f.side===0),0,rng); place(fs.filter(f=>f.side===1),1,rng);
   const drng = mulberry32(seed+5);
@@ -3315,6 +3579,7 @@ function healAct(f, t){
 }
 function hit(f, t, mult, primary=true){
   if (!t.alive) return;
+  if (t.immune > 0){ if (B.rng() < 0.25) addText(t.x, t.y-34, 'untouchable', '#ffd27a', 8); return; }
   if (B.rng() < t.dodge){ addText(t.x,t.y-20,'dodge','#cfe3e6',8); return; }
   let m = mult, tag = null;
   for (const tg of t.tags) if (f.vs[tg]){ m *= f.vs[tg]; tag = 'BRACED'; }
@@ -3648,7 +3913,7 @@ function finishBattle(){
       nemKiller = nemF.killedBy.unit; nemSlain = nem;
       state.nemeses = state.nemeses.filter(x=>x!==nem); state.stats.nemSlain++; gold += 60;
       const trophy = rollItem(rng, [0,0.7,0.3]); gainItem(trophy);
-      cards.push({kind:'rev', title:`${nem.full} is dead`, text:`${fullName(nemKiller)} avenged ${nem.victims.join(', ')}. Trophy: ${ITEMS[trophy].name}. +60 credits.`, cls:nem.cls, foe:true});
+      cards.push({kind:'rev', title:`${nem.full} is dead`, text:`${nemKiller ? fullName(nemKiller) : 'Your commander'} avenged ${nem.victims.join(', ')}. Trophy: ${ITEMS[trophy].name}. +60 credits.`, cls:nem.cls, foe:true});
     } else if (nem && nemF.alive && !win){
       nem.level = nemF.level + 1; const p = rollPerks({cls:nem.cls, level:nem.level, perks:nem.perks}, rng, 1)[0]; if (p) nem.perks.push(p);
       nem.kills += nemF.victims.length; nem.victims = [...new Set([...nem.victims, ...nemF.victims.map(u=>u.name)])];
@@ -3660,6 +3925,7 @@ function finishBattle(){
     const u = f.unit;
     u.battles++; u.kills += f.kills;
     let gain = 6 + 12*f.kills + (f.bossKill?30:0) + Math.round(f.healed/9) + (f.alive?4:0) + (win?7:0) + (win&&boss?10:0) + (win&&elite?5:0);
+    gain = Math.round(gain*runMods().xp);
     const catchUp = u.level < rosterAvg - 0.75; if (catchUp) gain = Math.round(gain*1.5);
     if (nemKiller===u){ gain += 25; chron(u, `Slew the nemesis ${nemSlain.full}`); }
     const g = grantXP(u, gain);
@@ -3692,7 +3958,7 @@ function finishBattle(){
   if (win){
     const rc = boss ? 0.6 : elite ? 0.4 : 0.08;
     if (rng() < rc){ const rid = rollRing(rng, boss?[0,0.4,0.4]:elite?[0.2,0.5,0.25]:[0.6,0.3,0.08]); state.rings.push(rid); cards.push({kind:'loot', title:`Found: ${RINGS[rid].name}`, text:`${RINGS[rid].desc} Equip it from a soldier's card.`, ring:rid}); }
-    const chance = (boss||elite) ? 1 : 0.3*(hasBoon('quartermaster')?2:1);
+    const chance = (boss||elite||runMods().gear) ? 1 : 0.3*(hasBoon('quartermaster')?2:1);
     if (rng() < chance){ const id = rollItem(rng, boss?[0,0.6,0.4]:elite?[0.35,0.5,0.15]:[0.65,0.3,0.05]); gainItem(id); cards.push({kind:'loot', title:`Found: ${ITEMS[id].name}`, text:`${ITEMS[id].desc} Equip it from a soldier's card.`, item:id}); }
   }
   const drilled = [];
@@ -3710,7 +3976,7 @@ function finishBattle(){
   if (win || !boss) state.battle++;
   const unlockedNow = state.battle>prevB ? RECRUITABLE.filter(c=>CLASSES[c].unlock===state.battle) : [];
   unlockedNow.forEach(c=>cards.push({kind:'unlock', title:`${CLASSES[c].plural} join the barracks`, text:CLASSES[c].role, cls:c}));
-  state.gold += gold; state.fights++;
+  gold = Math.round(gold*runMods().gold); state.gold += gold; state.fights++;
   if (!state.mythicSeen && state.fights>=3){ const m = makeMythic(); const sig = PERKS[m.perks[0]];
     cards.push({kind:'mythic', title:'A mythic hero arrives at the barracks', text:`${fullName(m)}, a level ${m.level} ${CLASSES[m.cls].label}. ${sig.desc} Hire them for ${m.cost} credits.`, cls:m.cls, pa:pAttrs(m.perks)}); }
   if (win){ state.wins++; state.lossStreak = 0; } else { state.losses++; state.lossStreak++; }
@@ -3820,20 +4086,20 @@ function legendCands(){
 function renderEnd(){
   barEl.hidden = true; closeSheet();
   const e = state.ended || {won:false, reason:'abandoned'};
-  if (!e.counted){ e.counted = true; meta.bestMarch = Math.max(meta.bestMarch, marchOf(Math.min(state.battle, FINAL*4))); if (e.won){ meta.crowns++; addRenown(40); } saveMeta(); save(); checkAch(); }
+  if (!e.counted){ e.counted = true; meta.bestMarch = Math.max(meta.bestMarch, marchOf(Math.min(state.battle, FINAL*4))); if (e.won){ meta.crowns++; e.gal = galRecord(); addRenown(40 + 15*(e.gal.threat||0) + (e.gal.front==='core'?150:0)); } saveMeta(); save(); checkAch(); }
   const title = e.won ? 'The crown is yours' : e.reason==='morale' ? 'The warband breaks' : e.reason==='wiped' ? 'The warband is gone' : 'The campaign is over';
-  const sub = e.won ? `${state.name} broke all five citadels and toppled the Pale Regent.` : e.reason==='morale' ? 'Too many defeats. Your soldiers scatter across the stars.' : e.reason==='wiped' ? 'No one is left to carry the standard.' : 'You power down the dropship and send everyone home.';
+  const sub = e.won ? (runFront()==='core' ? `${state.name} unmade the Architect. The galaxy is free.` : `${state.name} broke all five citadels, toppled the Pale Regent and liberated ${FRONTS[runFront()].name}.`) : e.reason==='morale' ? 'Too many defeats. Your soldiers scatter across the stars.' : e.reason==='wiped' ? 'No one is left to carry the standard.' : 'You power down the dropship and send everyone home.';
   const cands = legendCands();
   app.className = 'wrap enter';
   app.innerHTML = `
   <div class="banner ${e.won?'win':'loss'}" style="margin-top:24px">${bannerSVG(teamHex(), state.banner.emblem, 64)}<div class="eyebrow">${esc(state.name)}</div><h1>${title}</h1><p>${sub}</p></div>
-  <div class="endstats num"><div><b>${marchOf(Math.min(state.battle, FINAL))}</b><span>March reached</span></div><div><b>${state.wins}</b><span>Victories</span></div><div><b>${state.stats.nemSlain}</b><span>Nemeses slain</span></div></div>
+  ${e.won ? galEndHTML(e) : ''}<div class="endstats num"><div><b>${marchOf(Math.min(state.battle, FINAL))}</b><span>March reached</span></div><div><b>${state.wins}</b><span>Victories</span></div><div><b>${state.stats.nemSlain}</b><span>Nemeses slain</span></div></div>
   <section><div class="sec-h"><h2>Hall of Legends</h2><span>${state.legendChosen?'Enshrined':'Choose one'}</span></div>
-    ${state.legendChosen ? `<p class="hint">Your legend is enshrined. Their heir will join your next campaign carrying their best trait.</p>` :
+    ${state.legendChosen ? `<p class="hint">Your legend is enshrined. Pick their heir when you launch your next campaign, and they will carry their best trait.</p>` :
       cands.length ? `<div class="cards">${cands.map((c,i)=>`<button class="card ${c.perk?PERKS[c.perk].rarity:'common'}" data-act="legend" data-i="${i}"><span class="rr">${c.fallen?'Fallen':'Survivor'} · Lv ${c.level} ${CLASSES[c.cls].label}</span><h3>${esc(c.name)}</h3><p class="num">${plural(c.kills,'kill','kills')}${c.perk?` · heir inherits ${esc(PERKS[c.perk].name)}`:''}</p></button>`).join('')}</div>` : '<p class="hint">No one to enshrine this time.</p>'}
     <div style="margin-top:12px">${hallList()}</div></section>
   ${e.won && !state.endless ? '<button class="btn wide" data-act="endless">Keep marching (endless)</button>' : ''}
-  <button class="btn ${e.won && !state.endless ? 'ghost' : ''} wide" data-act="newgame">Raise a new warband</button>`;
+  <button class="btn ${e.won && !state.endless ? 'ghost' : ''} wide" data-act="newgame">Return to the galaxy</button>`;
 }
 
 /* ---------- dates, renown ---------- */
@@ -4240,6 +4506,7 @@ function renderTitle(){
   <div class="tlogo"><h1>Pocket<br><span>Warbands</span></h1><p>Raise a warband. Cross the stars. Remember your nemeses.</p></div>
   <div class="tcta"><button class="btn wide pulse" data-act="play">${live ? (state.fights ? 'Continue campaign' : 'Begin campaign') : 'Raise a new warband'}</button>
     <span class="hint">${live ? `${esc(state.name)} · sector ${region(state.battle).march}, jump ${stopOf(state.battle)} of 5 · ${state.roster.length} soldiers` : 'Your last campaign has ended.'}</span></div>
+  <button class="galentry" data-act="galaxy"><span class="gdots">${FRONT_ORDER.map(k=>`<i class="${meta.galaxy.lib[k]!=null?'on':''}" style="--fc:${FRONTS[k].col}"></i>`).join('')}<i class="core ${meta.galaxy.core?'on':coreOpen()?'open':''}"></i></span><span><b>The galaxy</b><span>${meta.galaxy.core ? 'Free. Climb the Threat levels.' : `${libCount()} of 6 fronts liberated${meta.galaxy.maxT>=0?` · best Threat ${meta.galaxy.maxT}`:''}`}</span></span></button>
   <button class="opentry" data-act="outpost"><span class="ot">New · prototype</span><b>Outpost Defense</b><span>Build defenses, fly your commander, survive 8 waves${meta.outpostBest?` · best: ${meta.outpostBest>8?'all waves':'wave '+meta.outpostBest}`:''}</span></button>
   <div class="hub">${hubButtons()}</div>
   <button class="labentry" data-act="lab"><span class="ot">Try anything</span><b>Test Lab</b><span>Jump to bosses, any wave, max levels, every trait effect</span></button>
@@ -4275,6 +4542,7 @@ function render(){
   else if (state.screen==='end') renderEnd();
   else if (state.screen==='results' && state.results) renderResults();
   else if (state.screen==='outpost' && OP) renderOutpost(true);
+  else if (state.screen==='galaxy') renderGalaxy();
   else { state.screen = 'camp'; renderCamp(true); }
   window.scrollTo({top:0});
 }
@@ -4286,6 +4554,7 @@ function onAct(b){
   if (act!=='dismiss' && dismissArmed) dismissArmed = null;
   if (act!=='resetall') resetAllArmed = false;
   if (act.startsWith('lab')) return labAct(act, b);
+  if (act.startsWith('gal')) return galAct(act, b);
   if (act==='outpost' || act.startsWith('op')) return opAct(act, b);
   switch (act){
     case 'soldier': return openSoldier(+b.dataset.id);
@@ -4387,7 +4656,7 @@ function onAct(b){
       meta.legends.push({name:c.name, cls:c.cls, level:c.level, kills:c.kills, perk:c.perk, march:marchOf(Math.min(state.battle,FINAL)), won:!!(state.ended&&state.ended.won)}); meta.legends = meta.legends.slice(-12); saveMeta();
       state.legendChosen = true; save(); sfx('level'); toast(`${c.name} joins the Hall of Legends.`); return renderEnd(); }
     case 'endless': state.ended = null; state.endless = true; state.legendChosen = false; setNextNode(); state.screen='camp'; save(); return render();
-    case 'newgame': shownGold = null; newCampaign(); return render();
+    case 'newgame': shownGold = null; galSel = null; galPick.heir = null; state.screen = 'galaxy'; save(); return render();
   }
 }
 document.addEventListener('click', e => {

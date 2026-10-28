@@ -14,9 +14,17 @@ The whole game is one self-contained HTML file, so it runs in any browser with n
 | `docs/ROADMAP.md` | Analysis of where to take the core gameplay next. |
 | `docs/MONETIZATION.md` | Monetization model, long-term progression and the ultimate goal. |
 
+## Progression
+
+- **The galaxy.** Six fronts surround the Architect's Heart. Each campaign launches into one front, and each front changes the rules (swarms in the Hive Nebula, weak healing but rich salvage in the Dead Fleet, and so on). Winning a campaign liberates its front.
+- **Doctrines.** Every liberated front unlocks a doctrine: a trade-off you can pick at launch, such as Glass Cannon (+20% damage, -15% health).
+- **Threat 1 to 10.** Unlocked after your first win. Each level adds one rule and earns more renown.
+- **Hall of Legends.** At the end of a campaign you enshrine a soldier, and you can pick their heir to join a later warband.
+- **The Architect.** Liberate all six fronts to open the final front, where a new boss waits at the end of sector 5. It telegraphs a lane-wide beam with a red line and phases out at two thirds and one third health.
+
 ## Play in the browser
 
-Open `game/pocket-warbands.html`. For quick testing, the **Test Lab** (title screen, the Lab button in camp, or Settings) jumps to any boss, any Outpost wave, max levels and an animated gallery of every unit, trait effect and boss.
+Open `game/pocket-warbands.html`. For quick testing, the **Test Lab** (title screen, the Lab button in camp, or Settings) jumps to any boss, any Outpost wave and max levels, liberates fronts, unlocks Threat 10, starts the Architect fight, and has an animated gallery of every unit, trait effect and boss.
 
 On desktop, the keyboard works too:
 
@@ -53,6 +61,6 @@ N=5 node campaign-bot.js              # same bot without abilities
 S=smart,naive N=3 HERO=warden node outpost-bot.js
 ```
 
-`browser-smoke-test.py` clicks through every Test Lab action, the settings and the keyboard shortcuts in Chromium using Playwright (`pip install playwright && playwright install chromium`), and writes screenshots to `tools/shots/`. Set `CHROME` to use a Chromium binary you already have.
+`galaxy-test.py` walks the galaxy flow end to end (launch, win, liberate, the Architect fight). `browser-smoke-test.py` clicks through every Test Lab action, the settings and the keyboard shortcuts in Chromium using Playwright (`pip install playwright && playwright install chromium`), and writes screenshots to `tools/shots/`. Set `CHROME` to use a Chromium binary you already have.
 
 Rough balance targets: the ability-using campaign bot wins about 30 to 40% of runs, and the smart Outpost bot clears all 8 waves about half the time.
