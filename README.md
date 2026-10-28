@@ -12,6 +12,7 @@ The whole game is one self-contained HTML file, so it runs in any browser with n
 | `app/` | Expo wrapper that runs the game full-screen on iPhone through Expo Go. See `app/README.md`. |
 | `tools/` | Headless balance bots and a browser smoke test. |
 | `docs/ROADMAP.md` | Analysis of where to take the core gameplay next. |
+| `docs/MONETIZATION.md` | Monetization model, long-term progression and the ultimate goal. |
 
 ## Play in the browser
 
