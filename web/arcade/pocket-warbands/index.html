@@ -4360,7 +4360,7 @@ function arenaSheetHTML(){
   <div class="sh-sec"><h3>Your defenders</h3>
     <p class="hint">${A.joined ? `Your marching warband is posted (power ${teamPower(dep)}). It updates after each battle so others can fight it.` : 'Post your marching warband so people you share this page with can fight it.'}</p>
     <button class="btn ghost wide" data-act="arenapost" ${postBusy||!dep.length?'disabled':''}>${A.joined?'Update my posted warband':'Post my warband to the Arena'}</button>
-    ${arenaState==='off'?'<p class="hint">Rival commanders appear when people you share this page with sign in and post. Until then, AI rivals keep the Arena busy.</p>':''}</div>
+    ${arenaState==='off'?(IN_ARCADE?'<p class="hint">On the web, AI rivals keep the Arena busy.</p>':'<p class="hint">Rival commanders appear when people you share this page with sign in and post. Until then, AI rivals keep the Arena busy.</p>'):''}</div>
   <div class="sh-sec"><h3>Rivals</h3><div class="alist">${opps.map(row).join('')}</div></div>
   <div class="sh-sec"><h3>Leaderboard</h3>${board.length ? `<ol class="lb">${board.map(p=>`<li class="${p.me?'me':''}"><span>${esc(p.name)}${p.me?' (you)':''}</span><b class="num">${p.rating}</b></li>`).join('')}</ol>` : '<p class="hint">No commanders have posted yet. Post yours to claim the top spot.</p>'}</div>`;
 }
