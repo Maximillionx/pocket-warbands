@@ -64,3 +64,7 @@ S=smart,naive N=3 HERO=warden node outpost-bot.js
 `galaxy-test.py` walks the galaxy flow end to end (launch, win, liberate, the Architect fight). `browser-smoke-test.py` clicks through every Test Lab action, the settings and the keyboard shortcuts in Chromium using Playwright (`pip install playwright && playwright install chromium`), and writes screenshots to `tools/shots/`. Set `CHROME` to use a Chromium binary you already have.
 
 Rough balance targets: the ability-using campaign bot wins about 30 to 40% of runs, and the smart Outpost bot clears all 8 waves about half the time.
+
+## Web arcade
+
+`web/arcade/` is the arcade published at maxskuse.com/arcade/, with the game at `/arcade/pocket-warbands/`. After changing the game, run `python3 web/build-arcade.py` to regenerate the web build, then upload `web/arcade/` to `public_html/arcade/` on Hostinger. When served from `/arcade/`, the game shows a back link to the arcade and hides the Test Lab card on its title screen (it stays in Settings).

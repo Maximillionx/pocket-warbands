@@ -888,6 +888,7 @@ kbd{display:inline-block;min-width:20px;padding:1px 6px;margin-right:3px;border-
 .galend{margin:14px 0;padding:14px;border-radius:16px;border:1px solid color-mix(in srgb,var(--fc) 55%,transparent);background:linear-gradient(135deg,color-mix(in srgb,var(--fc) 14%,transparent),transparent);}
 .galend h2{font-family:var(--display);font-size:22px;margin:2px 0 4px;} .galend .gunlock{margin-top:10px;}
 html.big-text .gt, html.big-text .gchip{font-size:14px;} html.big-text .gstat{font-size:13.5px;}
+.arcback{position:absolute;top:calc(10px + env(safe-area-inset-top));left:12px;z-index:5;padding:8px 12px;border-radius:999px;background:rgba(7,11,23,.7);border:1px solid var(--line);color:var(--ink);font-size:13px;font-weight:700;text-decoration:none;backdrop-filter:blur(6px);}
 </style>
 
 <div id="app" class="wrap"></div>
@@ -1174,6 +1175,7 @@ function loadMeta(){
 }
 function saveMeta(){ try{ localStorage.setItem(META_KEY, JSON.stringify(meta)); }catch(e){} }
 let meta = loadMeta();
+const IN_ARCADE = /\/arcade\//.test(location.pathname);
 if (!meta.galaxy || !meta.galaxy.lib) meta.galaxy = {lib:{}, maxT:-1, core:false};
 if (meta.crowns > 0 && !Object.keys(meta.galaxy.lib).length){ meta.galaxy.lib.freeport = 0; meta.galaxy.maxT = 0; }
 function applyA11y(){
@@ -4502,14 +4504,14 @@ function renderTitle(){
   const R = renownLevel(), live = !state.ended;
   app.className = 'wrap titlewrap' + (reduced?'':' enter');
   app.innerHTML = `
-  <div class="tart"><canvas id="titlecv" role="img" aria-label="Your warband in deep space"></canvas></div>
+  ${IN_ARCADE ? '<a class="arcback" href="/arcade/" aria-label="Back to the arcade">‹ Arcade</a>' : ''}<div class="tart"><canvas id="titlecv" role="img" aria-label="Your warband in deep space"></canvas></div>
   <div class="tlogo"><h1>Pocket<br><span>Warbands</span></h1><p>Raise a warband. Cross the stars. Remember your nemeses.</p></div>
   <div class="tcta"><button class="btn wide pulse" data-act="play">${live ? (state.fights ? 'Continue campaign' : 'Begin campaign') : 'Raise a new warband'}</button>
     <span class="hint">${live ? `${esc(state.name)} · sector ${region(state.battle).march}, jump ${stopOf(state.battle)} of 5 · ${state.roster.length} soldiers` : 'Your last campaign has ended.'}</span></div>
   <button class="galentry" data-act="galaxy"><span class="gdots">${FRONT_ORDER.map(k=>`<i class="${meta.galaxy.lib[k]!=null?'on':''}" style="--fc:${FRONTS[k].col}"></i>`).join('')}<i class="core ${meta.galaxy.core?'on':coreOpen()?'open':''}"></i></span><span><b>The galaxy</b><span>${meta.galaxy.core ? 'Free. Climb the Threat levels.' : `${libCount()} of 6 fronts liberated${meta.galaxy.maxT>=0?` · best Threat ${meta.galaxy.maxT}`:''}`}</span></span></button>
   <button class="opentry" data-act="outpost"><span class="ot">New · prototype</span><b>Outpost Defense</b><span>Build defenses, fly your commander, survive 8 waves${meta.outpostBest?` · best: ${meta.outpostBest>8?'all waves':'wave '+meta.outpostBest}`:''}</span></button>
   <div class="hub">${hubButtons()}</div>
-  <button class="labentry" data-act="lab"><span class="ot">Try anything</span><b>Test Lab</b><span>Jump to bosses, any wave, max levels, every trait effect</span></button>
+  ${IN_ARCADE ? '' : `<button class="labentry" data-act="lab"><span class="ot">Try anything</span><b>Test Lab</b><span>Jump to bosses, any wave, max levels, every trait effect</span></button>`}
   <div class="renown"><div class="rtop"><b>Renown level ${R.lvl}</b><span class="num">${R.into}/${R.need}</span></div><div class="xp"><i style="width:${Math.round(100*R.into/R.need)}%"></i></div><span class="hint">Earn renown from feats, sieges, daily orders and the Arena. Levels unlock new insignia colours and emblems.</span></div>`;
   startTitleLoop();
 }

@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcade · Max Skuse</title>
+<meta name="description" content="Small games Max Skuse builds on the side, playable in your browser.">
+<meta property="og:title" content="Arcade · Max Skuse">
+<meta property="og:description" content="Small games built on the side, playable in your browser.">
+<meta property="og:url" content="https://maxskuse.com/arcade/">
+<meta property="og:image" content="https://maxskuse.com/arcade/pocket-warbands/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="pocket-warbands/img/favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#ECEEEF; --sheet:#F8F9F9; --ink:#14171A; --muted:#59616A; --rule:#C6CCD1;
+  --accent:#2D44C4; --accent-soft:#DCE1F8; --live:#1D7A4E; --warn:#B23A2A;
+  --body:"Schibsted Grotesk","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --paper:#0F1215; --sheet:#171B1F; --ink:#E3E6E9; --muted:#96A0A9; --rule:#2B3239; --accent:#96A6FF; --accent-soft:#222A52; --live:#5BC793; --warn:#EC8A75; }
+}
+:root[data-theme="dark"]{ --paper:#0F1215; --sheet:#171B1F; --ink:#E3E6E9; --muted:#96A0A9; --rule:#2B3239; --accent:#96A6FF; --accent-soft:#222A52; --live:#5BC793; --warn:#EC8A75; }
+*{box-sizing:border-box;}
+html,body{margin:0;}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px;}
+.tabnum{font-variant-numeric:tabular-nums;}
+.band{border-bottom:1px solid var(--rule);}
+.band .wrap{display:flex;align-items:center;justify-content:space-between;min-height:47px;font-size:14px;}
+.band-meta{color:var(--muted);}
+.band nav{display:flex;gap:18px;}
+.band nav a{text-decoration:none;color:var(--muted);padding:12px 0;}
+.band nav a:hover{color:var(--ink);}
+.band nav a[aria-current="page"]{color:var(--ink);}
+.head{padding:72px 0 40px;}
+.head h1{font-size:clamp(64px,13vw,124px);font-weight:700;letter-spacing:-0.045em;line-height:0.9;margin:0 0 24px;}
+.thesis{font-size:clamp(20px,3vw,24px);line-height:1.4;max-width:30ch;margin:0;}
+.record{border-top:1px solid var(--rule);}
+.row{display:grid;grid-template-columns:170px minmax(0,1fr);gap:8px 32px;padding:28px 0;border-bottom:1px solid var(--rule);}
+.label{font-size:14px;color:var(--muted);padding-top:5px;}
+.label .no{display:block;font-family:var(--mono);font-size:12px;margin-top:2px;}
+.row h2{font-size:22px;font-weight:700;margin:0 0 6px;letter-spacing:-0.01em;}
+.row p{margin:0 0 14px;color:var(--muted);max-width:60ch;}
+.row p strong{color:var(--ink);font-weight:500;}
+.facts{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 18px;padding:0;list-style:none;}
+.facts li{font-family:var(--mono);font-size:12px;padding:4px 8px;border:1px solid var(--rule);border-radius:3px;color:var(--muted);}
+.shots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 20px;max-width:620px;}
+.shots img{display:block;width:100%;height:auto;aspect-ratio:390/844;border-radius:14px;border:1px solid var(--rule);background:#0b1020;}
+.actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;}
+.btn-play{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;border-radius:4px;background:var(--accent);color:var(--paper);font-weight:700;font-size:16px;text-decoration:none;}
+.btn-play:hover{filter:brightness(1.08);}
+.btn-play:focus-visible,.band nav a:focus-visible,.link-out:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+.btn-play svg{width:14px;height:14px;}
+.hint{font-size:14px;color:var(--muted);}
+.tag-ai{display:inline-block;font-size:11px;padding:6px 8px;border-radius:3px;background:var(--accent-soft);color:var(--accent);text-decoration:none;}
+.link-out{color:var(--ink);}
+.next p{margin:0;}
+footer{padding:28px 0 56px;font-size:14px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+@media (max-width:640px){
+  .head{padding:48px 0 28px;}
+  .row{grid-template-columns:1fr;gap:6px;padding:24px 0;}
+  .label{padding-top:0;}
+  .label .no{display:inline;margin:0 0 0 8px;}
+  .shots{gap:8px;}
+  .shots img{border-radius:10px;}
+}
+</style>
+</head>
+<body>
+<header class="band">
+  <div class="wrap">
+    <div class="band-meta">Barcelona <span class="tabnum" id="clock">--:--</span></div>
+    <nav aria-label="Pages">
+      <a href="/">Index</a>
+      <a href="/arcade/" aria-current="page">Arcade</a>
+      <a href="/#ai">AI disclosure</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="head">
+    <h1>Arcade</h1>
+    <p class="thesis">Small games I build on the side. They run in your browser, on phone or desktop.</p>
+  </section>
+
+  <section class="record" aria-label="Games">
+    <article class="row">
+      <div class="label">Strategy roguelite <span class="no">No. 01</span></div>
+      <div>
+        <h2>Pocket Warbands</h2>
+        <p>Raise a warband of named soldiers and cross five sectors of hostile space. Battles play out on their own: <strong>you choose who marches, where they stand and which traits they learn.</strong> Every win liberates a front of the galaxy, and the Architect waits at the centre.</p>
+        <ul class="facts">
+          <li>20 to 30 minute runs</li>
+          <li>Phone and desktop</li>
+          <li>Saves in your browser</li>
+          <li>Free</li>
+        </ul>
+        <div class="shots">
+          <img src="pocket-warbands/img/title.jpg" alt="Title screen: Pocket Warbands, with the Begin campaign button and the galaxy progress card" width="585" height="1266" loading="lazy">
+          <img src="pocket-warbands/img/battle.jpg" alt="A battle in progress, with commander abilities below the battlefield" width="585" height="1266" loading="lazy">
+          <img src="pocket-warbands/img/galaxy.jpg" alt="The galaxy map with six fronts around the Architect's Heart" width="585" height="1266" loading="lazy">
+        </div>
+        <div class="actions">
+          <a class="btn-play" href="pocket-warbands/">Play Pocket Warbands <svg viewBox="0 0 12 12" aria-hidden="true"><path fill="currentColor" d="M2 1l9 5-9 5z"/></svg></a>
+          <span class="hint">On iPhone, use Share, then Add to Home Screen to play it full screen.</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="row next">
+      <div class="label">Next</div>
+      <div>
+        <p class="hint">More games are in development. Built with AI-assisted development, in keeping with my <a class="link-out" href="/#ai">AI disclosure</a>.</p>
+      </div>
+    </article>
+  </section>
+
+  <footer>
+    <span>Max Skuse · Barcelona</span>
+    <a class="link-out" href="/">Back to the index</a>
+  </footer>
+</main>
+
+<script>
+(function(){
+  var el = document.getElementById('clock');
+  function tick(){
+    try {
+      var d = new Date();
+      var t = new Intl.DateTimeFormat('en-GB', {hour:'2-digit', minute:'2-digit', timeZone:'Europe/Madrid', timeZoneName:'short'}).format(d);
+      el.textContent = t;
+    } catch (e) { el.textContent = ''; }
+  }
+  tick(); setInterval(tick, 30000);
+})();
+</script>
+</body>
+</html>
